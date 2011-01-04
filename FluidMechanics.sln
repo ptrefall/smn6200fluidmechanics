@@ -1,7 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FluidMechanics", "proj/FluidMechanics.vcproj", "{73F27A7F-CA48-47A2-8141-0046846456DF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FluidMechanics", "proj\FluidMechanics.vcproj", "{73F27A7F-CA48-47A2-8141-0046846456DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Depends", "Depends", "{0DAD44FF-2423-49F8-8B0C-6BA0B9F2BE91}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClanLibCore", "depends\ClanLib\ClanLib.vcproj", "{92B5D093-622E-4E3A-8DEF-233D297315BF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaPlusLib", "depends\LuaPlus\LuaPlusLib.vcproj", "{AA75B895-9958-4D71-9419-D86946478CAA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "proj\Engine.vcproj", "{FCC5D655-ED2E-4D5B-AAF6-B5ABD5312E6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +21,24 @@ Global
 		{73F27A7F-CA48-47A2-8141-0046846456DF}.Debug|Win32.Build.0 = Debug|Win32
 		{73F27A7F-CA48-47A2-8141-0046846456DF}.Release|Win32.ActiveCfg = Release|Win32
 		{73F27A7F-CA48-47A2-8141-0046846456DF}.Release|Win32.Build.0 = Release|Win32
+		{92B5D093-622E-4E3A-8DEF-233D297315BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{92B5D093-622E-4E3A-8DEF-233D297315BF}.Debug|Win32.Build.0 = Debug|Win32
+		{92B5D093-622E-4E3A-8DEF-233D297315BF}.Release|Win32.ActiveCfg = Release|Win32
+		{92B5D093-622E-4E3A-8DEF-233D297315BF}.Release|Win32.Build.0 = Release|Win32
+		{AA75B895-9958-4D71-9419-D86946478CAA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AA75B895-9958-4D71-9419-D86946478CAA}.Debug|Win32.Build.0 = Debug|Win32
+		{AA75B895-9958-4D71-9419-D86946478CAA}.Release|Win32.ActiveCfg = Release|Win32
+		{AA75B895-9958-4D71-9419-D86946478CAA}.Release|Win32.Build.0 = Release|Win32
+		{FCC5D655-ED2E-4D5B-AAF6-B5ABD5312E6E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FCC5D655-ED2E-4D5B-AAF6-B5ABD5312E6E}.Debug|Win32.Build.0 = Debug|Win32
+		{FCC5D655-ED2E-4D5B-AAF6-B5ABD5312E6E}.Release|Win32.ActiveCfg = Release|Win32
+		{FCC5D655-ED2E-4D5B-AAF6-B5ABD5312E6E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{92B5D093-622E-4E3A-8DEF-233D297315BF} = {0DAD44FF-2423-49F8-8B0C-6BA0B9F2BE91}
+		{AA75B895-9958-4D71-9419-D86946478CAA} = {0DAD44FF-2423-49F8-8B0C-6BA0B9F2BE91}
 	EndGlobalSection
 EndGlobal
