@@ -132,7 +132,10 @@ void CoreMgr::run()
 	{
 		if(g_resize)
 		{
-			//scene->reshape(g_width, g_height);
+			glViewport(0, 0, g_width, g_height);
+			cam->perspective(40.0f, (float)g_width/(float)g_height, 1.0f, 1000.0f);
+
+			guiMgr->resize(g_width, g_height);
 			g_resize = false;
 		}
 

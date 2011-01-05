@@ -21,6 +21,7 @@ namespace Engine
 
 		void update(float dt);
 		void render();
+		void resize(int w, int h);
 
 		void addContext(const CL_String &name, const int &width, const int &height);
 		void addDocument(const CL_String &context_name, const CL_String &path);
@@ -31,5 +32,7 @@ namespace Engine
 		GuiRenderInterface *renderer;
 		std::vector<Rocket::Core::Context*> contexts;
 		std::vector<Rocket::Core::ElementDocument*> documents;
+
+		CL_Mat4f orthoMatrix;
 	};
 }
