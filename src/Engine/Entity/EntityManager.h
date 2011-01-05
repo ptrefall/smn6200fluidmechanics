@@ -16,6 +16,7 @@ public:
 	IEntity *create(const CL_String &type, const CL_String &name = CL_String());
 
 	void update(float dt);
+	void render();
 
 	unsigned int genUId()
 	{

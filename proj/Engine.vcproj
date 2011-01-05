@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="Engine"
-	ProjectGUID="{FCC5D655-ED2E-4D5B-AAF6-B5ABD5312E6E}"
+	ProjectGUID="{EEC0114D-B1FD-4AA3-BA76-548D99D90F17}"
 	RootNamespace="Engine"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)/lib"
+			IntermediateDirectory="$(SolutionDir)/inter/$(ProjectName)/$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
 			>
@@ -41,11 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				AdditionalIncludeDirectories="../src/;../depends/;../src/Engine/"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;GLEW_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
+				RuntimeLibrary="1"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="precomp.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -60,6 +62,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="GLFW-mt-debug.lib glew32s-mt-debug.lib OpenGL32.lib Glu32.lib"
+				OutputFile="$(OutDir)\$(ProjectName)-mt-debug.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -79,8 +84,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)/lib"
+			IntermediateDirectory="$(SolutionDir)/inter/$(ProjectName)/$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -104,10 +109,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="2"
+				AdditionalIncludeDirectories="../src/;../depends/;../src/Engine/"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;GLEW_STATIC"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="precomp.h"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -122,6 +129,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="GLFW-mt.lib glew32s-mt.lib OpenGL32.lib Glu32.lib"
+				OutputFile="$(OutDir)\$(ProjectName)-mt.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -148,6 +158,434 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx;h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\src\Engine\precomp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\Engine\precomp.h"
+				>
+			</File>
+			<Filter
+				Name="Gui"
+				>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiMgr.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Entity"
+				>
+				<File
+					RelativePath="..\src\Engine\Entity\Component.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\Component.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\ComponentContainer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\ComponentContainer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\ComponentFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\ComponentFactory.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\ComponentReg.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\EntityFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\EntityFactory.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\EntityManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\EntityManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\EntityReg.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\IEntity.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\IEntity.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\IProperty.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\IProperty.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\Property.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\Property.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\PropertyContainer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\PropertyContainer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\TypeSerializer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entity\TypeSerializer.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Event"
+				>
+				<File
+					RelativePath="..\src\Engine\Event\CommandBinder.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\CommandHandler.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\CommandHandler.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\Event.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\Event.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\EventContainer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\EventManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\EventManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\EventValue.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\EventValue.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Event\IEventManager.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Core"
+				>
+				<File
+					RelativePath="..\src\Engine\Core\Cam.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\Cam.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\CoreMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\CoreMgr.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\ITimer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\ShaderObj.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\ShaderObj.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\Win32Timer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\Win32Timer.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Entities"
+				>
+				<File
+					RelativePath="..\src\Engine\Entities\Volume.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entities\Volume.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Script"
+				>
+				<File
+					RelativePath="..\src\Engine\Script\ScriptMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Script\ScriptMgr.h"
+					>
+				</File>
+				<Filter
+					Name="Exposure"
+					>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeComponent.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeComponent.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeComponentContainer.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeComponentContainer.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeComponentManager.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeComponentManager.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeEntityManager.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeEntityManager.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeEvent.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeEvent.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeIEntity.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeIEntity.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeIProperty.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeIProperty.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposePropertyContainer.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposePropertyContainer.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeSceneMgr.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeSceneMgr.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Components"
+					>
+					<File
+						RelativePath="..\src\Engine\Script\LuaComponent.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\LuaComponent.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Resource"
+				>
+				<File
+					RelativePath="..\src\Engine\Resource\IResource.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Resource\ResFactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Resource\ResFactory.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Resource\ResMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Resource\ResMgr.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Resource\ResReg.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Resource\XMLResource.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Resource\XMLResource.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Scene"
+				>
+				<File
+					RelativePath="..\src\Engine\Scene\Scene.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Scene\Scene.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="WorkThread"
+				>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkData.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkData.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkDoneData.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkDoneData.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkProducer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkProducer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkProduction.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkProduction.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkProductionDoneSync.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkProductionDoneSync.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkThreadMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\WorkThread\WorkThreadMgr.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

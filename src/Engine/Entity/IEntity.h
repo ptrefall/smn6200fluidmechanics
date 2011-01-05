@@ -45,6 +45,8 @@ public:
 
 	virtual ~IEntity();
 
+	virtual void Render() {}
+
 	unsigned int getId() const { return id; }
 	const CL_String &getType() const { return type; }
 	const CL_String &getName() const { return name; }

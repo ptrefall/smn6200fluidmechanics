@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../depends/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -115,6 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../depends/"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -175,6 +177,62 @@
 				RelativePath="..\src\main.cpp"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			>
+			<Filter
+				Name="Script"
+				>
+				<Filter
+					Name="Components"
+					>
+					<File
+						RelativePath="..\resources\Scripts\Components\SpinEffect.lua"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Scenes"
+					>
+					<File
+						RelativePath="..\resources\Scripts\Scenes\default_scene.lua"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="XML"
+				>
+				<File
+					RelativePath="..\resources\XML\config.xml"
+					>
+				</File>
+				<Filter
+					Name="Entities"
+					>
+					<File
+						RelativePath="..\resources\XML\Entities\Cube.xml"
+						>
+					</File>
+					<File
+						RelativePath="..\resources\XML\Entities\Empty.xml"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Shaders"
+				>
+				<File
+					RelativePath="..\resources\Shaders\minimal.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\minimal.vs"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

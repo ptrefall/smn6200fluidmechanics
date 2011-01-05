@@ -44,5 +44,5 @@ void ExposeSceneMgr::AddToScene(LuaPlus::LuaObject lEntity)
 	}
 
 	IEntity *entity = coreMgr->getScriptMgr()->getExposedEntityMgr()->getExposedEntity((unsigned int)lEntityId.ToInteger())->getEntity();
-	coreMgr->addToScene(entity);
+	//coreMgr->addToScene(entity);
 }

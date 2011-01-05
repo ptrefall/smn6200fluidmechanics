@@ -9,8 +9,6 @@
 #include <Event/EventValue.h>
 #include <Event/IEventManager.h>
 
-#include <Entities/ERBS.h>
-
 using namespace Engine;
 
 EntityManager::EntityManager(CoreMgr *coreMgr) 
@@ -49,8 +47,14 @@ void EntityManager::update(float dt)
 	for(unsigned int i = 0; i < entities.size(); i++)
 	{
 		entities[i]->UpdateComponents((double)dt);
-		if(entities[i]->getSpecialType() == ERBS::GetStaticSpecialType())
-			static_cast<ERBS*>(entities[i])->replot(entities[i]->GetProperty<int>("ReplotValue").Get());
+	}
+}
+
+void EntityManager::render()
+{
+	for(unsigned int i = 0; i < entities.size(); i++)
+	{
+		entities[i]->Render();
 	}
 }
 
