@@ -2,11 +2,6 @@
 
 class CL_SetupCore;
 
-namespace GMlib
-{
-	class GMWindow;
-}
-
 namespace Engine
 {
 	namespace Events { class IEventManager; }
@@ -16,6 +11,9 @@ namespace Engine
 	class EntityManager;
 	class IEntity;
 	class WorkThreadMgr;
+	class ITimer;
+	class Cam;
+
 	class CoreMgr
 	{
 	public:
@@ -28,8 +26,8 @@ namespace Engine
 		ScriptMgr *getScriptMgr() const { return scriptMgr; }
 		EntityManager *getEntityMgr() const { return entityMgr; }
 		WorkThreadMgr *getWorkThreadMgr() const { return workThreadMgr; }
-
-		void addToScene(IEntity *entity);
+		ITimer *getTimer() const { return timer; }
+		Cam *getCam() const { return cam; }
 
 	private:
 		CL_SetupCore *setupCore; // Initializes clanlib core lib when CoreManager is instanciated/constructed
@@ -43,6 +41,7 @@ namespace Engine
 		ScriptMgr *scriptMgr;
 		EntityManager *entityMgr;
 		WorkThreadMgr *workThreadMgr;
-		GMlib::GMWindow *scene;
+		ITimer *timer;
+		Cam *cam;
 	};
 }

@@ -1,0 +1,12 @@
+<Entity>
+  <Type>Cube</Type>
+  <Special>Volume</Special>
+	<Components>
+	</Components>
+	<Properties>
+    <Property>
+      <Name>Position</Name>
+      <Value>0,0,-100</Value>
+    </Property>
+	</Properties>
+</Entity>
