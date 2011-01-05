@@ -39,13 +39,14 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
 
 	glfwSwapInterval(vsync);
 
+	orthoMatrix = CL_Mat4f::ortho(0.0f, (float)width, (float)height, 0.0f, -1.0f, 1.0f) ;
 
 	/////////////////////////////////////////
 	// INITIALIZE ROCKET GUI LIBRARY
 	/////////////////////////////////////////
 
 	system = new GuiSystemInterface(coreMgr);
-	renderer = new GuiRenderInterface(coreMgr);
+	renderer = new GuiRenderInterface(coreMgr, orthoMatrix);
 
 	Rocket::Core::SetSystemInterface(system);
 	Rocket::Core::SetRenderInterface(renderer);
@@ -100,6 +101,21 @@ int GuiMgr::getHeight() const
 void GuiMgr::setCaptionText(const char *text)
 {
 	glfwSetWindowTitle(text);
+}
+
+void GuiMgr::resize(int w, int h)
+{
+	orthoMatrix = CL_Mat4f::ortho(0.0f, (float)w, (float)h, 0.0f, -1.0f, 1.0f) ;
+	
+	Rocket::Core::Vector2i newDim = Rocket::Core::Vector2i(w,h);
+	const Rocket::Core::Vector2i &oldDim = contexts[0]->GetDimensions();
+	Rocket::Core::Vector2i deltaDim = oldDim - newDim;
+
+	for(unsigned int i = 1; i < contexts.size(); i++)
+	{
+		contexts[i]->SetDimensions(contexts[i]->GetDimensions()+deltaDim);
+	}
+	contexts[0]->SetDimensions(newDim);
 }
 
 void GuiMgr::update(float dt)

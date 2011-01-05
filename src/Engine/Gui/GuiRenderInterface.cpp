@@ -6,8 +6,8 @@
 
 using namespace Engine;
 
-GuiRenderInterface::GuiRenderInterface(CoreMgr *coreMgr)
-: coreMgr(coreMgr)
+GuiRenderInterface::GuiRenderInterface(CoreMgr *coreMgr, const CL_Mat4f &orthoMat)
+: coreMgr(coreMgr), orthoMat(orthoMat)
 {
 }
 
@@ -41,7 +41,14 @@ Rocket::Core::CompiledGeometryHandle GuiRenderInterface::CompileGeometry(Rocket:
 		colors.push_back(vertices[i].colour.alpha/255.0f);
 
 		texCoords.push_back(vertices[i].tex_coord.x);
-		texCoords.push_back(1.0f - vertices[i].tex_coord.y);
+		if(texture == 1)
+		{
+			texCoords.push_back(1.0f-vertices[i].tex_coord.y);
+		}
+		else if(texture > 1)
+		{
+			texCoords.push_back(vertices[i].tex_coord.y);
+		}
 	}
 
 	glGenVertexArrays(1, &new_vao);
@@ -94,6 +101,9 @@ Rocket::Core::CompiledGeometryHandle GuiRenderInterface::CompileGeometry(Rocket:
 // Called by Rocket when it wants to render application-compiled geometry.		
 void GuiRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation)
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	shaders[geometry].enableShader();
 	{
 		bindTexture(geometry);
@@ -103,6 +113,8 @@ void GuiRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHa
 		glBindVertexArray(0);
 		unbindTexture();
 	} shaders[geometry].disableShader();
+
+	glDisable(GL_BLEND);
 }
 
 // Called by Rocket when it wants to release application-compiled geometry.		
@@ -111,34 +123,27 @@ void GuiRenderInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryH
 	glDeleteBuffers(1, &ibo[geometry]);
 	glDeleteBuffers(1, &vbo[geometry]);
 	glDeleteVertexArrays(1, &vao[geometry]);
-
-	ibo.erase(ibo.begin()+geometry);
-	vbo.erase(vbo.begin()+geometry);
-	vao.erase(vao.begin()+geometry);
 }
 
 void GuiRenderInterface::bindUniforms(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation)
-{
-	const CL_Mat4f &viewMat = coreMgr->getCam()->getViewMatrix();
-	const CL_Mat4f &projMat = coreMgr->getCam()->getProjectionMatrix();
-	
+{	
 	CL_Mat4f translateMat = CL_Mat4f::identity();
-	translateMat[12] = translation.x*0.0001f;
-	translateMat[13] = translation.y*0.0001f;
-	translateMat[14] = -200.0f;
+	translateMat[12] = translation.x;
+	translateMat[13] = translation.y;
+	translateMat[14] = 0.0f;
 	
 	CL_Mat4f modelMat = CL_Mat4f::identity();
 	modelMat = modelMat * CL_Mat3f::identity(); //No rotation
 	modelMat = modelMat * translateMat;
 	
-	CL_Mat4f mvMat = modelMat * viewMat;
+	CL_Mat4f mvMat = modelMat * orthoMat;
 
-	int loc = glGetUniformLocation(shaders[geometry].getShaderProg(), "projMat");
+	/*int loc = glGetUniformLocation(shaders[geometry].getShaderProg(), "orthoMat");
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
-	glUniformMatrix4fv(loc, 1, GL_FALSE, &projMat[0]);
+	glUniformMatrix4fv(loc, 1, GL_FALSE, &orthoMat[0]);*/
 	
-	loc = glGetUniformLocation(shaders[geometry].getShaderProg(), "mvMat");
+	int loc = glGetUniformLocation(shaders[geometry].getShaderProg(), "mvMat");
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &mvMat[0]);

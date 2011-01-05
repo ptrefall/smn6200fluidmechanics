@@ -8,7 +8,7 @@ namespace Engine
 	class GuiRenderInterface : public Rocket::Core::RenderInterface
 	{
 	public:
-		GuiRenderInterface(CoreMgr *coreMgr);
+		GuiRenderInterface(CoreMgr *coreMgr, const CL_Mat4f &orthoMat);
 		virtual ~GuiRenderInterface();
 
 		virtual void RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f& translation) {}
@@ -48,6 +48,8 @@ namespace Engine
 		CoreMgr *coreMgr;
 		std::vector<unsigned int> vao, ibo, vbo, index_size, tex_id;
 		std::vector<ShaderObj> shaders;
+
+		const CL_Mat4f &orthoMat;
 	};
 
 }

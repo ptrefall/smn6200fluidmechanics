@@ -23,6 +23,6 @@
 		</style>
 	</head>
 	<body template="window">
-		This is a sample.
+		This is a sample of libRocket integration into my engine!
 	</body>
 </rml>
