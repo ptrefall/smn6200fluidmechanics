@@ -47,6 +47,7 @@ void EntityManager::update(float dt)
 	for(unsigned int i = 0; i < entities.size(); i++)
 	{
 		entities[i]->UpdateComponents((double)dt);
+		entities[i]->Update(dt);
 	}
 }
 

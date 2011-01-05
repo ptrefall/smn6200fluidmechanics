@@ -1,11 +1,16 @@
 #include "precomp.h"
 #include "GuiMgr.h"
+#include "GuiSystemInterface.h"
+#include "GuiRenderInterface.h"
+
+#include <Core/CoreMgr.h>
+#include <Resource/ResMgr.h>
 
 #include <iostream>
 
 using namespace Engine;
 
-GuiMgr::GuiMgr(const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync)
+GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync)
 {
 	if( !glfwInit() )
         throw CL_Exception("Error initializing glfw");
@@ -33,10 +38,38 @@ GuiMgr::GuiMgr(const bool &fullscr, const int &width, const int &height, const i
 	}
 
 	glfwSwapInterval(vsync);
+
+
+	/////////////////////////////////////////
+	// INITIALIZE ROCKET GUI LIBRARY
+	/////////////////////////////////////////
+
+	system = new GuiSystemInterface(coreMgr);
+	renderer = new GuiRenderInterface(coreMgr);
+
+	Rocket::Core::SetSystemInterface(system);
+	Rocket::Core::SetRenderInterface(renderer);
+
+	bool success = Rocket::Core::Initialise();
+	if(!success)
+		throw CL_Exception("Failed to initialize Rocket GUI Library!");
+
+	addContext("Main", width, height);
+
+	//Add some fonts
+	std::vector<CL_String> fonts = coreMgr->getResMgr()->getFilesInDir("/Fonts/");
+	for(unsigned int i = 0; i < fonts.size(); i++)
+	{
+		addFont(cl_format("%1Fonts/%2", coreMgr->getResMgr()->getRootPath(), fonts[i]));
+	}
 }
 
 GuiMgr::~GuiMgr()
 {
+	for(unsigned int i = 0; i < contexts.size(); i++)
+		contexts[i]->RemoveReference();
+	Rocket::Core::Shutdown();
+
 	glfwTerminate();
 }
 
@@ -67,4 +100,50 @@ int GuiMgr::getHeight() const
 void GuiMgr::setCaptionText(const char *text)
 {
 	glfwSetWindowTitle(text);
+}
+
+void GuiMgr::update(float dt)
+{
+	for(unsigned int i = 0; i < contexts.size(); i++)
+		contexts[i]->Update();
+}
+
+void GuiMgr::render()
+{
+	for(unsigned int i = 0; i < contexts.size(); i++)
+		contexts[i]->Render();
+}
+
+void GuiMgr::addContext(const CL_String &name, const int &width, const int &height)
+{
+	Rocket::Core::Context *context = Rocket::Core::CreateContext(name.c_str(), Rocket::Core::Vector2i(width, height));
+	contexts.push_back(context);
+}
+
+void GuiMgr::addDocument(const CL_String &context_name, const CL_String &path)
+{
+	Rocket::Core::Context *context = NULL;
+	for(unsigned int i = 0; i < contexts.size(); i++)
+	{
+		if(contexts[i]->GetName() == Rocket::Core::String(context_name.c_str()))
+		{
+			context = contexts[i];
+			break;
+		}
+	}
+
+	if(context == NULL)
+		throw CL_Exception(cl_format("Failed to find context %1", context_name));
+
+	Rocket::Core::ElementDocument* document = context->LoadDocument(path.c_str());
+	if (document == NULL)
+		throw CL_Exception(cl_format("Failed to load document %1", path));
+
+	document->Show();
+	documents.push_back(document);
+}
+
+void GuiMgr::addFont(const CL_String &path)
+{
+	Rocket::Core::FontDatabase::LoadFontFace(path.c_str());
 }

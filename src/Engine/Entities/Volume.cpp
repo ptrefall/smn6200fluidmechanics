@@ -8,10 +8,21 @@
 using namespace Engine;
 
 Volume::Volume(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory)
-: IEntity(id, type, name, coreMgr, factory), solid(true), size(4.0f)
+: IEntity(id, type, name, coreMgr, factory), solid(true), size(4.0f), shouldUpdate(false)
 {
 	pos = this->AddProperty<CL_Vec3f>("Position", CL_Vec3f(0,0,0));
-	rot = this->AddProperty<CL_Mat3f>("Rotation", CL_Mat3f::identity());
+	rot = this->AddProperty<CL_Mat3f>("RotationMatrix", CL_Mat3f::identity());
+	
+	pitch = this->AddProperty<float>("Pitch", 0.0f);
+	pitchRate = this->AddProperty<float>("PitchRate", 1.0f);
+	
+	yaw = this->AddProperty<float>("Yaw", 0.0f);
+	yawRate = this->AddProperty<float>("YawRate", 1.0f);
+	
+	slotPitchChanged = pitch.ValueChanged().connect(this, &Volume::OnPitchChanged);
+	slotYawChanged = yaw.ValueChanged().connect(this, &Volume::OnYawChanged);
+
+	upDirection = CL_Vec3f(0.0f, 1.0f, 0.0f);
 
 	initIndices();
 	initVertices();
@@ -39,6 +50,15 @@ Volume::Volume(unsigned int id, const CL_String &type, const CL_String &name, Co
 
 Volume::~Volume()
 {
+}
+
+void Volume::Update(float dt)
+{
+	if(shouldUpdate)
+	{
+		updateMatrix(dt);
+		shouldUpdate = false;
+	}
 }
 
 void Volume::Render()
@@ -140,4 +160,34 @@ void Volume::initVertices()
 	vertices.push_back(-size); vertices.push_back(-size); vertices.push_back(-size);
 	vertices.push_back(-size); vertices.push_back(size); vertices.push_back(-size);
 	vertices.push_back(-size); vertices.push_back(size); vertices.push_back(size);
+}
+
+void Volume::updateMatrix(float dt)
+{
+	CL_Mat4f mat;
+	CL_Quaternionf q;
+	qPitch = CL_Quaternionf::axis_angle(CL_Angle(pitch.Get(), cl_radians), CL_Vec3f(1.0f, 0.0f, 0.0f));
+	qHeading = CL_Quaternionf::axis_angle(CL_Angle(yaw.Get(), cl_radians), CL_Vec3f(0.0f, 1.0f, 0.0f));
+	
+	q = qPitch * qHeading;
+	rot = q.to_matrix();
+
+	mat = qPitch.to_matrix();
+	fowardDirection.y = mat[9];
+
+	q = qHeading * qPitch;
+	mat = q.to_matrix();
+	fowardDirection.x = mat[8];
+	fowardDirection.z = mat[10];
+	leftDirection = CL_Vec3f::cross(fowardDirection, upDirection);
+}
+
+void Volume::OnPitchChanged(const float &oldValue, const float &newValue)
+{
+	shouldUpdate = true;
+}
+
+void Volume::OnYawChanged(const float &oldValue, const float &newValue)
+{
+	shouldUpdate = true;
 }

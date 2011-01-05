@@ -225,11 +225,51 @@
 				Name="Shaders"
 				>
 				<File
+					RelativePath="..\resources\Shaders\gui_default.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\gui_default.vs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\gui_notex.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\gui_notex.vs"
+					>
+				</File>
+				<File
 					RelativePath="..\resources\Shaders\minimal.fs"
 					>
 				</File>
 				<File
 					RelativePath="..\resources\Shaders\minimal.vs"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Gui"
+				>
+				<File
+					RelativePath="..\resources\Gui\cursor.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\demo.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\invader.rcss"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\rkt.rcss"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\window.rml"
 					>
 				</File>
 			</Filter>

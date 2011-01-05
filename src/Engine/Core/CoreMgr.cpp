@@ -96,7 +96,9 @@ void CoreMgr::init(const CL_String &base_path)
 	int h = cfg->getInt("Config/GUI/Height");
 	int d = cfg->getInt("Config/GUI/Depth");
 	int vsync = cfg->getInt("Config/GUI/VSync");
-	guiMgr = new GuiMgr((fullscreen > 0), w, h, d, vsync);
+	guiMgr = new GuiMgr(this, (fullscreen > 0), w, h, d, vsync);
+	guiMgr->addDocument("Main", cl_format("%1Gui/demo.rml", resMgr->getRootPath()));
+
 	cam = new Cam(w,h);
 	eventMgr = new Events::EventManager();
 	entityMgr = new EntityManager(this);
@@ -137,9 +139,11 @@ void CoreMgr::run()
 		float dt = (float)timer->update();
 		workThreadMgr->update(dt);
 		entityMgr->update(dt);
+		guiMgr->update(dt);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		entityMgr->render();
+		guiMgr->render();
 		guiMgr->swapBuffers();
 	}
 	timer->stop();
