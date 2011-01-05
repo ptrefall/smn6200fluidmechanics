@@ -45,6 +45,7 @@ public:
 
 	virtual ~IEntity();
 
+	virtual void Update(float dt) {}
 	virtual void Render() {}
 
 	unsigned int getId() const { return id; }

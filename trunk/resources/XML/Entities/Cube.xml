@@ -2,6 +2,7 @@
   <Type>Cube</Type>
   <Special>Volume</Special>
 	<Components>
+    <Component>SpinEffect</Component>
 	</Components>
 	<Properties>
     <Property>

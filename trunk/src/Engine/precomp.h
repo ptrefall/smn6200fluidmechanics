@@ -7,6 +7,7 @@
 #include <GL/glfw.h>
 
 #include <ClanLib/src/API/core.h>
+#include <Rocket/Core.h>
 #include <map>
 #include <vector>
 

@@ -4,10 +4,12 @@ if(SpinEffect == nil) then
 end
 
 function SpinEffect:OnInit(entity)
+	entity:AddProperty("Yaw", 0.0)
+	entity:AddProperty("YawRate", 1.0)
 end
 
 function SpinEffect:OnUpdate(entity, dt)
-	entity:SetRotation( {x=0.1+0.01*dt, y=0.0, z=0.0, w=1.0} )
+	entity:SetYaw(entity:GetYaw()+entity:GetYawRate()*dt)
 end
 
 RegisterComponent("SpinEffect")
