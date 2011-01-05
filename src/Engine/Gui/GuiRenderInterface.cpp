@@ -103,7 +103,7 @@ void GuiRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHa
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	shaders[geometry].enableShader();
 	{
 		bindTexture(geometry);
@@ -113,7 +113,7 @@ void GuiRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHa
 		glBindVertexArray(0);
 		unbindTexture();
 	} shaders[geometry].disableShader();
-
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDisable(GL_BLEND);
 }
 
