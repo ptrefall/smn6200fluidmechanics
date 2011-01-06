@@ -8,6 +8,7 @@
 
 #include <ClanLib/src/API/core.h>
 #include <Rocket/Core.h>
+#include <Rocket/Debugger.h>
 #include <map>
 #include <vector>
 

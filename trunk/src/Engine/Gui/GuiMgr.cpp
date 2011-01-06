@@ -11,6 +11,7 @@
 using namespace Engine;
 
 GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync)
+: coreMgr(coreMgr), key_modifier_state(0)
 {
 	if( !glfwInit() )
         throw CL_Exception("Error initializing glfw");
@@ -56,6 +57,12 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
 		throw CL_Exception("Failed to initialize Rocket GUI Library!");
 
 	addContext("Main", width, height);
+
+	success = Rocket::Debugger::Initialise(contexts[0]);
+	if(!success)
+		throw CL_Exception("Failed to initialize Rocket GUI Debugger!");
+
+	Rocket::Debugger::SetVisible(true);
 
 	//Add some fonts
 	std::vector<CL_String> fonts = coreMgr->getResMgr()->getFilesInDir("/Fonts/");
@@ -162,4 +169,40 @@ void GuiMgr::addDocument(const CL_String &context_name, const CL_String &path)
 void GuiMgr::addFont(const CL_String &path)
 {
 	Rocket::Core::FontDatabase::LoadFontFace(path.c_str());
+}
+
+void GuiMgr::inject(const unsigned int &key, bool state)
+{
+	if(state)
+	{
+		contexts[0]->ProcessKeyDown((Rocket::Core::Input::KeyIdentifier)key, key_modifier_state);
+	}
+	else
+	{
+		contexts[0]->ProcessKeyUp((Rocket::Core::Input::KeyIdentifier)key, key_modifier_state);
+	}
+}
+
+void GuiMgr::inject(const CL_Vec2i &mouse_pos)
+{
+	lastMousePos = mousePos;
+	mousePos = mouse_pos;
+
+	contexts[0]->ProcessMouseMove(mousePos.x, mousePos.y, key_modifier_state);
+}
+
+void GuiMgr::injectMouse(const int &button, bool state)
+{
+	if(state)
+	{
+		contexts[0]->ProcessMouseButtonDown(button, key_modifier_state);
+	}
+	else
+	{
+		contexts[0]->ProcessMouseButtonUp(button, key_modifier_state);
+	}
+}
+
+void GuiMgr::keyModifier(const int &mod, bool state)
+{
 }
