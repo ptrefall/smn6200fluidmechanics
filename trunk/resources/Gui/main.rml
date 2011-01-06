@@ -8,8 +8,13 @@
 				width: 300px;
 				height: 255px;
 				
-				margin: auto;
+				margin: 10px;
 			}
+      
+      div#title_bar
+      {
+        display: none;
+      }
       
       div#icon
       {
@@ -23,12 +28,6 @@
 		</style>
 	</head>
 	<body template="window">
-    <div id="title_bar">
-      <handle move_target="#document">
-        <div id="icon"></div>
-        <span id="title">Main Screen</span>
-      </handle>
-    </div>
     <button onclick="exit">Exit</button>
     <div>
       <p>

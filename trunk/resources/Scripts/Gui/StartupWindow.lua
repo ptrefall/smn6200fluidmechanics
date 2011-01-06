@@ -10,8 +10,11 @@ end
 
 function StartupWindow:OnLoadFileClicked(next_window_name, event)
 	local next_window = CreateGuiDocument(event.arg1.name, next_window_name)
-	
+	--event.arg0:GetOwnerDocument():Close()
 end
 
 function StartupWindow:OnExitClicked(event)
+end
+
+function StartupWindow:OnSubmitOptions(event)
 end
