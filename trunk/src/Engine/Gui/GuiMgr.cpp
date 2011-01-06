@@ -27,7 +27,7 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
         throw CL_Exception("Error opening glfw window");
     }
 
-	setCaptionText("GeoMod2!!");
+	setCaptionText("Fluid Mechanics!!");
 
 	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
@@ -58,11 +58,13 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
 
 	addContext("Main", width, height);
 
+#ifdef _DEBUG
 	success = Rocket::Debugger::Initialise(contexts[0]);
 	if(!success)
 		throw CL_Exception("Failed to initialize Rocket GUI Debugger!");
 
-	Rocket::Debugger::SetVisible(true);
+	//Rocket::Debugger::SetVisible(true);
+#endif
 
 	//Add some fonts
 	std::vector<CL_String> fonts = coreMgr->getResMgr()->getFilesInDir("/Fonts/");
@@ -70,6 +72,9 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
 	{
 		addFont(cl_format("%1Fonts/%2", coreMgr->getResMgr()->getRootPath(), fonts[i]));
 	}
+
+	glfwDisable(GLFW_MOUSE_CURSOR);
+	loadCursor(cl_format("%1Gui/%2", coreMgr->getResMgr()->getRootPath(), "cursor.rml"));
 }
 
 GuiMgr::~GuiMgr()
@@ -114,7 +119,7 @@ void GuiMgr::resize(int w, int h)
 {
 	orthoMatrix = CL_Mat4f::ortho(0.0f, (float)w, (float)h, 0.0f, -1.0f, 1.0f) ;
 	
-	Rocket::Core::Vector2i newDim = Rocket::Core::Vector2i(w,h);
+	/*Rocket::Core::Vector2i newDim = Rocket::Core::Vector2i(w,h);
 	const Rocket::Core::Vector2i &oldDim = contexts[0]->GetDimensions();
 	Rocket::Core::Vector2i deltaDim = oldDim - newDim;
 
@@ -122,7 +127,7 @@ void GuiMgr::resize(int w, int h)
 	{
 		contexts[i]->SetDimensions(contexts[i]->GetDimensions()+deltaDim);
 	}
-	contexts[0]->SetDimensions(newDim);
+	contexts[0]->SetDimensions(newDim);*/
 }
 
 void GuiMgr::update(float dt)
@@ -169,6 +174,16 @@ void GuiMgr::addDocument(const CL_String &context_name, const CL_String &path)
 void GuiMgr::addFont(const CL_String &path)
 {
 	Rocket::Core::FontDatabase::LoadFontFace(path.c_str());
+}
+
+void GuiMgr::loadCursor(const CL_String &path)
+{
+	Rocket::Core::ElementDocument* cursor = contexts[0]->LoadMouseCursor(path.c_str());
+	if(cursor == NULL)
+		throw CL_Exception(cl_format("Failed to load cursor %1", path));
+
+	cursor->Show();
+	documents.push_back(cursor);
 }
 
 void GuiMgr::inject(const unsigned int &key, bool state)

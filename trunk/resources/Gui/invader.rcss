@@ -70,6 +70,7 @@ div#title_bar span
 div#window
 {
 	width: auto;
+	height: auto;
 	padding: 10px 15px;
 
 	background-decorator: tiled-box;
