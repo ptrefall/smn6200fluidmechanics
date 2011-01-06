@@ -29,6 +29,8 @@ private:
 	void exposeArg(unsigned int i, const Component &arg, LuaPlus::LuaObject &lEvent);
 	void exposeArg(unsigned int i, const IProperty &arg, LuaPlus::LuaObject &lEvent);
 	void exposeArg(unsigned int i, const IEntity &arg, LuaPlus::LuaObject &lEvent);
+	void exposeArg(unsigned int i, const Rocket::Core::Context &arg, LuaPlus::LuaObject &lEvent);
+	void exposeArg(unsigned int i, const Rocket::Core::Element &arg, LuaPlus::LuaObject &lEvent);
 	CoreMgr *coreMgr;
 
 	const Events::Event *event;

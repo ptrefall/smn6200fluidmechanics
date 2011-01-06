@@ -12,7 +12,7 @@ namespace Engine
 	class GuiMgr //: public Rocket::Core::EventListener
 	{		
 	public:
-		GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync);
+		GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync, const bool &debug);
 		~GuiMgr();
 
 		bool isWindowOpen() const;
@@ -27,11 +27,11 @@ namespace Engine
 
 		GuiEventManager *getGuiEventMgr() const { return eventMgr; }
 
-		void addContext(const CL_String &name, const int &width, const int &height);
+		Rocket::Core::Context *addContext(const CL_String &name, const int &width, const int &height);
 		Rocket::Core::Context *getContext(unsigned int i) { return contexts[i]; }
-		void addDocument(const CL_String &context_name, const CL_String &path);
+		Rocket::Core::ElementDocument *addDocument(const CL_String &context_name, const CL_String &path);
 		void addFont(const CL_String &path);
-		void loadCursor(const CL_String &path);
+		Rocket::Core::ElementDocument *loadCursor(const CL_String &path);
 
 		void inject(const unsigned int &key, bool state);
 		void inject(const CL_Vec2i &mouse_pos);

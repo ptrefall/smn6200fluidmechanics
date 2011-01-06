@@ -477,6 +477,30 @@
 						>
 					</File>
 					<File
+						RelativePath="..\src\Engine\Script\ExposeGuiContext.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeGuiContext.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeGuiDocument.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeGuiDocument.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeGuiMgr.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeGuiMgr.h"
+						>
+					</File>
+					<File
 						RelativePath="..\src\Engine\Script\ExposeIEntity.cpp"
 						>
 					</File>

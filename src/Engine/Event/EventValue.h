@@ -26,7 +26,9 @@ public:
 		vec4,
 		component,
 		property,
-		entity
+		entity,
+		gui_context,
+		gui_document
 	};
 
 	EventValue();
@@ -43,6 +45,8 @@ public:
 	EventValue(Engine::Component *comp);
 	EventValue(Engine::IProperty *prop);
 	EventValue(Engine::IEntity *entity);
+	EventValue(Rocket::Core::Context *context);
+	EventValue(Rocket::Core::Element *document);
 	explicit EventValue(bool value);
 	EventValue(Type type);
 
@@ -60,6 +64,8 @@ public:
 	bool IsComponent() const;
 	bool IsProperty() const;
 	bool IsEntity() const;
+	bool IsGuiContext() const;
+	bool IsGuiDocument() const;
 	bool IsComplex() const;
 
 	unsigned int ToUinteger() const;
@@ -73,6 +79,8 @@ public:
 	Engine::Component *ToComponent() const;
 	Engine::IProperty *ToProperty() const;
 	Engine::IEntity *ToEntity() const;
+	Rocket::Core::Context *ToGuiContext() const;
+	Rocket::Core::Element *ToGuiDocument() const;
 
 	inline operator unsigned int() const { return ToUinteger(); }
 	inline operator int() const { return ToInteger(); }
@@ -96,6 +104,8 @@ private:
 	Engine::Component *valueComp;
 	Engine::IProperty *valueProp;
 	Engine::IEntity *valueEntity;
+	Rocket::Core::Context *valueGuiContext;
+	Rocket::Core::Element *valueGuiDocument;
 };
 
 }}

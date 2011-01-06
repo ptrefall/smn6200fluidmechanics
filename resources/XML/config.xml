@@ -8,5 +8,6 @@
     <Height>600</Height>
     <Depth>16</Depth>
     <VSync>0</VSync>
+    <Debug>0</Debug>
   </GUI>
 </Config>

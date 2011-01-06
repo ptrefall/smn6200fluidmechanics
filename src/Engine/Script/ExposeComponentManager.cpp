@@ -28,7 +28,7 @@ void ExposeComponentManager::init()
 	LuaObject globals = (*coreMgr->getScriptMgr()->GetGlobalState())->GetGlobals();
 	globals.RegisterDirect("RegisterComponent", *this, &ExposeComponentManager::RegisterComponent);
 
-	//Load all scripts in Game/Components
+	//Load all scripts in Scripts/Components
 	std::vector<CL_String> scripts = coreMgr->getResMgr()->getFilesInDir("/Scripts/Components/");
 	for(unsigned int i = 0; i < scripts.size(); i++)
 	{

@@ -90,14 +90,12 @@ void CoreMgr::init(const CL_String &base_path)
 
 	resMgr = new ResMgr(this, base_path);
 	IResource *cfg = resMgr->create("config.xml", "XML");
-
 	int fullscreen = cfg->getBool("Config/GUI/Fullscreen");
 	int w = cfg->getInt("Config/GUI/Width");
 	int h = cfg->getInt("Config/GUI/Height");
 	int d = cfg->getInt("Config/GUI/Depth");
 	int vsync = cfg->getInt("Config/GUI/VSync");
-	guiMgr = new GuiMgr(this, (fullscreen > 0), w, h, d, vsync);
-	guiMgr->addDocument("Main", cl_format("%1Gui/startup.rml", resMgr->getRootPath()));
+	int gui_debug = cfg->getInt("Config/GUI/Debug");
 
 	cam = new Cam(w,h);
 	eventMgr = new Events::EventManager();
@@ -105,6 +103,9 @@ void CoreMgr::init(const CL_String &base_path)
 	scriptMgr = new ScriptMgr(this);
 	scriptMgr->init();
 	workThreadMgr = new WorkThreadMgr(this);
+
+	guiMgr = new GuiMgr(this, (fullscreen > 0), w, h, d, vsync, (gui_debug > 0));
+	//guiMgr->addDocument("Main", cl_format("%1Gui/startup.rml", resMgr->getRootPath()));
 
 	CL_String scene_script = cfg->getString("Config/Scene/Script");
 	Scene::init_scene(this, scene_script);

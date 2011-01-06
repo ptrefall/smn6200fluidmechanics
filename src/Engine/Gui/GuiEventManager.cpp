@@ -3,6 +3,10 @@
 #include <Core/CoreMgr.h>
 #include "GuiMgr.h"
 #include <Resource/ResMgr.h>
+#include <Script/ScriptMgr.h>
+#include <Script/ExposeEvent.h>
+#include <Event/Event.h>
+#include <Event/EventValue.h>
 
 using namespace Engine;
 
@@ -57,6 +61,15 @@ void GuiEventManager::ProcessEvent(Rocket::Core::Event& event, const Rocket::Cor
 		else if (values[0] == "exit")
 		{
 			coreMgr->exit();
+		}
+		else
+		{
+			//Ok, so this C++ side didn't handle any of the simple hardcoded commands, maybe it's sending a script?
+			Events::EventValue arg1(event.GetTargetElement());
+			Events::EventValue arg2(coreMgr->getGuiMgr()->getContext(0));
+			Events::Event evt(event.GetType().CString(), /*arg0,*/ arg1, arg2);
+			ExposeEvent exposedEvent(coreMgr, &evt);
+			coreMgr->getScriptMgr()->doString(cl_format("%1Events['%2'])", commands[i].CString(), event.GetType().CString()));
 		}
 	}
 }

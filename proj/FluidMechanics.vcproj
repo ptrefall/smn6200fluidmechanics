@@ -200,6 +200,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Gui"
+					>
+					<File
+						RelativePath="..\resources\Scripts\Gui\StartupWindow.lua"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="XML"
