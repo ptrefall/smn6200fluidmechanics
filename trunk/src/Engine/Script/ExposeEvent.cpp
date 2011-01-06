@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "ExposeEvent.h"
 #include "ScriptMgr.h"
+#include "ExposeGuiMgr.h"
 #include <Core/CoreMgr.h>
 #include <Entity/IEntity.h>
 
@@ -85,6 +86,14 @@ void ExposeEvent::exposeArg(unsigned int i, const Events::EventValue &arg, LuaPl
 	{
 		exposeArg(i, *arg.ToEntity(), lEvent);
 	}
+	else if(arg.IsGuiContext())
+	{
+		exposeArg(i, *arg.ToGuiContext(), lEvent);
+	}
+	else if(arg.IsGuiDocument())
+	{
+		exposeArg(i, *arg.ToGuiDocument(), lEvent);
+	}
 }
 
 void ExposeEvent::exposeArg(unsigned int i, const bool &arg, LuaPlus::LuaObject &lEvent)
@@ -144,4 +153,16 @@ void ExposeEvent::exposeArg(unsigned int i, const IProperty &arg, LuaPlus::LuaOb
 
 void ExposeEvent::exposeArg(unsigned int i, const IEntity &arg, LuaPlus::LuaObject &lEvent)
 {
+}
+
+void ExposeEvent::exposeArg(unsigned int i, const Rocket::Core::Context &arg, LuaPlus::LuaObject &lEvent)
+{
+	LuaObject lContext = coreMgr->getScriptMgr()->getExposedGuiMgr()->getLContext(arg.GetName().CString());
+	lEvent.SetObject(cl_format("arg%1", i).c_str(), lContext);
+}
+
+void ExposeEvent::exposeArg(unsigned int i, const Rocket::Core::Element &arg, LuaPlus::LuaObject &lEvent)
+{
+	LuaObject lDocument = coreMgr->getScriptMgr()->getExposedGuiMgr()->getLDocument(arg.GetId().CString());
+	lEvent.SetObject(cl_format("arg%1", i).c_str(), lDocument);
 }

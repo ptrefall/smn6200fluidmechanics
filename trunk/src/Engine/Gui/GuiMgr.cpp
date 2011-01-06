@@ -8,11 +8,15 @@
 #include <Core/CoreMgr.h>
 #include <Resource/ResMgr.h>
 
+#include <Event/Event.h>
+#include <Event/EventValue.h>
+#include <Event/IEventManager.h>
+
 #include <iostream>
 
 using namespace Engine;
 
-GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync)
+GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync, const bool &debug)
 : coreMgr(coreMgr), key_modifier_state(0)
 {
 	if( !glfwInit() )
@@ -66,13 +70,19 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
 	eventInstancer = new GuiEventInstancer(coreMgr);
 	Rocket::Core::Factory::RegisterEventListenerInstancer(eventInstancer);
 
+	if(debug)
+	{
 #ifdef _DEBUG
-	success = Rocket::Debugger::Initialise(contexts[0]);
-	if(!success)
-		throw CL_Exception("Failed to initialize Rocket GUI Debugger!");
+	
+		success = Rocket::Debugger::Initialise(contexts[0]);
+		if(!success)
+			throw CL_Exception("Failed to initialize Rocket GUI Debugger!");
 
-	Rocket::Debugger::SetVisible(true);
+		Rocket::Debugger::SetVisible(true);
+#else
+		CL_Console::write_line("Sorry, but the gui debugger only works with Debug runtime...");
 #endif
+	}
 
 	//Add some fonts
 	std::vector<CL_String> fonts = coreMgr->getResMgr()->getFilesInDir("/Fonts/");
@@ -150,13 +160,15 @@ void GuiMgr::render()
 		contexts[i]->Render();
 }
 
-void GuiMgr::addContext(const CL_String &name, const int &width, const int &height)
+Rocket::Core::Context *GuiMgr::addContext(const CL_String &name, const int &width, const int &height)
 {
 	Rocket::Core::Context *context = Rocket::Core::CreateContext(name.c_str(), Rocket::Core::Vector2i(width, height));
 	contexts.push_back(context);
+	coreMgr->getEventMgr()->SendEvent(Events::Event("GuiContextCreated", Events::EventValue(context)));
+	return context;
 }
 
-void GuiMgr::addDocument(const CL_String &context_name, const CL_String &path)
+Rocket::Core::ElementDocument *GuiMgr::addDocument(const CL_String &context_name, const CL_String &path)
 {
 	Rocket::Core::Context *context = NULL;
 	for(unsigned int i = 0; i < contexts.size(); i++)
@@ -179,6 +191,8 @@ void GuiMgr::addDocument(const CL_String &context_name, const CL_String &path)
 	document->Show();
 	//document->AddEventListener("click", this);
 	documents.push_back(document);
+	coreMgr->getEventMgr()->SendEvent(Events::Event("GuiDocumentCreated", Events::EventValue(dynamic_cast<Rocket::Core::Element*>(document))));
+	return document;
 }
 
 void GuiMgr::addFont(const CL_String &path)
@@ -186,7 +200,7 @@ void GuiMgr::addFont(const CL_String &path)
 	Rocket::Core::FontDatabase::LoadFontFace(path.c_str());
 }
 
-void GuiMgr::loadCursor(const CL_String &path)
+Rocket::Core::ElementDocument *GuiMgr::loadCursor(const CL_String &path)
 {
 	Rocket::Core::ElementDocument* cursor = contexts[0]->LoadMouseCursor(path.c_str());
 	if(cursor == NULL)
@@ -195,6 +209,8 @@ void GuiMgr::loadCursor(const CL_String &path)
 	cursor->Show();
 	//cursor->AddEventListener("click", this);
 	documents.push_back(cursor);
+	coreMgr->getEventMgr()->SendEvent(Events::Event("GuiCursorCreated", Events::EventValue(dynamic_cast<Rocket::Core::Element*>(cursor))));
+	return cursor;
 }
 
 void GuiMgr::inject(const unsigned int &key, bool state)

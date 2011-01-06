@@ -74,6 +74,16 @@ EventValue::EventValue(Engine::IEntity *value)
 {
 }
 
+EventValue::EventValue(Rocket::Core::Context *value)
+: type(gui_context), valueGuiContext(value)
+{
+}
+
+EventValue::EventValue(Rocket::Core::Element *value)
+: type(gui_document), valueGuiDocument(value)
+{
+}
+
 EventValue::EventValue(bool value)
 : type(boolean), valueBool(value)
 {
@@ -147,6 +157,16 @@ bool EventValue::IsProperty() const
 bool EventValue::IsEntity() const
 {
 	return type == entity;
+}
+
+bool EventValue::IsGuiContext() const
+{
+	return type == gui_context;
+}
+
+bool EventValue::IsGuiDocument() const
+{
+	return type == gui_document;
 }
 
 unsigned int EventValue::ToUinteger() const
@@ -235,4 +255,20 @@ Engine::IEntity *EventValue::ToEntity() const
 		return valueEntity;
 	else
 		throw CL_Exception("EventValue is not an entity");
+}
+
+Rocket::Core::Context *EventValue::ToGuiContext() const
+{
+	if(IsGuiContext())
+		return valueGuiContext;
+	else
+		throw CL_Exception("EventValue is not a gui context");
+}
+
+Rocket::Core::Element *EventValue::ToGuiDocument() const
+{
+	if(IsGuiDocument())
+		return valueGuiDocument;
+	else
+		throw CL_Exception("EventValue is not a gui document");
 }

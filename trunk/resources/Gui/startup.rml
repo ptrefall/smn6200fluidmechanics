@@ -29,7 +29,7 @@
         <span id="title">Startup Screen</span>
       </handle>
     </div>
-    <button onclick="goto main; close">Load File</button>
-    <button onclick="exit">Exit</button>
+    <button onclick="StartupWindow:OnLoadFileClicked('main', ">Load File</button>
+    <button onclick="StartupWindow:OnExitClicked( ">Exit</button>
   </body>
 </rml>
