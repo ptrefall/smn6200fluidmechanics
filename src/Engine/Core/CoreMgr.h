@@ -34,6 +34,7 @@ namespace Engine
 
 		void init(const CL_String &base_path);
 		void run();
+		void checkForInput(float dt);
 
 		Events::IEventManager *eventMgr;
 		GuiMgr *guiMgr;
@@ -43,5 +44,6 @@ namespace Engine
 		WorkThreadMgr *workThreadMgr;
 		ITimer *timer;
 		Cam *cam;
+		bool stop;
 	};
 }
