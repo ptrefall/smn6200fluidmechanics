@@ -69,7 +69,10 @@ void GuiEventManager::ProcessEvent(Rocket::Core::Event& event, const Rocket::Cor
 			Events::EventValue arg2(coreMgr->getGuiMgr()->getContext(0));
 			Events::Event evt(event.GetType().CString(), /*arg0,*/ arg1, arg2);
 			ExposeEvent exposedEvent(coreMgr, &evt);
+			//ExposeGuiEventParams exposedParams(coreMgr, exposedEvent);
+			//	//(*event.GetParameters())[0]->
 			coreMgr->getScriptMgr()->doString(cl_format("%1Events['%2'])", commands[i].CString(), event.GetType().CString()));
+			
 		}
 	}
 }
