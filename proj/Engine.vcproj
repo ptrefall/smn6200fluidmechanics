@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="GLFW-mt-debug.lib glew32s-mt-debug.lib OpenGL32.lib Glu32.lib freetype_d.lib RocketCore_d.lib RocketDebugger_d.lib"
+				AdditionalDependencies="GLFW-mt-debug.lib glew32s-mt-debug.lib OpenGL32.lib Glu32.lib freetype_d.lib RocketCore_d.lib RocketDebugger_d.lib RocketControls_d.lib"
 				OutputFile="$(OutDir)\$(ProjectName)-mt-debug.lib"
 				AdditionalLibraryDirectories="$(OutDir)"
 			/>
@@ -129,7 +129,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="GLFW-mt.lib glew32s-mt.lib OpenGL32.lib Glu32.lib freetype.lib RocketCore.lib RocketDebugger.lib"
+				AdditionalDependencies="GLFW-mt.lib glew32s-mt.lib OpenGL32.lib Glu32.lib freetype.lib RocketCore.lib RocketDebugger.lib RocketControls.lib"
 				OutputFile="$(OutDir)\$(ProjectName)-mt.lib"
 				AdditionalLibraryDirectories="$(OutDir)"
 			/>
@@ -185,6 +185,30 @@
 			<Filter
 				Name="Gui"
 				>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiEvent.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiEvent.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiEventInstancer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiEventInstancer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiEventManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiEventManager.h"
+					>
+				</File>
 				<File
 					RelativePath="..\src\Engine\Gui\GuiMgr.cpp"
 					>

@@ -97,7 +97,7 @@ void CoreMgr::init(const CL_String &base_path)
 	int d = cfg->getInt("Config/GUI/Depth");
 	int vsync = cfg->getInt("Config/GUI/VSync");
 	guiMgr = new GuiMgr(this, (fullscreen > 0), w, h, d, vsync);
-	guiMgr->addDocument("Main", cl_format("%1Gui/demo.rml", resMgr->getRootPath()));
+	guiMgr->addDocument("Main", cl_format("%1Gui/startup.rml", resMgr->getRootPath()));
 
 	cam = new Cam(w,h);
 	eventMgr = new Events::EventManager();

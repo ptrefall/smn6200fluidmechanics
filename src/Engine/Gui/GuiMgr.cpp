@@ -2,6 +2,8 @@
 #include "GuiMgr.h"
 #include "GuiSystemInterface.h"
 #include "GuiRenderInterface.h"
+#include "GuiEventManager.h"
+#include "GuiEventInstancer.h"
 
 #include <Core/CoreMgr.h>
 #include <Resource/ResMgr.h>
@@ -55,15 +57,21 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
 	bool success = Rocket::Core::Initialise();
 	if(!success)
 		throw CL_Exception("Failed to initialize Rocket GUI Library!");
+	
+	Rocket::Controls::Initialise();
 
 	addContext("Main", width, height);
+
+	eventMgr = new GuiEventManager(coreMgr);
+	eventInstancer = new GuiEventInstancer(coreMgr);
+	Rocket::Core::Factory::RegisterEventListenerInstancer(eventInstancer);
 
 #ifdef _DEBUG
 	success = Rocket::Debugger::Initialise(contexts[0]);
 	if(!success)
 		throw CL_Exception("Failed to initialize Rocket GUI Debugger!");
 
-	//Rocket::Debugger::SetVisible(true);
+	Rocket::Debugger::SetVisible(true);
 #endif
 
 	//Add some fonts
@@ -167,7 +175,9 @@ void GuiMgr::addDocument(const CL_String &context_name, const CL_String &path)
 	if (document == NULL)
 		throw CL_Exception(cl_format("Failed to load document %1", path));
 
+	document->Focus();
 	document->Show();
+	//document->AddEventListener("click", this);
 	documents.push_back(document);
 }
 
@@ -183,6 +193,7 @@ void GuiMgr::loadCursor(const CL_String &path)
 		throw CL_Exception(cl_format("Failed to load cursor %1", path));
 
 	cursor->Show();
+	//cursor->AddEventListener("click", this);
 	documents.push_back(cursor);
 }
 
@@ -221,3 +232,13 @@ void GuiMgr::injectMouse(const int &button, bool state)
 void GuiMgr::keyModifier(const int &mod, bool state)
 {
 }
+
+// Process the incoming event.
+/*void GuiMgr::ProcessEvent(Rocket::Core::Event& event)
+{
+	if(event.GetType() == "click")
+	{
+		CL_Console::write_line("CLICK!");
+	}
+}*/
+

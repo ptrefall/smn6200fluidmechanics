@@ -257,15 +257,19 @@
 					>
 				</File>
 				<File
-					RelativePath="..\resources\Gui\demo.rml"
-					>
-				</File>
-				<File
 					RelativePath="..\resources\Gui\invader.rcss"
 					>
 				</File>
 				<File
+					RelativePath="..\resources\Gui\main.rml"
+					>
+				</File>
+				<File
 					RelativePath="..\resources\Gui\rkt.rcss"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\startup.rml"
 					>
 				</File>
 				<File

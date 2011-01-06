@@ -29,6 +29,8 @@ namespace Engine
 		ITimer *getTimer() const { return timer; }
 		Cam *getCam() const { return cam; }
 
+		void exit() { stop = true; }
+
 	private:
 		CL_SetupCore *setupCore; // Initializes clanlib core lib when CoreManager is instanciated/constructed
 

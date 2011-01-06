@@ -6,8 +6,10 @@ namespace Engine
 
 	class GuiSystemInterface;
 	class GuiRenderInterface;
+	class GuiEventManager;
+	class GuiEventInstancer;
 
-	class GuiMgr
+	class GuiMgr //: public Rocket::Core::EventListener
 	{		
 	public:
 		GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync);
@@ -23,7 +25,10 @@ namespace Engine
 		void render();
 		void resize(int w, int h);
 
+		GuiEventManager *getGuiEventMgr() const { return eventMgr; }
+
 		void addContext(const CL_String &name, const int &width, const int &height);
+		Rocket::Core::Context *getContext(unsigned int i) { return contexts[i]; }
 		void addDocument(const CL_String &context_name, const CL_String &path);
 		void addFont(const CL_String &path);
 		void loadCursor(const CL_String &path);
@@ -33,10 +38,15 @@ namespace Engine
 		void injectMouse(const int &button, bool state);
 		void keyModifier(const int &mod, bool state);
 
+		// Process the incoming event.
+		//virtual void ProcessEvent(Rocket::Core::Event& event);
+
 	private:
 		CoreMgr *coreMgr;
 		GuiSystemInterface *system;
 		GuiRenderInterface *renderer;
+		GuiEventManager *eventMgr;
+		GuiEventInstancer *eventInstancer;
 		std::vector<Rocket::Core::Context*> contexts;
 		std::vector<Rocket::Core::ElementDocument*> documents;
 
