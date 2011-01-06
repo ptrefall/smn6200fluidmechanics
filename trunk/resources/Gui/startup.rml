@@ -1,0 +1,35 @@
+<rml>
+	<head>
+		<title>Startup</title>
+		<link type="text/template" href="window.rml" />
+		<style>
+			body
+			{
+				width: 300px;
+				height: 255px;
+				
+				margin: auto;
+			}
+      
+      div#icon
+      {
+        display: none;
+      }
+			
+			div#content
+			{
+				text-align: left;
+			}
+		</style>
+	</head>
+	<body template="window">
+    <div id="title_bar">
+      <handle move_target="#document">
+        <div id="icon"></div>
+        <span id="title">Startup Screen</span>
+      </handle>
+    </div>
+    <button onclick="goto main; close">Load File</button>
+    <button onclick="exit">Exit</button>
+  </body>
+</rml>

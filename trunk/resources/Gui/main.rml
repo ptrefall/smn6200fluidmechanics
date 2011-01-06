@@ -1,0 +1,39 @@
+<rml>
+	<head>
+		<title>Main</title>
+		<link type="text/template" href="window.rml" />
+		<style>
+			body
+			{
+				width: 300px;
+				height: 255px;
+				
+				margin: auto;
+			}
+      
+      div#icon
+      {
+        display: none;
+      }
+			
+			div#content
+			{
+				text-align: left;
+			}
+		</style>
+	</head>
+	<body template="window">
+    <div id="title_bar">
+      <handle move_target="#document">
+        <div id="icon"></div>
+        <span id="title">Main Screen</span>
+      </handle>
+    </div>
+    <button onclick="exit">Exit</button>
+    <div>
+      <p>
+        This is the main screen!
+      </p>
+    </div>
+  </body>
+</rml>
