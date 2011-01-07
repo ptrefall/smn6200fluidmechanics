@@ -24,8 +24,9 @@
 	</head>
 	<body template="window">
     <div style="margin: auto auto auto auto; text-align: center;">
-      <button onclick="StartupWindow:OnLoadFileClicked('main', ">Load File</button><br />
-      <button onclick="StartupWindow:OnExitClicked( ">Exit</button>
+      <button onclick="StartupWindow:OnNewProjClicked">New Project</button><br />
+      <button onclick="StartupWindow:OnLoadProjClicked">Load Project</button><br />
+      <button onclick="StartupWindow:OnExitClicked">Exit</button>
     </div>
   </body>
 </rml>

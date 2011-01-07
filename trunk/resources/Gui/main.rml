@@ -5,16 +5,11 @@
 		<style>
 			body
 			{
-				width: 300px;
-				height: 255px;
+				width: 200px;
+				height: 100%;
 				
-				margin: 10px;
+				margin: 1px 1px 1px 1px;
 			}
-      
-      div#title_bar
-      {
-        display: none;
-      }
       
       div#icon
       {
@@ -23,16 +18,14 @@
 			
 			div#content
 			{
-				text-align: left;
+				text-align: center;
 			}
 		</style>
 	</head>
 	<body template="window">
-    <button onclick="exit">Exit</button>
-    <div>
-      <p>
-        This is the main screen!
-      </p>
+    <div style="margin: auto auto auto auto; text-align: center;">
+      <button onclick="exit">Exit</button>
+      <p>This is the main screen!</p>
     </div>
   </body>
 </rml>

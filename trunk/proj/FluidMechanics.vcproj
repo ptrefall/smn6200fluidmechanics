@@ -204,6 +204,10 @@
 					Name="Gui"
 					>
 					<File
+						RelativePath="..\resources\Scripts\Gui\LoadProjWindow.lua"
+						>
+					</File>
+					<File
 						RelativePath="..\resources\Scripts\Gui\StartupWindow.lua"
 						>
 					</File>
@@ -266,6 +270,10 @@
 				</File>
 				<File
 					RelativePath="..\resources\Gui\invader.rcss"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\load_proj.rml"
 					>
 				</File>
 				<File
