@@ -30,13 +30,11 @@ namespace Engine
 		Cam *getCam() const { return cam; }
 
 		void exit() { stop = true; }
+		void init(const CL_String &base_path);
+		void run();
 
 	private:
 		CL_SetupCore *setupCore; // Initializes clanlib core lib when CoreManager is instanciated/constructed
-
-		void init(const CL_String &base_path);
-		void run();
-		void checkForInput(float dt);
 
 		Events::IEventManager *eventMgr;
 		GuiMgr *guiMgr;

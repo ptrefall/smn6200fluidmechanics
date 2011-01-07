@@ -12,12 +12,14 @@
 #include <Event/EventValue.h>
 #include <Event/IEventManager.h>
 
+#include <Rocket/Core/EventInstancerDefault.h>
+
 #include <iostream>
 
 using namespace Engine;
 
 GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const int &height, const int &depth, const int &vsync, const bool &debug)
-: coreMgr(coreMgr), key_modifier_state(0)
+: coreMgr(coreMgr)
 {
 	if( !glfwInit() )
         throw CL_Exception("Error initializing glfw");
@@ -69,6 +71,9 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
 	eventMgr = new GuiEventManager(coreMgr);
 	eventInstancer = new GuiEventInstancer(coreMgr);
 	Rocket::Core::Factory::RegisterEventListenerInstancer(eventInstancer);
+
+	//Rocket::Core::EventInstancer *evtInst = new Rocket::Core::EventInstancerDefault();
+	//Rocket::Core::Factory::RegisterEventInstancer(evtInst);
 
 	if(debug)
 	{
@@ -213,7 +218,7 @@ Rocket::Core::ElementDocument *GuiMgr::loadCursor(const CL_String &path)
 	return cursor;
 }
 
-void GuiMgr::inject(const unsigned int &key, bool state)
+void GuiMgr::inject(const unsigned int &key, bool state, int key_modifier_state)
 {
 	if(state)
 	{
@@ -225,7 +230,7 @@ void GuiMgr::inject(const unsigned int &key, bool state)
 	}
 }
 
-void GuiMgr::inject(const CL_Vec2i &mouse_pos)
+void GuiMgr::inject(const CL_Vec2i &mouse_pos, int key_modifier_state)
 {
 	lastMousePos = mousePos;
 	mousePos = mouse_pos;
@@ -233,7 +238,7 @@ void GuiMgr::inject(const CL_Vec2i &mouse_pos)
 	contexts[0]->ProcessMouseMove(mousePos.x, mousePos.y, key_modifier_state);
 }
 
-void GuiMgr::injectMouse(const int &button, bool state)
+void GuiMgr::injectMouse(const int &button, bool state, int key_modifier_state)
 {
 	if(state)
 	{
@@ -243,10 +248,6 @@ void GuiMgr::injectMouse(const int &button, bool state)
 	{
 		contexts[0]->ProcessMouseButtonUp(button, key_modifier_state);
 	}
-}
-
-void GuiMgr::keyModifier(const int &mod, bool state)
-{
 }
 
 // Process the incoming event.

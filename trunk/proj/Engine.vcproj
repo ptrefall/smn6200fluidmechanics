@@ -390,6 +390,18 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\Engine\Core\Input.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\Input.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Core\InputAsciiMap.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\Core\ITimer.h"
 					>
 				</File>

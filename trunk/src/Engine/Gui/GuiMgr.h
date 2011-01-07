@@ -33,10 +33,9 @@ namespace Engine
 		void addFont(const CL_String &path);
 		Rocket::Core::ElementDocument *loadCursor(const CL_String &path);
 
-		void inject(const unsigned int &key, bool state);
-		void inject(const CL_Vec2i &mouse_pos);
-		void injectMouse(const int &button, bool state);
-		void keyModifier(const int &mod, bool state);
+		void inject(const unsigned int &key, bool state, int key_modifier_state);
+		void inject(const CL_Vec2i &mouse_pos, int key_modifier_state);
+		void injectMouse(const int &button, bool state, int key_modifier_state);
 
 		// Process the incoming event.
 		//virtual void ProcessEvent(Rocket::Core::Event& event);
@@ -53,6 +52,5 @@ namespace Engine
 		CL_Mat4f orthoMatrix;
 
 		CL_Vec2i mousePos, lastMousePos;
-		int key_modifier_state;
 	};
 }
