@@ -15,6 +15,3 @@ end
 
 function StartupWindow:OnExitClicked(event)
 end
-
-function StartupWindow:OnSubmitOptions(event)
-end

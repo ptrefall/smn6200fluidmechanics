@@ -182,7 +182,11 @@ void GuiRenderInterface::EnableScissorRegion(bool enable)
 // Called by Rocket when it wants to change the scissor region.		
 void GuiRenderInterface::SetScissorRegion(int x, int y, int width, int height)
 {
-	glScissor(x, 768 - (y + height), width, height);
+	/*int scissor_left = x;
+	int scissor_top = y;
+	int scissor_right = x + width;
+	int scissor_bottom = y + height;
+	glScissor(scissor_left, scissor_top, scissor_right, scissor_bottom);*/
 }
 
 // Called by Rocket when a texture is required by the library.		
