@@ -8,7 +8,7 @@
 				width: 350px;
 				height: 100px;
 				
-				margin: 1px;
+				margin: auto;
 			}
       
       div#icon
@@ -29,14 +29,14 @@
 		</style>
 	</head>
 	<body template="window">
-    <form onsubmit="LoadProjWindow:OnLoadClicked">
+    <form onsubmit="LoadProjWindow:OnLoadClicked; close">
       <div>
         <p>
           Name: <input id="proj_name" type="text" name="proj_name" value="" />
         </p>
       </div>
-      <button type="submit" value="load">Load</button>
-      <button type="submit" value="cancel">Cancel</button>
+      <input type="submit" value="load">Load</input>
+      <input type="submit" value="cancel">Cancel</input>
     </form>
   </body>
 </rml>
