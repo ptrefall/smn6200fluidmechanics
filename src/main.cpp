@@ -12,6 +12,8 @@ int main(int argc, char *argv[])
 		path += "\\resources\\";
 
 		Engine::CoreMgr core(path);
+		core.init(path);
+		core.run();
 	}
 	catch(CL_Exception &e)
 	{
