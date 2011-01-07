@@ -5,8 +5,8 @@
 		<style>
 			body
 			{
-				width: 400px;
-				height: 400px;
+				width: 200px;
+				height: 50px;
 				
 				margin: auto;
 			}
@@ -23,19 +23,9 @@
 		</style>
 	</head>
 	<body template="window">
-    <form onsubmit="StartupWindow:OnSubmitOptions( ">
-      <div>
-        <p>
-          RenderSupport:<br />
-          <input id="volumetric" type="checkbox" name="volumetric" value="true" checked="true" /> Volumetric<br />
-          <input id="stl-3d" type="checkbox" name="stl-3d" value="true" checked="true" /> 3D STL Model<br />
-          <input id="graph-2d" type="checkbox" name="graph-2d" value="true" checked="true" /> 2D Graph Plot
-        </p>
-      </div>
-      <input type="submit" value="accept">Accept</input>
-      <input type="submit" value="cancel">Cancel</input>
-    </form>
-    <button onclick="StartupWindow:OnLoadFileClicked('main', ">Load File</button>
-    <button onclick="StartupWindow:OnExitClicked( ">Exit</button>
+    <div style="margin: auto auto auto auto; text-align: center;">
+      <button onclick="StartupWindow:OnLoadFileClicked('main', ">Load File</button><br />
+      <button onclick="StartupWindow:OnExitClicked( ">Exit</button>
+    </div>
   </body>
 </rml>
