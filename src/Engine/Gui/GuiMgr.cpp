@@ -6,11 +6,13 @@
 #include "GuiEventInstancer.h"
 
 #include <Core/CoreMgr.h>
+#include <Core/Input.h>
 #include <Resource/ResMgr.h>
 
 #include <Event/Event.h>
 #include <Event/EventValue.h>
 #include <Event/IEventManager.h>
+
 
 #include <Rocket/Core/EventInstancerDefault.h>
 
@@ -96,8 +98,11 @@ GuiMgr::GuiMgr(CoreMgr *coreMgr, const bool &fullscr, const int &width, const in
 		addFont(cl_format("%1Fonts/%2", coreMgr->getResMgr()->getRootPath(), fonts[i]));
 	}
 
+	glfwDisable(GLFW_AUTO_POLL_EVENTS);
 	glfwDisable(GLFW_MOUSE_CURSOR);
 	loadCursor(cl_format("%1Gui/%2", coreMgr->getResMgr()->getRootPath(), "cursor.rml"));
+
+	Input::Initialise();
 }
 
 GuiMgr::~GuiMgr()
@@ -157,6 +162,40 @@ void GuiMgr::update(float dt)
 {
 	for(unsigned int i = 0; i < contexts.size(); i++)
 		contexts[i]->Update();
+
+	glfwPollEvents();
+
+	for(int i = 0; i < Input::KEYMAP_SIZE; i++)
+	{
+		if(glfwGetKey(Input::getKeyGLFW(i)) == GLFW_PRESS && Input::isKeyPressed(i) == false)
+		{
+			Input::keyPress(i);
+			inject(Input::getKeyId(Input::getKeyGLFW(i)), true, Input::GetKeyModifierState());
+		}
+		else if(glfwGetKey(Input::getKeyGLFW(i)) == GLFW_RELEASE && Input::isKeyPressed(i) == true)
+		{
+			Input::keyRelease(i);
+			inject(Input::getKeyId(Input::getKeyGLFW(i)), false, Input::GetKeyModifierState());
+		}
+	}
+
+	for(int i = GLFW_MOUSE_BUTTON_1; i < GLFW_MOUSE_BUTTON_LAST+1; i++)
+	{
+		if(glfwGetMouseButton(i) == GLFW_PRESS && Input::isButtonPressed(i) == false)
+		{
+			Input::buttonPress(i);
+			injectMouse(i, true, Input::GetKeyModifierState());
+		}
+		else if(glfwGetMouseButton(i) == GLFW_RELEASE && Input::isButtonPressed(i) == true)
+		{
+			Input::buttonRelease(i);
+			injectMouse(i, false, Input::GetKeyModifierState());
+		}
+	}
+
+	CL_Vec2i mp;
+	glfwGetMousePos(&mp.x, &mp.y);
+	inject(mp, Input::GetKeyModifierState());
 }
 
 void GuiMgr::render()
