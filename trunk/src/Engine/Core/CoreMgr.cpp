@@ -14,7 +14,7 @@
 #include <Resource/IResource.h>
 #include <WorkThread/WorkThreadMgr.h>
 
-#include "Input.h"
+//#include "Input.h"
 
 #ifdef WIN32
 #include <Core/Win32Timer.h>
@@ -122,7 +122,7 @@ void CoreMgr::init(const CL_String &base_path)
 
 void CoreMgr::run()
 {
-	Input::Initialise(this);
+	//Input::Initialise(this);
 	timer->start();
 
 	//Some random opengl init stuff
@@ -144,9 +144,9 @@ void CoreMgr::run()
 		}
 
 		float dt = (float)timer->update();
+		guiMgr->update(dt);
 		workThreadMgr->update(dt);
 		entityMgr->update(dt);
-		guiMgr->update(dt);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		entityMgr->render();
