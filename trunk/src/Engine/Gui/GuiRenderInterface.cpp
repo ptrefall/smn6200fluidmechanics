@@ -72,7 +72,7 @@ Rocket::Core::CompiledGeometryHandle GuiRenderInterface::CompileGeometry(Rocket:
 		shader.setShader("resources/Shaders/gui_default");
 		shader.initShader();
 		Engine::shaderAttrib(shader.getShaderProg(), "vVertex", 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		Engine::shaderAttrib(shader.getShaderProg(), "vColor", 4, GL_UNSIGNED_BYTE, GL_FALSE, 0, BUFFER_OFFSET(sizeof(float)*verts.size()));
+		Engine::shaderAttrib(shader.getShaderProg(), "vColor", 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(float)*verts.size()));
 		Engine::shaderAttrib(shader.getShaderProg(), "vTexCoord", 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(float)*(verts.size()+colors.size())));
 		shaders.push_back(shader);
 	}
@@ -82,7 +82,7 @@ Rocket::Core::CompiledGeometryHandle GuiRenderInterface::CompileGeometry(Rocket:
 		shader.setShader("resources/Shaders/gui_notex");
 		shader.initShader();
 		Engine::shaderAttrib(shader.getShaderProg(), "vVertex", 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		Engine::shaderAttrib(shader.getShaderProg(), "vColor", 4, GL_UNSIGNED_BYTE, GL_FALSE, 0, BUFFER_OFFSET(sizeof(float)*verts.size()));
+		Engine::shaderAttrib(shader.getShaderProg(), "vColor", 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(float)*verts.size()));
 		shaders.push_back(shader);
 	}
 	glBindVertexArray(0);

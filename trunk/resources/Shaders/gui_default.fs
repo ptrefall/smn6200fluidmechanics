@@ -13,7 +13,7 @@ out vec4 out_Color0;
 void main(void)
 {	
 	vec4 tex_color = texture(fTexture, fTexCoord.st);
-	out_Color0 = tex_color+fColor*0.000001;
+	out_Color0 = tex_color+vec4(fColor.rgb/255.0, 0.0);
 	
 	//out_Color1 = pickingId;
 }
