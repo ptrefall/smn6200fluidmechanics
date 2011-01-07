@@ -29,13 +29,13 @@
 		</style>
 	</head>
 	<body template="window">
-    <form onsubmit="LoadProjWindow:OnLoadClicked">
+    <form onsubmit="NewProjWindow:OnCreateClicked">
       <div>
         <p>
           Name: <input id="proj_name" type="text" name="proj_name" value="" />
         </p>
       </div>
-      <button type="submit" value="accept">Load</button>
+      <button type="submit" value="accept">Create</button>
       <button type="submit" value="cancel">Cancel</button>
     </form>
   </body>
