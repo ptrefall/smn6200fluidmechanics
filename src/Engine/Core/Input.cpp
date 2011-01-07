@@ -26,7 +26,7 @@ bool Input::Initialise(CoreMgr *coreManager)
 	glfwSetKeyCallback(Input::processKeyboardEvent);
 	glfwSetCharCallback(Input::processCharEvent);
 	glfwSetMouseButtonCallback(Input::processMouseButtonEvent);
-	//glfwSetMousePosCallback(Input::processMouseMoveEvent);
+	glfwSetMousePosCallback(Input::processMouseMoveEvent);
 	return true;
 }
 
