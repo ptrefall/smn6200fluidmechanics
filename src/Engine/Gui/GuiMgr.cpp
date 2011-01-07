@@ -170,7 +170,11 @@ void GuiMgr::update(float dt)
 		if(glfwGetKey(Input::getKeyGLFW(i)) == GLFW_PRESS && Input::isKeyPressed(i) == false)
 		{
 			Input::keyPress(i);
-			inject(Input::getKeyId(Input::getKeyGLFW(i)), true, Input::GetKeyModifierState());
+			Rocket::Core::word key = Input::GetCharacterCode(Input::getKeyId(Input::getKeyGLFW(i)), Input::GetKeyModifierState());
+			if(key)
+				injectText(key);
+			else
+				inject(Input::getKeyId(Input::getKeyGLFW(i)), true, Input::GetKeyModifierState());
 		}
 		else if(glfwGetKey(Input::getKeyGLFW(i)) == GLFW_RELEASE && Input::isKeyPressed(i) == true)
 		{
@@ -267,6 +271,11 @@ void GuiMgr::inject(const unsigned int &key, bool state, int key_modifier_state)
 	{
 		contexts[0]->ProcessKeyUp((Rocket::Core::Input::KeyIdentifier)key, key_modifier_state);
 	}
+}
+
+void GuiMgr::injectText(const Rocket::Core::word &key)
+{
+	contexts[0]->ProcessTextInput(key);
 }
 
 void GuiMgr::inject(const CL_Vec2i &mouse_pos, int key_modifier_state)

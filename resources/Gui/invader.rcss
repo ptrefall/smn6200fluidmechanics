@@ -4,7 +4,7 @@ body
 	font-weight: normal;
 	font-style: normal;
 	font-size: 15;
-	color: white;
+	color: black;
 }
 
 body.window
@@ -147,6 +147,7 @@ input.submit
 	font-size: 18;
 	text-align: center;
 	tab-index: auto;
+	color: black;
 
 	background-decorator: image;
 	background-image: invader.tga 247px 0px 406px 45px;
@@ -156,6 +157,7 @@ button:focus,
 input.submit:focus
 {
     font-weight: bold;
+    color: black;
     
     shadow-font-effect: shadow;
     shadow-offset: 1px 1px;
@@ -166,12 +168,14 @@ button:hover,
 input.submit:hover
 {
 	background-image-t: 45px 90px;
+	color: black;
 }
 
 button:active,
 input.submit:active
 {
 	background-image-t: 90px 135px;
+	color: black;
 }
 
 
@@ -180,6 +184,7 @@ input.text
 {
 	height: 31px;
 	padding: 10px 10px 0px;
+	color: black;
 
 	background-decorator: tiled-horizontal;
 	background-left-image: invader.tga 162px 192px 176px 223px;
@@ -200,6 +205,7 @@ datagrid input.text
 	height: auto;
 	margin: 0px;
 	padding: 0px 2px 0px;
+	color: black;
 
 	border-width: 1px;
 	border-color: black;

@@ -34,6 +34,7 @@ namespace Engine
 		Rocket::Core::ElementDocument *loadCursor(const CL_String &path);
 
 		void inject(const unsigned int &key, bool state, int key_modifier_state);
+		void injectText(const Rocket::Core::word &key);
 		void inject(const CL_Vec2i &mouse_pos, int key_modifier_state);
 		void injectMouse(const int &button, bool state, int key_modifier_state);
 
