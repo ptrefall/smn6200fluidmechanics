@@ -13,6 +13,8 @@ public:
 	EntityFactory(CoreMgr *coreMgr);
 	~EntityFactory();
 
+	static void PreConstruct();
+
 	void registerEntity(const CL_String &fileName);
 	IEntity *create(const CL_String &type, const CL_String &name);
 	void addDataAndLogic(IEntity *entity, const CL_String &type);

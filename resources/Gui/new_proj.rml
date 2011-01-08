@@ -32,7 +32,7 @@
     <form onsubmit="NewProjWindow:OnCreateClicked; close">
       <div>
         <p>
-          Name: <input id="proj_name" type="text" name="proj_name" value="proj_name" />
+          Name: <input id="proj_name" type="text" name="proj_name" value="" />
         </p>
       </div>
       <input type="submit" value="accept">Create</input>
