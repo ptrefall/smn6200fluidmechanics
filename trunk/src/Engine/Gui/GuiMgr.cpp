@@ -199,7 +199,8 @@ void GuiMgr::update(float dt)
 
 	CL_Vec2i mp;
 	glfwGetMousePos(&mp.x, &mp.y);
-	inject(mp, Input::GetKeyModifierState());
+	if(mp.x != lastMousePos.x || mp.y != lastMousePos.y)
+		inject(mp, Input::GetKeyModifierState());
 }
 
 void GuiMgr::render()

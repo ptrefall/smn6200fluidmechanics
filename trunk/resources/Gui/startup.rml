@@ -5,8 +5,8 @@
 		<style>
 			body
 			{
-				width: 200px;
-				height: 50px;
+				width: 210px;
+				height: 84px;
 				
 				margin: auto;
 			}
@@ -20,13 +20,42 @@
 			{
 				text-align: left;
 			}
+      
+      body.window
+      {	
+	      min-width: 280px;
+	      min-height: 84px;
+      }
 		</style>
 	</head>
-	<body template="window">
-    <div style="margin: auto auto auto auto; text-align: center;">
-      <button onclick="StartupWindow:OnNewProjClicked; close">New Project</button><br />
-      <button onclick="StartupWindow:OnLoadProjClicked; close">Load Project</button><br />
-      <button onclick="StartupWindow:OnExitClicked; exit">Exit</button>
+	<body template="window" style="width: 200px; height: 78px;">
+    <div id="title_bar">
+      <handle move_target="#document">
+        <div id="icon"></div>
+        <span id="title">Startup</span>
+      </handle>
     </div>
+    <div id="window">
+      <div id="content">
+        <div style="margin: auto auto auto auto; text-align: center;">
+          <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnNewProjClicked; close">
+            <img align="center" src="proj_new.tga" />
+            <img src="spacer.tga" />
+            <img src="spacer.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnLoadProjClicked; close">
+            <img align="center" src="proj_open.tga" />
+            <img src="spacer.tga" />
+            <img src="spacer.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnExitClicked; exit">
+            <img align="center" src="app_exit.tga" />
+            <img src="spacer.tga" />
+            <img src="spacer.tga" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <handle size_target="#document" style="position: absolute; width: 16px; height: 16px; bottom: 0px; right: 0px;"></handle>
   </body>
 </rml>

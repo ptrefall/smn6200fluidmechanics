@@ -16,6 +16,7 @@ function NewProjWindow:OnCreateClicked(event)
 			local success = CreateProject(proj_name)
 			if(success == true) then
 				CreateGuiDocument(event.arg1.name, "main")
+				CreateGuiDocument(event.arg1.name, "file_menu")
 			end
 		else
 			Print("Failed to create project file!")
