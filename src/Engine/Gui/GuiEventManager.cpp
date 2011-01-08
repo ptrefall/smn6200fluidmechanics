@@ -34,15 +34,13 @@ void GuiEventManager::ProcessEvent(Rocket::Core::Event& event, const Rocket::Cor
 		if (values.empty())
 			return;
 
-		if (values[0] == "goto" &&
- 			values.size() > 1)
+		if (values[0] == "goto" && values.size() > 1)
 		{
 			// Load the window, and if successful close the old window.
 			if (LoadWindow(values[1]))
 				event.GetTargetElement()->GetOwnerDocument()->Close();
 		}
-		else if (values[0] == "load" &&
- 			values.size() > 1)
+		else if (values[0] == "load" && values.size() > 1)
 		{
 			// Load the window.
 			LoadWindow(values[1]);

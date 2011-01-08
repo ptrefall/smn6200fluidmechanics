@@ -29,14 +29,25 @@
 		</style>
 	</head>
 	<body template="window">
-    <form onsubmit="LoadProjWindow:OnLoadClicked; close">
-      <div>
-        <p>
-          Name: <input id="proj_name" type="text" name="proj_name" value="" />
-        </p>
+    <div id="title_bar">
+      <handle move_target="#document">
+        <div id="icon"></div>
+        <span id="title">Load Project</span>
+      </handle>
+    </div>
+    <div id="window">
+      <div id="content">
+        <form onsubmit="LoadProjWindow:OnLoadClicked; close">
+          <div>
+            <p>
+              Name: <input id="proj_name" type="text" name="proj_name" value="" />
+            </p>
+          </div>
+          <input type="submit" value="load">Load</input>
+          <input type="submit" value="cancel">Cancel</input>
+        </form>
       </div>
-      <input type="submit" value="load">Load</input>
-      <input type="submit" value="cancel">Cancel</input>
-    </form>
+    </div>
+    <handle size_target="#document" style="position: absolute; width: 16px; height: 16px; bottom: 0px; right: 0px;"></handle>
   </body>
 </rml>

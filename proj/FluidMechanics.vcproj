@@ -208,6 +208,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\resources\Scripts\Gui\MainWindow.lua"
+						>
+					</File>
+					<File
 						RelativePath="..\resources\Scripts\Gui\NewProjWindow.lua"
 						>
 					</File>
@@ -270,6 +274,10 @@
 				>
 				<File
 					RelativePath="..\resources\Gui\cursor.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\file_menu.rml"
 					>
 				</File>
 				<File

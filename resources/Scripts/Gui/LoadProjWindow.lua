@@ -16,6 +16,7 @@ function LoadProjWindow:OnLoadClicked(event)
 			local success = LoadProject(proj_name)
 			if(success == true) then
 				CreateGuiDocument(event.arg1.name, "main")
+				CreateGuiDocument(event.arg1.name, "file_menu")
 			end
 		else
 			Print("Failed to load project file!")

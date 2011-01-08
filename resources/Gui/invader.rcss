@@ -12,10 +12,10 @@ body.window
 	padding-top: 43px;
 	padding-bottom: 20px;
 	
-	min-width: 250px;
+	min-width: 200px;
 	max-width: 800px;
 	
-	min-height: 135px;
+	min-height: 76px;
 	max-height: 700px;
 }
 
