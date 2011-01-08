@@ -9,6 +9,17 @@ end
 -- event.arg1 -- holds the gui element context in which the event fired
 
 function NewProjWindow:OnCreateClicked(event)
-	local next_window = CreateGuiDocument(event.arg1.name, "main")
-	--event.arg0:GetOwnerDocument():Close()
+	local submit = event.Parameters["submit"]
+	if(submit == "accept") then
+		local proj_name = event.Parameters["proj_name"]
+		if(proj_name ~= nil) then
+			CreateProject(proj_name)
+			CreateGuiDocument(event.arg1.name, "main")
+		else
+			Print("Failed to create project file!")
+			CreateGuiDocument(event.arg1.name, "startup")
+		end
+	else
+		CreateGuiDocument(event.arg1.name, "startup")
+	end
 end

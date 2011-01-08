@@ -505,6 +505,14 @@
 						>
 					</File>
 					<File
+						RelativePath="..\src\Engine\Script\ExposeGuiEventParams.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeGuiEventParams.h"
+						>
+					</File>
+					<File
 						RelativePath="..\src\Engine\Script\ExposeGuiMgr.cpp"
 						>
 					</File>
@@ -526,6 +534,14 @@
 					</File>
 					<File
 						RelativePath="..\src\Engine\Script\ExposeIProperty.h"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeProjectMgr.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\src\Engine\Script\ExposeProjectMgr.h"
 						>
 					</File>
 					<File
