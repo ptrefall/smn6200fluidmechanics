@@ -38,6 +38,7 @@ void EntityManager::init()
 	compFactory = new ComponentFactory(coreMgr);
 	ComponentReg::Register(compFactory);
 
+	EntityFactory::PreConstruct();
 	factory = new EntityFactory(coreMgr);
 	EntityReg::Register(factory, coreMgr);
 }

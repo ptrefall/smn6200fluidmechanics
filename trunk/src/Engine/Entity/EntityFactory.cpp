@@ -15,6 +15,12 @@ using namespace Engine;
 std::map<CL_String, CL_String>* EntityFactory::creators;
 std::map<CL_String, EntityFactory::SpecialCreator>* EntityFactory::special_creators;
 
+void EntityFactory::PreConstruct()
+{
+	EntityFactory::creators = 0;
+	EntityFactory::special_creators = 0;
+}
+
 EntityFactory::EntityFactory(CoreMgr *coreMgr)
 {
 	this->coreMgr = coreMgr;
