@@ -9,6 +9,8 @@
 				height: 68px;
 				
 				margin: 1px;
+        left: 2px;
+        top: 10px;
 			}
       
       div#icon
@@ -44,10 +46,10 @@
           <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnLoadProjClicked">
             <img src="proj_open2.tga" />
           </button>
-          <button style="width: 68px; height: 74px;" onclick="MainWindow:OnSaveProjClicked">
+          <button style="width: 68px; height: 74px;" onclick="MainWindow:OnSaveClicked">
             <img src="proj_save2.tga" />
           </button>
-          <button style="width: 68px; height: 74px;" onclick="MainWindow:OnSaveProjClicked; exit">
+          <button style="width: 68px; height: 74px;" onclick="MainWindow:OnSaveClicked; exit">
             <img src="app_exit2.tga" />
           </button>
         </div>

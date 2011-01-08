@@ -1,6 +1,6 @@
 <rml>
 	<head>
-		<title>Main</title>
+		<title>Project</title>
 		<link type="text/template" href="window.rml" />
 		<style>
 			body
@@ -8,7 +8,9 @@
 				width: 200px;
 				height: 100%;
 				
-				margin: 1px 1px 1px 1px;
+				margin: 1px;
+        right: 2px;
+        top: 10px;
 			}
       
       div#icon
@@ -26,7 +28,7 @@
     <div id="title_bar">
       <handle move_target="#document">
         <div id="icon"></div>
-        <span id="title">Main</span>
+        <span id="title">Project</span>
       </handle>
     </div>
     <div id="window">
