@@ -11,6 +11,7 @@ namespace Engine
 	class EntityManager;
 	class IEntity;
 	class WorkThreadMgr;
+	class ProjectMgr;
 	class ITimer;
 	class Cam;
 
@@ -26,6 +27,7 @@ namespace Engine
 		ScriptMgr *getScriptMgr() const { return scriptMgr; }
 		EntityManager *getEntityMgr() const { return entityMgr; }
 		WorkThreadMgr *getWorkThreadMgr() const { return workThreadMgr; }
+		ProjectMgr *getProjectMgr() const { return projectMgr; }
 		ITimer *getTimer() const { return timer; }
 		Cam *getCam() const { return cam; }
 
@@ -42,6 +44,7 @@ namespace Engine
 		ScriptMgr *scriptMgr;
 		EntityManager *entityMgr;
 		WorkThreadMgr *workThreadMgr;
+		ProjectMgr *projectMgr;
 		ITimer *timer;
 		Cam *cam;
 		bool stop;

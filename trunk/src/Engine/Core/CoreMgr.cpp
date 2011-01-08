@@ -13,6 +13,7 @@
 #include <Scene/Scene.h>
 #include <Resource/IResource.h>
 #include <WorkThread/WorkThreadMgr.h>
+#include <Project/ProjectMgr.h>
 
 //#include "Input.h"
 
@@ -36,7 +37,7 @@ namespace {
 
 CoreMgr::CoreMgr(const CL_String &base_path)
 : setupCore(new CL_SetupCore()),
-  eventMgr(NULL), guiMgr(NULL), resMgr(NULL), scriptMgr(NULL), entityMgr(NULL), workThreadMgr(NULL), timer(NULL), cam(NULL), stop(false)
+  eventMgr(NULL), guiMgr(NULL), resMgr(NULL), scriptMgr(NULL), entityMgr(NULL), workThreadMgr(NULL), projectMgr(NULL), timer(NULL), cam(NULL), stop(false)
 {
 	//init(base_path);
 	//run();
@@ -74,6 +75,11 @@ CoreMgr::~CoreMgr()
 		delete workThreadMgr;
 		workThreadMgr = NULL;
 	}
+	if(projectMgr)
+	{
+		delete projectMgr;
+		projectMgr = NULL;
+	}
 	if(timer)
 	{
 		delete timer;
@@ -102,6 +108,7 @@ void CoreMgr::init(const CL_String &base_path)
 	cam = new Cam(w,h);
 	eventMgr = new Events::EventManager();
 	entityMgr = new EntityManager(this);
+	projectMgr = new ProjectMgr(this);
 	scriptMgr = new ScriptMgr(this);
 	scriptMgr->init();
 	workThreadMgr = new WorkThreadMgr(this);
