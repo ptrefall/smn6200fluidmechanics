@@ -1,14 +1,14 @@
 <rml>
 	<head>
-		<title>Startup</title>
+		<title>File Menu</title>
 		<link type="text/template" href="window.rml" />
 		<style>
 			body
 			{
-				width: 210px;
-				height: 84px;
+				width: 300px;
+				height: 68px;
 				
-				margin: auto;
+				margin: 1px;
 			}
       
       div#icon
@@ -23,29 +23,32 @@
       
       body.window
       {	
-	      min-width: 280px;
+	      min-width: 350px;
 	      min-height: 84px;
       }
 		</style>
 	</head>
-	<body template="window" style="width: 200px; height: 78px;">
+	<body template="window">
     <div id="title_bar">
       <handle move_target="#document">
         <div id="icon"></div>
-        <span id="title">Startup</span>
+        <span id="title">File Menu</span>
       </handle>
     </div>
     <div id="window">
       <div id="content">
         <div style="margin: auto auto auto auto; text-align: center;">
-          <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnNewProjClicked; close">
-            <img align="center" src="proj_new2.tga" />
+          <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnNewProjClicked">
+            <img src="proj_new2.tga" />
           </button>
-          <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnLoadProjClicked; close">
-            <img align="center" src="proj_open2.tga" />
+          <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnLoadProjClicked">
+            <img src="proj_open2.tga" />
           </button>
-          <button style="width: 68px; height: 74px;" onclick="StartupWindow:OnExitClicked; exit">
-            <img align="center" src="app_exit2.tga" />
+          <button style="width: 68px; height: 74px;" onclick="MainWindow:OnSaveProjClicked">
+            <img src="proj_save2.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="MainWindow:OnSaveProjClicked; exit">
+            <img src="app_exit2.tga" />
           </button>
         </div>
       </div>
