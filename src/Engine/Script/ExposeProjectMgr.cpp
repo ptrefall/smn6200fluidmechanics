@@ -2,11 +2,7 @@
 #include "ExposeProjectMgr.h"
 #include "ScriptMgr.h"
 #include <Core/CoreMgr.h>
-#include <Resource/ResMgr.h>
-
-#include <iostream>
-#include <sstream>
-#include <fstream>
+#include <Project/ProjectMgr.h>
 
 using namespace Engine;
 using namespace LuaPlus;
@@ -25,9 +21,10 @@ void ExposeProjectMgr::init()
 {
 	LuaObject globals = (*coreMgr->getScriptMgr()->GetGlobalState())->GetGlobals();
 	globals.RegisterDirect("CreateProject", *this, &ExposeProjectMgr::CreateProject);
+	globals.RegisterDirect("LoadProject", *this, &ExposeProjectMgr::LoadProject);
 }
 
-void ExposeProjectMgr::CreateProject(LuaObject lFilename)
+LuaObject ExposeProjectMgr::CreateProject(LuaObject lFilename)
 {
 	if(!lFilename.IsString())
 	{
@@ -36,16 +33,23 @@ void ExposeProjectMgr::CreateProject(LuaObject lFilename)
 	}
 
 	CL_String filename = lFilename.ToString();
-	CL_String path = cl_format("%1Projects/%2.proj", coreMgr->getResMgr()->getRootPath(), filename);
-	
-	std::ofstream fout(path.c_str(), std::ios::binary);
-	if(fout.bad())
+	bool success = coreMgr->getProjectMgr()->createProject(filename);
+	LuaObject lSuccess;
+	lSuccess.AssignBoolean(coreMgr->getScriptMgr()->GetGlobalState()->Get(), success);
+	return lSuccess;
+}
+
+LuaObject ExposeProjectMgr::LoadProject(LuaObject lFilename)
+{
+	if(!lFilename.IsString())
 	{
-		fout.close();
-		return;
+		CL_String err = cl_format("Failed to create project, because the type of filename was %1 when expecting String!", lFilename.TypeName());
+		throw CL_Exception(err);
 	}
 
-	CL_String header_start = cl_format("Project: %1%2", CL_StringHelp::text_to_upper(filename.substr(0,1)), CL_StringHelp::text_to_lower(filename.substr(1,CL_String::npos)));
-	fout.write((char*)&header_start, sizeof(header_start));
-	fout.close();
+	CL_String filename = lFilename.ToString();
+	bool success = coreMgr->getProjectMgr()->loadProject(filename);
+	LuaObject lSuccess;
+	lSuccess.AssignBoolean(coreMgr->getScriptMgr()->GetGlobalState()->Get(), success);
+	return lSuccess;
 }

@@ -674,6 +674,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Project"
+				>
+				<File
+					RelativePath="..\src\Engine\Project\Project.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Project\Project.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Project\ProjectMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Project\ProjectMgr.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

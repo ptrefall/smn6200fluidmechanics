@@ -15,7 +15,8 @@ public:
 private:
 	void init();
 
-	void CreateProject(LuaPlus::LuaObject lFilename);
+	LuaPlus::LuaObject CreateProject(LuaPlus::LuaObject lFilename);
+	LuaPlus::LuaObject LoadProject(LuaPlus::LuaObject lFilename);
 
 	CoreMgr *coreMgr;
 };

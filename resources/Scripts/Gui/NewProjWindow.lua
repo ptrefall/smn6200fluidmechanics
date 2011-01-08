@@ -13,8 +13,10 @@ function NewProjWindow:OnCreateClicked(event)
 	if(submit == "accept") then
 		local proj_name = event.Parameters["proj_name"]
 		if(proj_name ~= nil) then
-			CreateProject(proj_name)
-			CreateGuiDocument(event.arg1.name, "main")
+			local success = CreateProject(proj_name)
+			if(success == true) then
+				CreateGuiDocument(event.arg1.name, "main")
+			end
 		else
 			Print("Failed to create project file!")
 			CreateGuiDocument(event.arg1.name, "startup")
