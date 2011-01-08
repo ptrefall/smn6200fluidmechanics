@@ -4,6 +4,7 @@
 #include "ExposeComponentManager.h"
 #include "ExposeSceneMgr.h"
 #include "ExposeGuiMgr.h"
+#include "ExposeProjectMgr.h"
 #include <Core/CoreMgr.h>
 #include <Resource/ResMgr.h>
 
@@ -11,7 +12,7 @@ using namespace Engine;
 using namespace LuaPlus;
 
 ScriptMgr::ScriptMgr(CoreMgr *coreMgr)
-: exposedEntityMgr(NULL), exposedComponentMgr(NULL), exposedSceneMgr(NULL), exposedGuiMgr(NULL)
+: exposedEntityMgr(NULL), exposedComponentMgr(NULL), exposedSceneMgr(NULL), exposedGuiMgr(NULL), exposedProjectMgr(NULL)
 {
 	this->coreMgr = coreMgr;
 }
@@ -41,6 +42,12 @@ ScriptMgr::~ScriptMgr()
 		delete exposedGuiMgr;
 		exposedGuiMgr = NULL;
 	}
+	
+	if(exposedProjectMgr)
+	{
+		delete exposedProjectMgr;
+		exposedProjectMgr = NULL;
+	}
 }
 
 void ScriptMgr::init()
@@ -62,6 +69,7 @@ void ScriptMgr::init()
 	exposedComponentMgr = new ExposeComponentManager(coreMgr);
 	exposedSceneMgr = new ExposeSceneMgr(coreMgr);
 	exposedGuiMgr = new ExposeGuiMgr(coreMgr);
+	exposedProjectMgr = new ExposeProjectMgr(coreMgr);
 }
 
 int ScriptMgr::doFile(const CL_String &fileName)

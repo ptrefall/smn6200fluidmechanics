@@ -12,6 +12,7 @@ namespace Engine
 	class ExposeComponentManager;
 	class ExposeSceneMgr;
 	class ExposeGuiMgr;
+	class ExposeProjectMgr;
 
 	class ScriptMgr
 	{
@@ -31,6 +32,7 @@ namespace Engine
 		ExposeComponentManager *getExposedComponentMgr() const { return exposedComponentMgr; }
 		ExposeSceneMgr *getExposedSceneMgr() const { return exposedSceneMgr; }
 		ExposeGuiMgr *getExposedGuiMgr() const { return exposedGuiMgr; }
+		ExposeProjectMgr *getExposedProjectMgr() const { return exposedProjectMgr; }
 
 	private:
 		void Print(LuaPlus::LuaObject text);
@@ -44,5 +46,6 @@ namespace Engine
 		ExposeComponentManager *exposedComponentMgr;
 		ExposeSceneMgr *exposedSceneMgr;
 		ExposeGuiMgr *exposedGuiMgr;
+		ExposeProjectMgr *exposedProjectMgr;
 	};
 }
