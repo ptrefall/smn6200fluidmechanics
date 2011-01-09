@@ -18,7 +18,7 @@ GuiRenderInterface::~GuiRenderInterface()
 // Called by Rocket when it wants to compile geometry it believes will be static for the forseeable future.		
 Rocket::Core::CompiledGeometryHandle GuiRenderInterface::CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rocket::Core::TextureHandle texture)
 {
-	unsigned int handle = vao.size();
+	unsigned int handle = vao.size()+1;
 	unsigned int new_vao, new_ibo, new_vbo;
 
 	std::vector<unsigned int> ind;
@@ -42,6 +42,13 @@ Rocket::Core::CompiledGeometryHandle GuiRenderInterface::CompileGeometry(Rocket:
 
 		texCoords.push_back(vertices[i].tex_coord.x);
 		texCoords.push_back(vertices[i].tex_coord.y);
+		bool hit = false;
+		if(texture == 1 &&
+			((vertices[i].tex_coord.x == 0.0f && vertices[i].tex_coord.y == 0.0f) ||
+			(vertices[i].tex_coord.x == 133.0f/512.0f && vertices[i].tex_coord.y == 140.0f/512.0f)))
+		{
+			hit = true;
+		}
 	}
 
 	glGenVertexArrays(1, &new_vao);
@@ -97,15 +104,15 @@ void GuiRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHa
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	shaders[geometry].enableShader();
+	shaders[geometry-1].enableShader();
 	{
-		bindTexture(geometry);
-		bindUniforms(geometry, translation);
-		glBindVertexArray(vao[geometry]);
-		glDrawElements(GL_TRIANGLES, index_size[geometry], GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		bindTexture(geometry-1);
+		bindUniforms(geometry-1, translation);
+		glBindVertexArray(vao[geometry-1]);
+		glDrawElements(GL_TRIANGLES, index_size[geometry-1], GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 		glBindVertexArray(0);
 		unbindTexture();
-	} shaders[geometry].disableShader();
+	} shaders[geometry-1].disableShader();
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDisable(GL_BLEND);
 }
@@ -113,9 +120,9 @@ void GuiRenderInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHa
 // Called by Rocket when it wants to release application-compiled geometry.		
 void GuiRenderInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry)
 {
-	glDeleteBuffers(1, &ibo[geometry]);
-	glDeleteBuffers(1, &vbo[geometry]);
-	glDeleteVertexArrays(1, &vao[geometry]);
+	glDeleteBuffers(1, &ibo[geometry-1]);
+	glDeleteBuffers(1, &vbo[geometry-1]);
+	glDeleteVertexArrays(1, &vao[geometry-1]);
 }
 
 void GuiRenderInterface::bindUniforms(Rocket::Core::CompiledGeometryHandle geometry, const Rocket::Core::Vector2f& translation)
