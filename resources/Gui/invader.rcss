@@ -73,7 +73,7 @@ div#window
 	padding: 10px 15px;
 
 	background-decorator: tiled-box;
-	background-top-left-image: invader.tga 0px 139px 10px 140px;
+	background-top-left-image: invader.tga 0px 0px 133px 140px;
 	background-top-right-image: invader.tga 136px 0px 146px 140px;
 	background-top-image: invader.tga stretch 134px 0px 135px 140px;
 	background-bottom-left-image: invader.tga 0px 140px 11px 151px;

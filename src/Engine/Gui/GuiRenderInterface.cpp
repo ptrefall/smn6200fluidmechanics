@@ -41,14 +41,7 @@ Rocket::Core::CompiledGeometryHandle GuiRenderInterface::CompileGeometry(Rocket:
 		colors.push_back(vertices[i].colour.alpha/255.0f);
 
 		texCoords.push_back(vertices[i].tex_coord.x);
-		if(texture == 1)
-		{
-			texCoords.push_back(1.0f-vertices[i].tex_coord.y);
-		}
-		else if(texture > 1)
-		{
-			texCoords.push_back(vertices[i].tex_coord.y);
-		}
+		texCoords.push_back(vertices[i].tex_coord.y);
 	}
 
 	glGenVertexArrays(1, &new_vao);
