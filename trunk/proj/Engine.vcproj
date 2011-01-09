@@ -426,6 +426,14 @@
 				Name="Entities"
 				>
 				<File
+					RelativePath="..\src\Engine\Entities\StlMesh.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entities\StlMesh.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\Entities\Volume.cpp"
 					>
 				</File>
