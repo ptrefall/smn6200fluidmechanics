@@ -3,9 +3,9 @@
     <Script>default_scene.lua</Script>
   </Scene>
   <GUI>
-    <Fullscreen>1</Fullscreen>
-    <Width>1920</Width>
-    <Height>1200</Height>
+    <Fullscreen>0</Fullscreen>
+    <Width>1000</Width>
+    <Height>800</Height>
     <Depth>16</Depth>
     <VSync>0</VSync>
     <Debug>0</Debug>

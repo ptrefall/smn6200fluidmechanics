@@ -7,7 +7,7 @@ namespace Engine
 {
 	struct StlHeader
 	{
-		unsigned short head[80];
+		unsigned char head[80];
 		unsigned long int num_tris;
 	};
 
@@ -17,7 +17,7 @@ namespace Engine
 		float vert1[3];
 		float vert2[3];
 		float vert3[3];
-		unsigned int attrib_count;
+		unsigned short attrib_count;
 	};
 
 
@@ -28,7 +28,8 @@ namespace Engine
 		StlMesh(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory);
 		virtual ~StlMesh();
 
-		void load(const CL_String &filename);
+		bool load(const CL_String &filename);
+		void calcBufferData();
 
 		static CL_String GetStaticSpecialType() { return "StlMesh"; }
 		static IEntity* Create(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory) { return new StlMesh(id, type, name, coreMgr, factory); }
@@ -44,17 +45,17 @@ namespace Engine
 		void updateMatrix(float dt);
 
 		StlHeader stl_header;
-		std::vector<StlTri> stl_tris;
+		StlTri *stl_tris;
 
 		unsigned int vao, ibo, vbo;
 		std::vector<unsigned int> indices;
 		std::vector<float> vertices;
 		std::vector<float> normals;
-		std::vector<float> texCoords;
 		ShaderObj shader;
 		bool solid;
 		float size;
 		bool shouldUpdate;
+		bool loaded;
 
 		CL_Quaternionf qPitch;
 		CL_Quaternionf qHeading;
@@ -77,5 +78,9 @@ namespace Engine
 		Property<float> yawRate;
 		CL_Slot slotYawChanged;
 		void OnYawChanged(const float &oldValue, const float &newValue);
+
+		Property<CL_String> mesh;
+		CL_Slot slotMeshChanged;
+		void OnMeshChanged(const CL_String &oldValue, const CL_String &newValue);
 	};
 }

@@ -6,7 +6,7 @@
 
 //Specials
 #include <Entities/Volume.h>
-//#include <Entities/Bezier.h>
+#include <Entities/StlMesh.h>
 //#include <Entities/ERBS.h>
 
 namespace Engine
@@ -18,7 +18,7 @@ namespace Engine
 		{
 			//Register special C++ entity types
 			factory->RegisterSpecial(Volume::GetStaticSpecialType(), &Volume::Create);
-			//factory->RegisterSpecial(Bezier::GetStaticSpecialType(), &Bezier::Create);
+			factory->RegisterSpecial(StlMesh::GetStaticSpecialType(), &StlMesh::Create);
 			//factory->RegisterSpecial(ERBS::GetStaticSpecialType(), &ERBS::Create);
 
 			//Register XML defined entities

@@ -13,7 +13,7 @@
 using namespace Engine;
 
 StlMesh::StlMesh(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory)
-: IEntity(id, type, name, coreMgr, factory), solid(true), size(4.0f), shouldUpdate(false)
+: IEntity(id, type, name, coreMgr, factory), solid(true), size(4.0f), shouldUpdate(false), loaded(false)
 {
 	pos = this->AddProperty<CL_Vec3f>("Position", CL_Vec3f(0,0,0));
 	rot = this->AddProperty<CL_Mat3f>("RotationMatrix", CL_Mat3f::identity());
@@ -23,15 +23,79 @@ StlMesh::StlMesh(unsigned int id, const CL_String &type, const CL_String &name, 
 	
 	yaw = this->AddProperty<float>("Yaw", 0.0f);
 	yawRate = this->AddProperty<float>("YawRate", 1.0f);
+
+	mesh = this->AddProperty<CL_String>("Mesh", CL_String());
 	
 	slotPitchChanged = pitch.ValueChanged().connect(this, &StlMesh::OnPitchChanged);
 	slotYawChanged = yaw.ValueChanged().connect(this, &StlMesh::OnYawChanged);
+	slotMeshChanged = mesh.ValueChanged().connect(this, &StlMesh::OnMeshChanged);
 
 	upDirection = CL_Vec3f(0.0f, 1.0f, 0.0f);
+}
 
-	initIndices();
-	initVertices();
+StlMesh::~StlMesh()
+{
+	glDeleteBuffers(1, &ibo);
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+}
 
+bool StlMesh::load(const CL_String &filename)
+{
+	if(loaded)
+		return false;
+
+	CL_String path = cl_format("%1Mesh/%2.stl", coreMgr->getResMgr()->getRootPath(), filename);
+
+	//Open file
+	std::ifstream fin(path.c_str(), std::ios::binary);
+	if(fin.bad())
+	{
+		fin.close();
+		CL_Console::write_line(cl_format("Could not open stl mesh file %1", path));
+		return false;
+	}
+
+	//Header
+	fin.read((char*)&stl_header.head, sizeof(unsigned char)*80);
+	fin.read((char*)&stl_header.num_tris, sizeof(unsigned long int));
+
+	//Triangles
+	stl_tris = new StlTri[stl_header.num_tris];
+	for(unsigned long int i = 0; i < stl_header.num_tris; i++)
+	{
+		fin.read((char*)&stl_tris[i], sizeof(float)*12+sizeof(unsigned short));
+	}
+
+	//Close file
+	fin.close();
+
+	calcBufferData();
+
+	delete[] stl_tris;
+
+	return true;
+}
+
+void StlMesh::calcBufferData()
+{
+	unsigned int index_count = 0;
+
+	for(unsigned long int i = 0; i < stl_header.num_tris; i++)
+	{
+		indices.push_back(index_count++); indices.push_back(index_count++); indices.push_back(index_count++);
+
+		StlTri &tri = stl_tris[i];
+		vertices.push_back(tri.vert1[0]*50.0f); vertices.push_back(tri.vert1[1]*50.0f); vertices.push_back(tri.vert1[2]*50.0f);
+		vertices.push_back(tri.vert2[0]*50.0f); vertices.push_back(tri.vert2[1]*50.0f); vertices.push_back(tri.vert2[2]*50.0f);
+		vertices.push_back(tri.vert3[0]*50.0f); vertices.push_back(tri.vert3[1]*50.0f); vertices.push_back(tri.vert3[2]*50.0f);
+
+		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[1]); normals.push_back(tri.norm[2]);
+		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[1]); normals.push_back(tri.norm[2]);
+		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[1]); normals.push_back(tri.norm[2]);
+	}
+
+	
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
@@ -41,40 +105,25 @@ StlMesh::StlMesh(unsigned int id, const CL_String &type, const CL_String &name, 
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*(vertices.size()+normals.size()), NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*vertices.size(), &vertices[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), sizeof(float)*normals.size(), &normals[0]);
 
-	shader.setShader("resources/Shaders/minimal");
+	shader.setShader("resources/Shaders/stl");
 	shader.initShader();
 	Engine::shaderAttrib(shader.getShaderProg(), "vVertex", 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	Engine::shaderAttrib(shader.getShaderProg(), "vNormal", 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(float)*vertices.size()));
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-StlMesh::~StlMesh()
-{
-}
-
-void StlMesh::load(const CL_String &filename)
-{
-	CL_String path = cl_format("%Mesh/%2.stl", coreMgr->getResMgr()->getRootPath(), filename);
-
-	std::ifstream fin(path.c_str(), std::ios::binary);
-	if(fin.bad())
-	{
-		fin.close();
-		CL_Console::write_line(cl_format("Could not open stl mesh file %1", path));
-		return;
-	}
-
-	//fin.read((char*)&name_size, sizeof(CL_String::size_type));
-	fin.close();
-}
-
 void StlMesh::Update(float dt)
 {
+	if(!loaded)
+		return;
+
 	if(shouldUpdate)
 	{
 		updateMatrix(dt);
@@ -84,6 +133,9 @@ void StlMesh::Update(float dt)
 
 void StlMesh::Render()
 {
+	if(!loaded)
+		return;
+
 	shader.enableShader();
 	{
 		bindUniforms();
@@ -112,6 +164,30 @@ void StlMesh::bindUniforms()
 	
 	CL_Mat4f mvMat = modelMat * viewMat;
 
+	CL_Mat4f normMat = CL_Mat4f::identity();
+	normMat[0] = mvMat[0];
+	normMat[1] = mvMat[1];
+	normMat[2] = mvMat[2];
+	normMat[3] = 0.0f;
+
+	normMat[4] = mvMat[4];
+	normMat[5] = mvMat[5];
+	normMat[6] = mvMat[6];
+	normMat[7] = 0.0f;
+
+	normMat[8] = mvMat[8];
+	normMat[9] = mvMat[9];
+	normMat[10] = mvMat[10];
+	normMat[11] = 0.0f;
+
+	normMat[12] = 0.0f;
+	normMat[13] = 0.0f;
+	normMat[14] = 0.0f;
+	normMat[15] = 0.0f;
+
+	normMat.inverse();
+	normMat.transpose();
+
 	int loc = glGetUniformLocation(shader.getShaderProg(), "projMat");
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
@@ -121,66 +197,11 @@ void StlMesh::bindUniforms()
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &mvMat[0]);
-}
 
-void StlMesh::initIndices()
-{
-	indices.push_back(0); indices.push_back(1); indices.push_back(2);
-	indices.push_back(2); indices.push_back(3); indices.push_back(0);
-
-	indices.push_back(4); indices.push_back(5); indices.push_back(6);
-	indices.push_back(6); indices.push_back(7); indices.push_back(4);
-
-	indices.push_back(8); indices.push_back(9); indices.push_back(10);
-	indices.push_back(10); indices.push_back(11); indices.push_back(8);
-
-	indices.push_back(12); indices.push_back(13); indices.push_back(14);
-	indices.push_back(14); indices.push_back(15); indices.push_back(12);
-
-	indices.push_back(16); indices.push_back(17); indices.push_back(18);
-	indices.push_back(18); indices.push_back(19); indices.push_back(16);
-
-	indices.push_back(20); indices.push_back(21); indices.push_back(22);
-	indices.push_back(22); indices.push_back(23); indices.push_back(20);
-}
-
-void StlMesh::initVertices()
-{
-	//TOP
-	vertices.push_back(-size); vertices.push_back(-size); vertices.push_back(size);
-	vertices.push_back(size); vertices.push_back(-size); vertices.push_back(size);
-	vertices.push_back(size); vertices.push_back(-size); vertices.push_back(-size);
-	vertices.push_back(-size); vertices.push_back(-size); vertices.push_back(-size);
-
-	//BOTTOM
-	vertices.push_back(-size); vertices.push_back(size); vertices.push_back(-size);
-	vertices.push_back(size); vertices.push_back(size); vertices.push_back(-size);
-	vertices.push_back(size); vertices.push_back(size); vertices.push_back(size);
-	vertices.push_back(-size); vertices.push_back(size); vertices.push_back(size);
-
-	//FRONT
-	vertices.push_back(-size); vertices.push_back(-size); vertices.push_back(-size);
-	vertices.push_back(size); vertices.push_back(-size); vertices.push_back(-size);
-	vertices.push_back(size); vertices.push_back(size); vertices.push_back(-size);
-	vertices.push_back(-size); vertices.push_back(size); vertices.push_back(-size);
-
-	//BACK
-	vertices.push_back(-size); vertices.push_back(-size); vertices.push_back(size);
-	vertices.push_back(size); vertices.push_back(-size); vertices.push_back(size);
-	vertices.push_back(size); vertices.push_back(-size); vertices.push_back(size);
-	vertices.push_back(-size); vertices.push_back(-size); vertices.push_back(size);
-
-	//LEFT
-	vertices.push_back(size); vertices.push_back(-size); vertices.push_back(-size);
-	vertices.push_back(size); vertices.push_back(-size); vertices.push_back(size);
-	vertices.push_back(size); vertices.push_back(size); vertices.push_back(size);
-	vertices.push_back(size); vertices.push_back(size); vertices.push_back(-size);
-
-	//RIGHT
-	vertices.push_back(-size); vertices.push_back(-size); vertices.push_back(size);
-	vertices.push_back(-size); vertices.push_back(-size); vertices.push_back(-size);
-	vertices.push_back(-size); vertices.push_back(size); vertices.push_back(-size);
-	vertices.push_back(-size); vertices.push_back(size); vertices.push_back(size);
+	loc = glGetUniformLocation(shader.getShaderProg(), "normMat");
+	if(loc < 0)
+		throw CL_Exception("LOC was -1");
+	glUniformMatrix4fv(loc, 1, GL_FALSE, &normMat[0]);
 }
 
 void StlMesh::updateMatrix(float dt)
@@ -211,4 +232,12 @@ void StlMesh::OnPitchChanged(const float &oldValue, const float &newValue)
 void StlMesh::OnYawChanged(const float &oldValue, const float &newValue)
 {
 	shouldUpdate = true;
+}
+
+void StlMesh::OnMeshChanged(const CL_String &oldValue, const CL_String &newValue)
+{
+	if(!load(newValue))
+		throw CL_Exception(cl_format("Failed to load STL mesh %1", newValue));
+
+	loaded = true;
 }

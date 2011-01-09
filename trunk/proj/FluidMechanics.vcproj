@@ -239,6 +239,10 @@
 						RelativePath="..\resources\XML\Entities\Empty.xml"
 						>
 					</File>
+					<File
+						RelativePath="..\resources\XML\Entities\StlMesh.xml"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -266,6 +270,14 @@
 				</File>
 				<File
 					RelativePath="..\resources\Shaders\minimal.vs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\stl.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\stl.vs"
 					>
 				</File>
 			</Filter>
