@@ -1,0 +1,12 @@
+<Entity>
+  <Type>StlMesh</Type>
+  <Special>StlMesh</Special>
+	<Components>
+	</Components>
+	<Properties>
+    <Property>
+      <Name>Position</Name>
+      <Value>0,0,-100</Value>
+    </Property>
+	</Properties>
+</Entity>

@@ -6,7 +6,7 @@ using namespace Engine;
 Cam::Cam(const int &width, const int &height)
 {
 	viewMatrix = CL_Mat4f::identity();
-	perspective(40.0f, (float)width/(float)height, 1.0f, 1000.0f);
+	perspective(40.0f, (float)width/(float)height, 1.0f, 10000.0f);
 
 	forwardSpeed = 5.0f;
 	sidewaysSpeed = 3.0f;

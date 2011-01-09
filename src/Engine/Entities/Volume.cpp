@@ -50,6 +50,9 @@ Volume::Volume(unsigned int id, const CL_String &type, const CL_String &name, Co
 
 Volume::~Volume()
 {
+	glDeleteBuffers(1, &ibo);
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
 }
 
 void Volume::Update(float dt)
