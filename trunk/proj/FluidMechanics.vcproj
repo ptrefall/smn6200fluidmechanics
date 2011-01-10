@@ -95,7 +95,7 @@
 			IntermediateDirectory="$(SolutionDir)/inter/$(ProjectName)/$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -114,12 +114,15 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				EnableIntrinsicFunctions="true"
+				Optimization="0"
+				EnableIntrinsicFunctions="false"
+				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="../depends/"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
 				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
+				EnableFunctionLevelLinking="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -135,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				LinkIncremental="1"
+				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -221,6 +224,10 @@
 					</File>
 					<File
 						RelativePath="..\resources\Scripts\Gui\StartupWindow.lua"
+						>
+					</File>
+					<File
+						RelativePath="..\resources\Scripts\Gui\TransformWindow.lua"
 						>
 					</File>
 				</Filter>
@@ -342,6 +349,10 @@
 				</File>
 				<File
 					RelativePath="..\resources\Gui\startup.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\transform_menu.rml"
 					>
 				</File>
 				<File

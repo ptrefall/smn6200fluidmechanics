@@ -1,0 +1,73 @@
+<rml>
+	<head>
+		<title>Transform Menu</title>
+		<link type="text/template" href="window.rml" />
+		<style>
+			body
+			{
+				width: 300px;
+				height: 68px;
+				
+				margin: 1px;
+        left: 2px;
+        top: 10px;
+			}
+      
+      div#icon
+      {
+        display: none;
+      }
+			
+			div#content
+			{
+				text-align: left;
+			}
+      
+      body.window
+      {	
+	      min-width: 350px;
+	      min-height: 168px;
+      }
+		</style>
+	</head>
+	<body template="window">
+    <div id="title_bar">
+      <handle move_target="#document">
+        <div id="icon"></div>
+        <span id="title">Transform Menu</span>
+      </handle>
+    </div>
+    <div id="window">
+      <div id="content">
+        <div style="margin: auto auto auto auto; text-align: center;">
+          <button style="width: 68px; height: 74px;" onclick="TransformWindow:OnZoomInClicked">
+            <img src="zoom_in.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="TransformWindow:OnZoomOutClicked">
+            <img src="zoom_out.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="TransformWindow:OnMoveUpClicked">
+            <img src="move_n.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="TransformWindow:OnMoveDownClicked">
+            <img src="move_s.tga" />
+          </button>
+          <br />
+          <button style="width: 68px; height: 74px;" onclick="TransformWindow:OnRotateXPosClicked">
+            <img src="rotate_x_pos.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="TransformWindow:OnRotateXNegClicked">
+            <img src="rotate_x_neg.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="TransformWindow:OnRotateYPosClicked">
+            <img src="rotate_y_pos.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="TransformWindow:OnRotateYNegClicked">
+            <img src="rotate_y_neg.tga" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <handle size_target="#document" style="position: absolute; width: 16px; height: 16px; bottom: 0px; right: 0px;"></handle>
+  </body>
+</rml>

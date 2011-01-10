@@ -18,6 +18,7 @@ function LoadProjWindow:OnLoadClicked(event)
 				CreateGuiDocument(event.arg1.name, "main")
 				CreateGuiDocument(event.arg1.name, "file_menu")
 				CreateGuiDocument(event.arg1.name, "content_menu")
+				CreateGuiDocument(event.arg1.name, "transform_menu")
 			end
 		else
 			Print("Failed to load project file!")

@@ -17,8 +17,8 @@ std::map<CL_String, EntityFactory::SpecialCreator>* EntityFactory::special_creat
 
 void EntityFactory::PreConstruct()
 {
-	EntityFactory::creators = 0;
-	EntityFactory::special_creators = 0;
+	EntityFactory::creators = new std::map<CL_String, CL_String>();
+	EntityFactory::special_creators = new std::map<CL_String, SpecialCreator>();
 }
 
 EntityFactory::EntityFactory(CoreMgr *coreMgr)

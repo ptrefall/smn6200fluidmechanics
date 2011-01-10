@@ -5,6 +5,7 @@
 #include <Core/CoreMgr.h>
 #include <Gui/GuiMgr.h>
 #include <Resource/ResMgr.h>
+#include <Core/Cam.h>
 
 #include <Event/IEventManager.h>
 #include "ScriptMgr.h"
@@ -28,6 +29,12 @@ void ExposeGuiMgr::init()
 	LuaObject globals = (*coreMgr->getScriptMgr()->GetGlobalState())->GetGlobals();
 	globals.RegisterDirect("CreateGuiContext", *this, &ExposeGuiMgr::CreateGuiContext);
 	globals.RegisterDirect("CreateGuiDocument", *this, &ExposeGuiMgr::CreateGuiDocument);
+	globals.RegisterDirect("ZoomInCamera", *this, &ExposeGuiMgr::ZoomInCamera);
+	globals.RegisterDirect("ZoomOutCamera", *this, &ExposeGuiMgr::ZoomOutCamera);
+	globals.RegisterDirect("MoveUpCamera", *this, &ExposeGuiMgr::MoveUpCamera);
+	globals.RegisterDirect("MoveDownCamera", *this, &ExposeGuiMgr::MoveDownCamera);
+	globals.RegisterDirect("PitchCamera", *this, &ExposeGuiMgr::PitchCamera);
+	globals.RegisterDirect("YawCamera", *this, &ExposeGuiMgr::YawCamera);
 	lContexts = globals.CreateTable("GuiContexts");
 	lDocuments = globals.CreateTable("GuiDocuments");
 
@@ -151,6 +158,87 @@ LuaObject ExposeGuiMgr::CreateGuiDocument(LuaPlus::LuaObject lContextName, LuaPl
 		return LuaObject(coreMgr->getScriptMgr()->GetGlobalState()->Get());
 }
 
+void ExposeGuiMgr::ZoomInCamera(LuaObject lValue)
+{
+	if(!lValue.IsNumber())
+	{
+		CL_String msg = cl_format("Failed to zoom camera, because the type of value was %1 when expecting number", lValue.TypeName());
+		throw CL_Exception(msg);
+	}
+
+	coreMgr->getCam()->moveForward(lValue.GetFloat());
+}
+
+void ExposeGuiMgr::ZoomOutCamera(LuaObject lValue)
+{
+	if(!lValue.IsNumber())
+	{
+		CL_String msg = cl_format("Failed to zoom camera, because the type of value was %1 when expecting number", lValue.TypeName());
+		throw CL_Exception(msg);
+	}
+
+	coreMgr->getCam()->moveBackward(lValue.GetFloat());
+}
+
+void ExposeGuiMgr::MoveUpCamera(LuaObject lValue)
+{
+	if(!lValue.IsNumber())
+	{
+		CL_String msg = cl_format("Failed to move camera, because the type of value was %1 when expecting number", lValue.TypeName());
+		throw CL_Exception(msg);
+	}
+
+	coreMgr->getCam()->moveUp(lValue.GetFloat());
+}
+
+void ExposeGuiMgr::MoveDownCamera(LuaObject lValue)
+{
+	if(!lValue.IsNumber())
+	{
+		CL_String msg = cl_format("Failed to move camera, because the type of value was %1 when expecting number", lValue.TypeName());
+		throw CL_Exception(msg);
+	}
+
+	coreMgr->getCam()->moveDown(lValue.GetFloat());
+}
+
+void ExposeGuiMgr::PitchCamera(LuaObject lValue)
+{
+	if(!lValue.IsNumber())
+	{
+		CL_String msg = cl_format("Failed to pitch camera, because the type of value was %1 when expecting number", lValue.TypeName());
+		throw CL_Exception(msg);
+	}
+
+	float val = lValue.GetFloat();
+	if(val > 0.0f)
+	{
+		coreMgr->getCam()->pitchUp(val);
+	}
+	else
+	{
+		coreMgr->getCam()->pitchDown(-1.0f*val);
+	}
+}
+
+void ExposeGuiMgr::YawCamera(LuaObject lValue)
+{
+	if(!lValue.IsNumber())
+	{
+		CL_String msg = cl_format("Failed to yaw camera, because the type of value was %1 when expecting number", lValue.TypeName());
+		throw CL_Exception(msg);
+	}
+
+	float val = lValue.GetFloat();
+	if(val > 0.0f)
+	{
+		coreMgr->getCam()->yawRight(val);
+	}
+	else
+	{
+		coreMgr->getCam()->yawLeft(-1.0f*val);
+	}
+}
 
 void ExposeGuiMgr::OnContextCreated(const Events::Event &event)
 {
