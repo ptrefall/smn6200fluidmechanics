@@ -103,6 +103,14 @@ void ProjectMgr::selectEntity(IEntity *entity)
 	project->selectEntity(entity);
 }
 
+IEntity *ProjectMgr::getSelectedEntity()
+{
+	if(project == NULL)
+		return NULL;
+
+	return project->getSelectedEntity();
+}
+
 void ProjectMgr::save()
 {
 	if(project == NULL)

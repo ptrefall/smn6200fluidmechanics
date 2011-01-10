@@ -225,6 +225,11 @@ void StlMesh::bindUniforms()
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
 	glUniform1i(loc, 0);
+
+	loc = glGetUniformLocation(shader.getShaderProg(), "fAlpha");
+	if(loc < 0)
+		throw CL_Exception("LOC was -1");
+	glUniform1f(loc, alpha.Get());
 }
 
 void StlMesh::bindTexture()

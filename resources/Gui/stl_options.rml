@@ -30,7 +30,7 @@
       body.window
       {	
 	      min-width: 280px;
-	      min-height: 130px;
+	      min-height: 230px;
       }
 		</style>
 	</head>
@@ -43,13 +43,25 @@
     </div>
     <div id="window">
       <div id="content">
-        <form onsubmit="STLOptionsWindow:OnCloseClicked; close">
+        <form onsubmit="STLOptionsWindow:OnSubmitClicked; close">
           <div>
             <p>
-              Alpha: <input id="alpha_value" type="range" name="alpha_value" step="1" min="0" max="100" value="90" orientation="horizontal" onresize="STLOptionsWindow:OnResize"/>
+              Alpha Value:
+              <select name="alphaselect" onclick="STLOptionsWindow:OnAlphaClicked">
+                <option name="opaque" value="opaque">Opaque</option>
+                <option name="transparent" value="transparent">Transparent</option>
+                <option name="hide" value="hide">Hide</option>
+              </select>
+            </p>
+            <p>
+              Add Component:
+              <input id="add_comp" type="text" name="add_comp" value="" />
             </p>
           </div>
-          <input style="width: 40px; height: 40px;" type="submit" value="cancel">
+          <input style="width: 40px; height: 40px;" type="submit" value="ok">
+            <img src="btn_ok2.tga" />
+          </input>
+          <input style="width: 40px; height: 40px;" type="submit" value="close">
             <img src="btn_no2.tga" />
           </input>
         </form>

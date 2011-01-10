@@ -19,6 +19,7 @@ namespace Engine
 		bool loadProject(const CL_String &filename);
 		bool addEntity(IEntity *entity);
 		void selectEntity(IEntity *entity);
+		IEntity *getSelectedEntity();
 
 		void save();
 		Project *getProject() const { return project; }

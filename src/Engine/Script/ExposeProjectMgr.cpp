@@ -28,6 +28,7 @@ void ExposeProjectMgr::init()
 	globals.RegisterDirect("LoadProject", *this, &ExposeProjectMgr::LoadProject);
 	globals.RegisterDirect("AddEntity", *this, &ExposeProjectMgr::AddEntity);
 	globals.RegisterDirect("SelectEntity", *this, &ExposeProjectMgr::SelectEntity);
+	globals.RegisterDirect("GetSelectedEntity", *this, &ExposeProjectMgr::GetSelectedEntity);
 	globals.RegisterDirect("SaveProject", *this, &ExposeProjectMgr::SaveProject);
 }
 
@@ -88,6 +89,13 @@ void ExposeProjectMgr::SelectEntity(LuaPlus::LuaObject lEntity)
 	unsigned int id = lEntity.GetByName("id").ToInteger();
 	IEntity *entity = coreMgr->getScriptMgr()->getExposedEntityMgr()->getExposedEntity(id)->getEntity();
 	coreMgr->getProjectMgr()->selectEntity(entity);
+}
+
+LuaPlus::LuaObject ExposeProjectMgr::GetSelectedEntity()
+{
+	IEntity *entity = coreMgr->getProjectMgr()->getSelectedEntity();
+	LuaObject lEntity = coreMgr->getScriptMgr()->getExposedEntityMgr()->getLEntity(entity->getId());
+	return lEntity;
 }
 
 void ExposeProjectMgr::SaveProject()
