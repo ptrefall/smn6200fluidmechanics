@@ -3,6 +3,7 @@
 
 //uniform vec4 pickingId;
 uniform samplerCube fCube;
+uniform float fAlpha;
 
 in vec3 fNormal;
 in vec3 fViewDir;
@@ -33,6 +34,6 @@ void main(void)
 	float gloss = 0.6;
 	
 	out_Color0 = (ambient + diffuse + (gloss * specular))*0.5 + (texel*0.7);
-	out_Color0.a = 1.0;
+	out_Color0.a = fAlpha;
 	//out_Color1 = pickingId;
 }

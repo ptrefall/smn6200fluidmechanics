@@ -19,6 +19,7 @@ private:
 	LuaPlus::LuaObject LoadProject(LuaPlus::LuaObject lFilename);
 	LuaPlus::LuaObject AddEntity(LuaPlus::LuaObject lEntity);
 	void SelectEntity(LuaPlus::LuaObject lEntity);
+	LuaPlus::LuaObject GetSelectedEntity();
 
 	void SaveProject();
 

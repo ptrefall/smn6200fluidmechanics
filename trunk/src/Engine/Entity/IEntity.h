@@ -41,6 +41,8 @@ public:
 		this->type = type;
 		this->name = name;
 		this->coreMgr = coreMgr;
+
+		alpha = this->AddProperty<float>("Alpha", 1.0f);
 	}
 
 	virtual ~IEntity();
@@ -58,5 +60,7 @@ protected:
 	CL_String type;
 	CL_String name;
 	CoreMgr *coreMgr;
+
+	Property<float> alpha;
 };
 }

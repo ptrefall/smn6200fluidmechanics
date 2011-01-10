@@ -14,6 +14,7 @@ function Scene:Init()
 	
 	local startup_gui = CreateGuiDocument("Main", "startup")
 	--local transf_gui = CreateGuiDocument("Main", "transform_menu")
+	--local stl_options = CreateGuiDocument("Main", "stl_options")
 end
 
 Scene:Init()
