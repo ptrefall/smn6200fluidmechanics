@@ -34,7 +34,10 @@
     <div id="window">
       <div id="content">
         <div style="margin: auto auto auto auto; text-align: center;">
-
+          <datagrid source="project_table.entities">
+            <col fields="name,name_required" width="60%">Entity:</col>
+            <col fields="type" width="40%">Type:</col>
+          </datagrid>
         </div>
       </div>
     </div>

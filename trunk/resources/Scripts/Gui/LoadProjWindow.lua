@@ -15,7 +15,7 @@ function LoadProjWindow:OnLoadClicked(event)
 		if(proj_name ~= nil) then
 			local success = LoadProject(proj_name)
 			if(success == true) then
-				CreateGuiDocument(event.arg1.name, "main")
+				CreateGuiDocument(event.arg1.name, "project_menu")
 				CreateGuiDocument(event.arg1.name, "file_menu")
 				CreateGuiDocument(event.arg1.name, "content_menu")
 				CreateGuiDocument(event.arg1.name, "transform_menu")

@@ -328,10 +328,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\resources\Gui\main.rml"
-					>
-				</File>
-				<File
 					RelativePath="..\resources\Gui\new_proj.rml"
 					>
 				</File>
@@ -341,6 +337,10 @@
 				</File>
 				<File
 					RelativePath="..\resources\Gui\open_stl.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\project_menu.rml"
 					>
 				</File>
 				<File

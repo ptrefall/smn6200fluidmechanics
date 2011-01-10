@@ -1,8 +1,12 @@
 #include "precomp.h"
 #include "ExposeProjectMgr.h"
+#include "ExposeEntityManager.h"
+#include "ExposeIEntity.h"
 #include "ScriptMgr.h"
 #include <Core/CoreMgr.h>
 #include <Project/ProjectMgr.h>
+#include <Entity/IEntity.h>
+
 
 using namespace Engine;
 using namespace LuaPlus;
@@ -22,6 +26,8 @@ void ExposeProjectMgr::init()
 	LuaObject globals = (*coreMgr->getScriptMgr()->GetGlobalState())->GetGlobals();
 	globals.RegisterDirect("CreateProject", *this, &ExposeProjectMgr::CreateProject);
 	globals.RegisterDirect("LoadProject", *this, &ExposeProjectMgr::LoadProject);
+	globals.RegisterDirect("AddEntity", *this, &ExposeProjectMgr::AddEntity);
+	globals.RegisterDirect("SaveProject", *this, &ExposeProjectMgr::SaveProject);
 }
 
 LuaObject ExposeProjectMgr::CreateProject(LuaObject lFilename)
@@ -52,4 +58,25 @@ LuaObject ExposeProjectMgr::LoadProject(LuaObject lFilename)
 	LuaObject lSuccess;
 	lSuccess.AssignBoolean(coreMgr->getScriptMgr()->GetGlobalState()->Get(), success);
 	return lSuccess;
+}
+
+LuaObject ExposeProjectMgr::AddEntity(LuaObject lEntity)
+{
+	if(!lEntity.IsTable())
+	{
+		CL_String err = cl_format("Failed to add entity to project, because the type of entity was %1 when expecting Table!", lEntity.TypeName());
+		throw CL_Exception(err);
+	}
+
+	unsigned int id = lEntity.GetByName("id").ToInteger();
+	IEntity *entity = coreMgr->getScriptMgr()->getExposedEntityMgr()->getExposedEntity(id)->getEntity();
+	bool success = coreMgr->getProjectMgr()->addEntity(entity);
+	LuaObject lSuccess;
+	lSuccess.AssignBoolean(coreMgr->getScriptMgr()->GetGlobalState()->Get(), success);
+	return lSuccess;
+}
+
+void ExposeProjectMgr::SaveProject()
+{
+	coreMgr->getProjectMgr()->save();
 }

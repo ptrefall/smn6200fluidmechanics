@@ -2,6 +2,7 @@
 #include "ProjectMgr.h"
 #include "Project.h"
 
+#include <Gui/GuiProjectTable.h>
 #include <Core/CoreMgr.h>
 #include <Resource/ResMgr.h>
 
@@ -12,7 +13,7 @@
 using namespace Engine;
 
 ProjectMgr::ProjectMgr(CoreMgr *coreMgr)
-: coreMgr(coreMgr), project(NULL)
+: coreMgr(coreMgr), project(NULL), table(NULL)
 {
 }
 
@@ -47,6 +48,8 @@ bool ProjectMgr::createProject(const CL_String &filename)
 	fout.write((char*)name.data(), name_size);
 	fout.close();
 
+	table = new GuiProjectTable();
+
 	return true;
 }
 
@@ -73,5 +76,26 @@ bool ProjectMgr::loadProject(const CL_String &filename)
 	project = new Project(coreMgr, name);
 	
 	fin.close();
+
+	table = new GuiProjectTable();
+
 	return true;
+}
+
+bool ProjectMgr::addEntity(IEntity *entity)
+{
+	if(project == NULL)
+		return false;
+
+	project->addEntity(entity);
+	table->addEntity(entity);
+	return true;
+}
+
+void ProjectMgr::save()
+{
+	if(project == NULL)
+		throw CL_Exception("No project to save!");
+
+	project->save();
 }

@@ -28,7 +28,7 @@ function ContentWindow:OnFileOpenSTLClicked(event)
 			local mesh = CreateEntity("StlMesh", stl_name)
 			if(mesh ~= nil) then
 				mesh:SetMesh(mesh.name)
-				
+				AddEntity(mesh)
 			end
 		else
 			Print("Failed to open stl mesh file!")
