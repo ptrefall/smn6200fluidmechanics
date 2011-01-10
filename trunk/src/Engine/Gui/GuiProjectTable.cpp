@@ -23,13 +23,9 @@ void GuiProjectTable::GetRow(Rocket::Core::StringList& row, const Rocket::Core::
 			{
 				row.push_back(entities[row_index].name);
 			}
-			else if (columns[i] == "name_required")
+			else if (columns[i] == "id")
 			{
-				row.push_back(Rocket::Core::String(4, "%d", entities[row_index].name_required));
-			}
-			else if (columns[i] == "type")
-			{
-				row.push_back(entities[row_index].type);
+				row.push_back(Rocket::Core::String(32, "%d", entities[row_index].id));
 			}
 		}
 	}
@@ -46,9 +42,8 @@ int GuiProjectTable::GetNumRows(const Rocket::Core::String& table)
 void GuiProjectTable::addEntity(IEntity *entity)
 {
 	EntityStruct sEntity;
-	sEntity.name_required = true;
 	sEntity.name = entity->getName().c_str();
-	sEntity.type = entity->getType().c_str();
+	sEntity.id = entity->getId();
 	entities.push_back(sEntity);
 	
 	NotifyRowAdd("entities", entities.size()-1, 1);

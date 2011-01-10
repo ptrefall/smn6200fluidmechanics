@@ -69,7 +69,10 @@ void GuiEventManager::ProcessEvent(Rocket::Core::Event& event, const Rocket::Cor
 			Events::Event evt(event.GetType().CString(), /*arg0,*/ arg1, arg2);
 			ExposeEvent exposedEvent(coreMgr, &evt);
 			ExposeGuiEventParams exposedParams(coreMgr, exposedEvent, event);
-			coreMgr->getScriptMgr()->doString(cl_format("%1(Events['%2'])", commands[i].CString(), event.GetType().CString()));
+			if(commands[i].Find("(") != Rocket::Core::String::npos)
+				coreMgr->getScriptMgr()->doString(cl_format("%1Events['%2'])", commands[i].CString(), event.GetType().CString()));
+			else
+				coreMgr->getScriptMgr()->doString(cl_format("%1(Events['%2'])", commands[i].CString(), event.GetType().CString()));
 			
 		}
 	}

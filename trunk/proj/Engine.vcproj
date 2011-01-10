@@ -226,6 +226,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\Engine\Gui\GuiProjectTableEditFormatter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiProjectTableEditFormatter.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\Gui\GuiRenderInterface.cpp"
 					>
 				</File>

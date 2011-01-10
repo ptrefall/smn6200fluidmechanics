@@ -3,6 +3,7 @@
 #include "Project.h"
 
 #include <Gui/GuiProjectTable.h>
+#include <Gui/GuiProjectTableEditFormatter.h>
 #include <Core/CoreMgr.h>
 #include <Resource/ResMgr.h>
 
@@ -13,7 +14,7 @@
 using namespace Engine;
 
 ProjectMgr::ProjectMgr(CoreMgr *coreMgr)
-: coreMgr(coreMgr), project(NULL), table(NULL)
+: coreMgr(coreMgr), project(NULL), table(NULL), table_edit_formatter(NULL)
 {
 }
 
@@ -49,6 +50,7 @@ bool ProjectMgr::createProject(const CL_String &filename)
 	fout.close();
 
 	table = new GuiProjectTable();
+	table_edit_formatter = new GuiProjectTableEditFormatter();
 
 	return true;
 }
@@ -78,6 +80,7 @@ bool ProjectMgr::loadProject(const CL_String &filename)
 	fin.close();
 
 	table = new GuiProjectTable();
+	table_edit_formatter = new GuiProjectTableEditFormatter();
 
 	return true;
 }
