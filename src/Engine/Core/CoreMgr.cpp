@@ -116,9 +116,6 @@ void CoreMgr::init(const CL_String &base_path)
 	guiMgr = new GuiMgr(this, (fullscreen > 0), w, h, d, vsync, (gui_debug > 0));
 	//guiMgr->addDocument("Main", cl_format("%1Gui/startup.rml", resMgr->getRootPath()));
 
-	CL_String scene_script = cfg->getString("Config/Scene/Script");
-	Scene::init_scene(this, scene_script);
-
 	g_width = w;
 	g_height = h;
 	g_resize = false;
@@ -131,6 +128,10 @@ void CoreMgr::run()
 {
 	//Input::Initialise(this);
 	timer->start();
+
+	IResource *cfg = resMgr->create("config.xml", "XML");
+	CL_String scene_script = cfg->getString("Config/Scene/Script");
+	Scene::init_scene(this, scene_script);
 
 	//Some random opengl init stuff
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);

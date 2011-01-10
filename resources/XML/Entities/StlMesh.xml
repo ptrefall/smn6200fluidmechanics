@@ -2,7 +2,6 @@
   <Type>StlMesh</Type>
   <Special>StlMesh</Special>
 	<Components>
-    <Component>SpinEffect</Component>
 	</Components>
 	<Properties>
     <Property>

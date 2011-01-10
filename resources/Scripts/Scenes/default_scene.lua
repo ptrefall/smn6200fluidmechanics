@@ -13,6 +13,7 @@ function Scene:Init()
 	--pipe:SetMesh(pipe.name)
 	
 	local startup_gui = CreateGuiDocument("Main", "startup")
+	--local transf_gui = CreateGuiDocument("Main", "transform_menu")
 end
 
 Scene:Init()

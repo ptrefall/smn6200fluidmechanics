@@ -29,6 +29,12 @@ private:
 
 	LuaPlus::LuaObject CreateGuiContext(LuaPlus::LuaObject lName, LuaPlus::LuaObject lWidth, LuaPlus::LuaObject lHeight);
 	LuaPlus::LuaObject CreateGuiDocument(LuaPlus::LuaObject lContextName, LuaPlus::LuaObject lPath);
+	void ZoomInCamera(LuaPlus::LuaObject lValue);
+	void ZoomOutCamera(LuaPlus::LuaObject lValue);
+	void MoveUpCamera(LuaPlus::LuaObject lValue);
+	void MoveDownCamera(LuaPlus::LuaObject lValue);
+	void PitchCamera(LuaPlus::LuaObject lValue);
+	void YawCamera(LuaPlus::LuaObject lValue);
 
 	CoreMgr *coreMgr;
 
