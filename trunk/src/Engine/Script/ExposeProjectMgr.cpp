@@ -27,6 +27,7 @@ void ExposeProjectMgr::init()
 	globals.RegisterDirect("CreateProject", *this, &ExposeProjectMgr::CreateProject);
 	globals.RegisterDirect("LoadProject", *this, &ExposeProjectMgr::LoadProject);
 	globals.RegisterDirect("AddEntity", *this, &ExposeProjectMgr::AddEntity);
+	globals.RegisterDirect("SelectEntity", *this, &ExposeProjectMgr::SelectEntity);
 	globals.RegisterDirect("SaveProject", *this, &ExposeProjectMgr::SaveProject);
 }
 
@@ -74,6 +75,19 @@ LuaObject ExposeProjectMgr::AddEntity(LuaObject lEntity)
 	LuaObject lSuccess;
 	lSuccess.AssignBoolean(coreMgr->getScriptMgr()->GetGlobalState()->Get(), success);
 	return lSuccess;
+}
+
+void ExposeProjectMgr::SelectEntity(LuaPlus::LuaObject lEntity)
+{
+	if(!lEntity.IsTable())
+	{
+		CL_String err = cl_format("Failed to add entity to project, because the type of entity was %1 when expecting Table!", lEntity.TypeName());
+		throw CL_Exception(err);
+	}
+
+	unsigned int id = lEntity.GetByName("id").ToInteger();
+	IEntity *entity = coreMgr->getScriptMgr()->getExposedEntityMgr()->getExposedEntity(id)->getEntity();
+	coreMgr->getProjectMgr()->selectEntity(entity);
 }
 
 void ExposeProjectMgr::SaveProject()

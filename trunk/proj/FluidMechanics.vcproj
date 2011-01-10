@@ -231,6 +231,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\resources\Scripts\Gui\STLOptionsWindow.lua"
+						>
+					</File>
+					<File
 						RelativePath="..\resources\Scripts\Gui\TransformWindow.lua"
 						>
 					</File>
@@ -353,6 +357,10 @@
 				</File>
 				<File
 					RelativePath="..\resources\Gui\startup.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\stl_options.rml"
 					>
 				</File>
 				<File

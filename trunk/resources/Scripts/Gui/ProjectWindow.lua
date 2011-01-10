@@ -9,17 +9,12 @@ end
 -- event.arg1 -- holds the gui element context in which the event fired
 
 function ProjectWindow:OnEditClicked(entity, event)
-	--[[local submit = event.Parameters["submit"]
-	if(submit == "open") then
-		local stl_name = event.Parameters["stl_name"]
-		if(stl_name ~= nil) then
-			local mesh = CreateEntity("StlMesh", stl_name)
-			if(mesh ~= nil) then
-				mesh:SetMesh(mesh.name)
-				AddEntity(mesh)
-			end
-		else
-			Print("Failed to open stl mesh file!")
-		end
-	end--]]
+	-- Only bother selecting if entity is of a type we know how to handle...
+	if(entity.type == "StlMesh") then
+		SelectEntity(entity)
+		CreateGuiDocument(event.arg1.name, "stl_options")
+	elseif(entity.type == "Flow3D") then
+		SelectEntity(entity)
+		CreateGuiDocument(event.arg1.name, "flw_options")
+	end
 end
