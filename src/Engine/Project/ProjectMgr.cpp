@@ -95,6 +95,14 @@ bool ProjectMgr::addEntity(IEntity *entity)
 	return true;
 }
 
+void ProjectMgr::selectEntity(IEntity *entity)
+{
+	if(project == NULL)
+		throw CL_Exception("Failed to select entity, because there's no project loaded!");
+
+	project->selectEntity(entity);
+}
+
 void ProjectMgr::save()
 {
 	if(project == NULL)

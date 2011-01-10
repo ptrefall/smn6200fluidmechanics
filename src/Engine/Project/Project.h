@@ -13,12 +13,16 @@ namespace Engine
 
 		const CL_String &getName() const { return name; }
 		bool addEntity(IEntity *entity);
+		void selectEntity(IEntity *entity);
+		IEntity *getSelectedEntity() const { return selectedEntity; }
 
 		void save();
 
 	private:
 		CoreMgr *coreMgr;
 		CL_String name;
+
+		IEntity *selectedEntity;
 
 		std::vector<IEntity*> entities;
 		std::vector<IEntity*> unsaved_entities;
