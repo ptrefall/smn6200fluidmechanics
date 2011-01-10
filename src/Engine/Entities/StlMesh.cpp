@@ -5,6 +5,7 @@
 #include <Core/CoreMgr.h>
 #include <Core/Cam.h>
 #include <Resource/ResMgr.h>
+#include <Resource/TexResource.h>
 
 #include <iostream>
 #include <sstream>
@@ -31,6 +32,16 @@ StlMesh::StlMesh(unsigned int id, const CL_String &type, const CL_String &name, 
 	slotMeshChanged = mesh.ValueChanged().connect(this, &StlMesh::OnMeshChanged);
 
 	upDirection = CL_Vec3f(0.0f, 1.0f, 0.0f);
+
+	TexResource::beginTextureCube(texture);
+	TexResource::createTextureCube( cl_format("%1Skybox/%2", coreMgr->getResMgr()->getRootPath(), "X+.tga").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+    TexResource::createTextureCube( cl_format("%1Skybox/%2", coreMgr->getResMgr()->getRootPath(), "X-.tga").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+    TexResource::createTextureCube( cl_format("%1Skybox/%2", coreMgr->getResMgr()->getRootPath(), "Y+.tga").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+    TexResource::createTextureCube( cl_format("%1Skybox/%2", coreMgr->getResMgr()->getRootPath(), "Y-.tga").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+    TexResource::createTextureCube( cl_format("%1Skybox/%2", coreMgr->getResMgr()->getRootPath(), "Z+.tga").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+    TexResource::createTextureCube( cl_format("%1Skybox/%2", coreMgr->getResMgr()->getRootPath(), "Z-.tga").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
+	TexResource::endTextureCube(texture);
+
 }
 
 StlMesh::~StlMesh()
@@ -86,33 +97,41 @@ void StlMesh::calcBufferData()
 		indices.push_back(index_count++); indices.push_back(index_count++); indices.push_back(index_count++);
 
 		StlTri &tri = stl_tris[i];
-		vertices.push_back(tri.vert1[0]*50.0f); vertices.push_back(tri.vert1[1]*50.0f); vertices.push_back(tri.vert1[2]*50.0f);
-		vertices.push_back(tri.vert2[0]*50.0f); vertices.push_back(tri.vert2[1]*50.0f); vertices.push_back(tri.vert2[2]*50.0f);
-		vertices.push_back(tri.vert3[0]*50.0f); vertices.push_back(tri.vert3[1]*50.0f); vertices.push_back(tri.vert3[2]*50.0f);
+		vertices.push_back(tri.vert1[0]*50.0f); vertices.push_back(tri.vert1[2]*50.0f); vertices.push_back(tri.vert1[1]*50.0f);
+		vertices.push_back(tri.vert2[0]*50.0f); vertices.push_back(tri.vert2[2]*50.0f); vertices.push_back(tri.vert2[1]*50.0f);
+		vertices.push_back(tri.vert3[0]*50.0f); vertices.push_back(tri.vert3[2]*50.0f); vertices.push_back(tri.vert3[1]*50.0f);
 
-		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[1]); normals.push_back(tri.norm[2]);
-		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[1]); normals.push_back(tri.norm[2]);
-		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[1]); normals.push_back(tri.norm[2]);
+		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[2]); normals.push_back(tri.norm[1]);
+		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[2]); normals.push_back(tri.norm[1]);
+		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[2]); normals.push_back(tri.norm[1]);
 	}
 
+
+	unsigned int vertSize = sizeof(float)*vertices.size();
+	unsigned int indSize = sizeof(unsigned int)*indices.size();
+	unsigned int normSize = sizeof(float)*normals.size();
+
+	unsigned int vertOffset = 0;
+	unsigned int indOffset = 0;
+	unsigned int normOffset = vertOffset + vertSize;
 	
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
 	glGenBuffers(1, &ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indices.size(), &indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize, &indices[0], GL_STATIC_DRAW);
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*(vertices.size()+normals.size()), NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)*vertices.size(), &vertices[0]);
-	glBufferSubData(GL_ARRAY_BUFFER, sizeof(float)*vertices.size(), sizeof(float)*normals.size(), &normals[0]);
+	glBufferData(GL_ARRAY_BUFFER, vertSize+normSize, NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, vertOffset, vertSize, &vertices[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, normOffset, normSize, &normals[0]);
 
 	shader.setShader("resources/Shaders/stl");
 	shader.initShader();
-	Engine::shaderAttrib(shader.getShaderProg(), "vVertex", 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	Engine::shaderAttrib(shader.getShaderProg(), "vNormal", 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(float)*vertices.size()));
+	Engine::shaderAttrib(shader.getShaderProg(), "vVertex", 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertOffset));
+	Engine::shaderAttrib(shader.getShaderProg(), "vNormal", 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(normOffset));
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -138,13 +157,12 @@ void StlMesh::Render()
 
 	shader.enableShader();
 	{
+		bindTexture();
 		bindUniforms();
 		glBindVertexArray(vao);
-		if(solid)
-			glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
-		else
-			glDrawElements(GL_LINES, indices.size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 		glBindVertexArray(0);
+		unbindTexture();
 	} shader.disableShader();
 }
 
@@ -185,7 +203,7 @@ void StlMesh::bindUniforms()
 	normMat[14] = 0.0f;
 	normMat[15] = 0.0f;
 
-	normMat.inverse();
+	//normMat.inverse();
 	normMat.transpose();
 
 	int loc = glGetUniformLocation(shader.getShaderProg(), "projMat");
@@ -202,6 +220,25 @@ void StlMesh::bindUniforms()
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
 	glUniformMatrix4fv(loc, 1, GL_FALSE, &normMat[0]);
+
+	loc = glGetUniformLocation(shader.getShaderProg(), "fCube");
+	if(loc < 0)
+		throw CL_Exception("LOC was -1");
+	glUniform1i(loc, 0);
+}
+
+void StlMesh::bindTexture()
+{
+	glEnable(GL_TEXTURE_CUBE_MAP);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+}
+
+void StlMesh::unbindTexture()
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	glDisable(GL_TEXTURE_CUBE_MAP);
 }
 
 void StlMesh::updateMatrix(float dt)
