@@ -3,7 +3,10 @@
 namespace Engine
 {
 	class CoreMgr;
+	class IEntity;
+
 	class Project;
+	class GuiProjectTable;
 
 	class ProjectMgr
 	{
@@ -13,12 +16,15 @@ namespace Engine
 
 		bool createProject(const CL_String &filename);
 		bool loadProject(const CL_String &filename);
+		bool addEntity(IEntity *entity);
 
+		void save();
 		Project *getProject() const { return project; }
 
 	private:
 		CoreMgr *coreMgr;
 
 		Project *project;
+		GuiProjectTable *table;
 	};
 }

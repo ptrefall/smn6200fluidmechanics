@@ -17,6 +17,9 @@ private:
 
 	LuaPlus::LuaObject CreateProject(LuaPlus::LuaObject lFilename);
 	LuaPlus::LuaObject LoadProject(LuaPlus::LuaObject lFilename);
+	LuaPlus::LuaObject AddEntity(LuaPlus::LuaObject lEntity);
+
+	void SaveProject();
 
 	CoreMgr *coreMgr;
 };

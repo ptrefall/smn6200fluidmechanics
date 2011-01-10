@@ -218,6 +218,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\Engine\Gui\GuiProjectTable.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Gui\GuiProjectTable.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\Gui\GuiRenderInterface.cpp"
 					>
 				</File>
