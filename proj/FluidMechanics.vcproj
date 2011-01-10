@@ -223,6 +223,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\resources\Scripts\Gui\ProjectWindow.lua"
+						>
+					</File>
+					<File
 						RelativePath="..\resources\Scripts\Gui\StartupWindow.lua"
 						>
 					</File>

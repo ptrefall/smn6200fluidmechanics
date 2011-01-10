@@ -21,8 +21,7 @@ namespace Engine
 		struct EntityStruct
 		{
 			Rocket::Core::String name;
-			bool name_required;
-			Rocket::Core::String type;
+			unsigned int id;
 		};
 		std::vector<EntityStruct> entities;
 	};

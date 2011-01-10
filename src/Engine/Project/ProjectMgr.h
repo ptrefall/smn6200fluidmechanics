@@ -7,6 +7,7 @@ namespace Engine
 
 	class Project;
 	class GuiProjectTable;
+	class GuiProjectTableEditFormatter;
 
 	class ProjectMgr
 	{
@@ -26,5 +27,6 @@ namespace Engine
 
 		Project *project;
 		GuiProjectTable *table;
+		GuiProjectTableEditFormatter *table_edit_formatter;
 	};
 }
