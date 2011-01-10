@@ -7,7 +7,7 @@
 //Specials
 #include <Entities/Volume.h>
 #include <Entities/StlMesh.h>
-//#include <Entities/ERBS.h>
+#include <Entities/Skybox.h>
 
 namespace Engine
 {
@@ -19,7 +19,7 @@ namespace Engine
 			//Register special C++ entity types
 			factory->RegisterSpecial(Volume::GetStaticSpecialType(), &Volume::Create);
 			factory->RegisterSpecial(StlMesh::GetStaticSpecialType(), &StlMesh::Create);
-			//factory->RegisterSpecial(ERBS::GetStaticSpecialType(), &ERBS::Create);
+			factory->RegisterSpecial(Skybox::GetStaticSpecialType(), &Skybox::Create);
 
 			//Register XML defined entities
 			std::vector<CL_String> entities = coreMgr->getResMgr()->getFilesInDir("/XML/Entities/");

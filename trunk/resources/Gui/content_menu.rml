@@ -1,0 +1,54 @@
+<rml>
+	<head>
+		<title>Content Menu</title>
+		<link type="text/template" href="window.rml" />
+		<style>
+			body
+			{
+				width: 300px;
+				height: 68px;
+				
+				margin: 1px;
+        left: 2px;
+        top: 10px;
+			}
+      
+      div#icon
+      {
+        display: none;
+      }
+			
+			div#content
+			{
+				text-align: left;
+			}
+      
+      body.window
+      {	
+	      min-width: 350px;
+	      min-height: 84px;
+      }
+		</style>
+	</head>
+	<body template="window">
+    <div id="title_bar">
+      <handle move_target="#document">
+        <div id="icon"></div>
+        <span id="title">Content Menu</span>
+      </handle>
+    </div>
+    <div id="window">
+      <div id="content">
+        <div style="margin: auto auto auto auto; text-align: center;">
+          <button style="width: 68px; height: 74px;" onclick="ContentWindow:OnOpenSTLClicked">
+            <img src="proj_open_stl.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="ContentWindow:OnOpenFLWClicked">
+            <img src="proj_open_flw.tga" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <handle size_target="#document" style="position: absolute; width: 16px; height: 16px; bottom: 0px; right: 0px;"></handle>
+  </body>
+</rml>

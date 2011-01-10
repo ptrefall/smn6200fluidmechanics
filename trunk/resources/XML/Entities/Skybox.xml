@@ -1,0 +1,8 @@
+<Entity>
+  <Type>Skybox</Type>
+  <Special>Skybox</Special>
+	<Components>
+	</Components>
+	<Properties>
+	</Properties>
+</Entity>

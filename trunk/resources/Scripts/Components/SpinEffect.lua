@@ -9,7 +9,7 @@ function SpinEffect:OnInit(entity)
 end
 
 function SpinEffect:OnUpdate(entity, dt)
-	entity:SetYaw(entity:GetYaw()+entity:GetYawRate()*dt)
+	entity:SetYaw(entity:GetYaw()+entity:GetYawRate()*dt*0.2)
 end
 
 RegisterComponent("SpinEffect")

@@ -2,11 +2,12 @@
   <Type>StlMesh</Type>
   <Special>StlMesh</Special>
 	<Components>
+    <Component>SpinEffect</Component>
 	</Components>
 	<Properties>
     <Property>
       <Name>Position</Name>
-      <Value>0,0,-100</Value>
+      <Value>0,-80,-400</Value>
     </Property>
 	</Properties>
 </Entity>

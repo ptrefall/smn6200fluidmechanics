@@ -5,34 +5,15 @@
 
 namespace Engine
 {
-	struct StlHeader
-	{
-		unsigned char head[80];
-		unsigned long int num_tris;
-	};
-
-	struct StlTri
-	{
-		float norm[3];
-		float vert1[3];
-		float vert2[3];
-		float vert3[3];
-		unsigned short attrib_count;
-	};
-
-
 	class CoreMgr;
-	class StlMesh : public IEntity
+	class Skybox : public IEntity
 	{
 	public:
-		StlMesh(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory);
-		virtual ~StlMesh();
+		Skybox(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory);
+		virtual ~Skybox();
 
-		bool load(const CL_String &filename);
-		void calcBufferData();
-
-		static CL_String GetStaticSpecialType() { return "StlMesh"; }
-		static IEntity* Create(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory) { return new StlMesh(id, type, name, coreMgr, factory); }
+		static CL_String GetStaticSpecialType() { return "Skybox"; }
+		static IEntity* Create(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory) { return new Skybox(id, type, name, coreMgr, factory); }
 		virtual CL_String getSpecialType() const { return GetStaticSpecialType(); }
 
 		virtual void Update(float dt);
@@ -41,23 +22,22 @@ namespace Engine
 	private:
 		void initIndices();
 		void initVertices();
+		void initTexCoords();
+
+		void bindUniforms();
 		void bindTexture();
 		void unbindTexture();
-		void bindUniforms();
 		void updateMatrix(float dt);
-
-		StlHeader stl_header;
-		StlTri *stl_tris;
 
 		unsigned int vao, ibo, vbo;
 		std::vector<unsigned int> indices;
 		std::vector<float> vertices;
 		std::vector<float> normals;
+		std::vector<float> texCoords;
 		ShaderObj shader;
 		bool solid;
 		float size;
 		bool shouldUpdate;
-		bool loaded;
 
 		unsigned int texture;
 
@@ -82,9 +62,5 @@ namespace Engine
 		Property<float> yawRate;
 		CL_Slot slotYawChanged;
 		void OnYawChanged(const float &oldValue, const float &newValue);
-
-		Property<CL_String> mesh;
-		CL_Slot slotMeshChanged;
-		void OnMeshChanged(const CL_String &oldValue, const CL_String &newValue);
 	};
 }

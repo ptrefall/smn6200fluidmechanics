@@ -204,6 +204,10 @@
 					Name="Gui"
 					>
 					<File
+						RelativePath="..\resources\Scripts\Gui\ContentWindow.lua"
+						>
+					</File>
+					<File
 						RelativePath="..\resources\Scripts\Gui\LoadProjWindow.lua"
 						>
 					</File>
@@ -240,6 +244,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\resources\XML\Entities\Skybox.xml"
+						>
+					</File>
+					<File
 						RelativePath="..\resources\XML\Entities\StlMesh.xml"
 						>
 					</File>
@@ -273,6 +281,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\resources\Shaders\skybox.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\skybox.vs"
+					>
+				</File>
+				<File
 					RelativePath="..\resources\Shaders\stl.fs"
 					>
 				</File>
@@ -284,6 +300,10 @@
 			<Filter
 				Name="Gui"
 				>
+				<File
+					RelativePath="..\resources\Gui\content_menu.rml"
+					>
+				</File>
 				<File
 					RelativePath="..\resources\Gui\cursor.rml"
 					>
@@ -306,6 +326,14 @@
 				</File>
 				<File
 					RelativePath="..\resources\Gui\new_proj.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\open_flw.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\open_stl.rml"
 					>
 				</File>
 				<File

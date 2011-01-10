@@ -1,0 +1,63 @@
+<rml>
+	<head>
+		<title>Open STL</title>
+		<link type="text/template" href="window.rml" />
+		<style>
+			body
+			{
+				width: 350px;
+				height: 100px;
+				
+				margin: auto;
+			}
+      
+      div#icon
+      {
+        display: none;
+      }
+			
+			div#content
+			{
+				text-align: center;
+			}
+      
+      form div
+			{
+				width: 200px;
+				margin: auto;
+			}
+      
+      body.window
+      {	
+	      min-width: 280px;
+	      min-height: 130px;
+      }
+		</style>
+	</head>
+	<body template="window">
+    <div id="title_bar">
+      <handle move_target="#document">
+        <div id="icon"></div>
+        <span id="title">Open STL File</span>
+      </handle>
+    </div>
+    <div id="window">
+      <div id="content">
+        <form onsubmit="ContentWindow:OnFileOpenSTLClicked; close">
+          <div>
+            <p>
+              Name: <input id="stl_name" type="text" name="stl_name" value="" />
+            </p>
+          </div>
+          <input style="width: 40px; height: 40px;" type="submit" value="open">
+            <img src="btn_ok2.tga" />
+          </input>
+          <input style="width: 40px; height: 40px;" type="submit" value="cancel">
+            <img src="btn_no2.tga" />
+          </input>
+        </form>
+      </div>
+    </div>
+    <handle size_target="#document" style="position: absolute; width: 16px; height: 16px; bottom: 0px; right: 0px;"></handle>
+  </body>
+</rml>
