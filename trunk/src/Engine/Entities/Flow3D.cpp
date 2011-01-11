@@ -127,6 +127,15 @@ void Flow3D::Render()
 	if(!loaded)
 		return;
 
+	if(alpha.Get() == 0.0f)
+		return;
+
+	if(scale.Get() == 0.0f)
+		return;
+
+	if(point_size.Get() == 0.0f)
+		return;
+
 	glEnable(GL_POINT_SMOOTH);
 	glPointSize(point_size.Get());
 
@@ -301,12 +310,17 @@ bool Flow3D::loadAscii(const CL_String &path)
 		fin.ignore(256, '\n');
 
 	std::string lineread;
+	
+	//This line can either contain Hydr3d info, or go straight on to printing line...
+	//So make sure we parse it right!
 	std::getline(fin, lineread);
-	std::getline(fin, lineread);
+	CL_String line_read(lineread.c_str());
+	if(CL_StringHelp::split_text(line_read, " ")[0] == "hydr3d:")
+	{
+		std::getline(fin, lineread);
+	}
 	std::getline(fin, lineread);
 	std::getline(fin, lineread); //scalar-field header
-
-	std::istringstream iss;
 
 	bool frameHeaderExtracted = false;
 
@@ -366,7 +380,19 @@ bool Flow3D::loadAscii(const CL_String &path)
 		{
 			CL_String line_read(lineread.c_str());
 			std::vector<CL_String> particle_info = CL_StringHelp::split_text(line_read, " ");
+			if(particle_info[0] == "hydr3d:")
+			{
+				std::getline(fin, lineread);
+				line_read = lineread.c_str();
+				particle_info = CL_StringHelp::split_text(line_read, " ");
+			}
+			else if(particle_info.size() != data_types.size())
+			{
+				break;
+			}
 			if(particle_info[0] == "printing")
+				break;
+			else if(particle_info[0] == CL_String("\t"))
 				break;
 
 			for(unsigned int i = 0; i < data.size(); i++)

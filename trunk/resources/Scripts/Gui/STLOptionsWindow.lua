@@ -30,6 +30,11 @@ function STLOptionsWindow:OnSubmitClicked(event)
 			end
 		end
 		
+		local mirror = event.Parameters["mirror_check"]
+		if(mirror ~= nil and mirror ~= "") then
+			entity:SetMirror(true)
+		end
+		
 		local mesh_scale = event.Parameters["scale_select"]
 		if(mesh_scale ~= nil) then
 			if(mesh_scale == "small") then

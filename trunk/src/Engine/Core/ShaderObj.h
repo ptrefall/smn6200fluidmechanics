@@ -5,7 +5,8 @@ namespace Engine
 	enum ShaderType 
 	{
 		V_SHADER, 
-		F_SHADER
+		F_SHADER,
+		G_SHADER
 	};
 
 	class ShaderObj
@@ -30,7 +31,7 @@ namespace Engine
 		int readShader(const CL_String &fileName, ShaderType shaderType, char *shaderText, int size);
 		
 		bool isSet, initialized;
-		unsigned int vs, fs, prog;
-		char *vertexShaderSource, *fragmentShaderSource;
+		unsigned int vs, fs, gs, prog;
+		char *vertexShaderSource, *fragmentShaderSource, *geometryShaderSource;
 	};
 }

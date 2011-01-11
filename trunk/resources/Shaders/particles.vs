@@ -1,5 +1,5 @@
 
-#version 140
+#version 150
 
 uniform mat4 projMat;
 uniform mat4 mvMat;
@@ -11,21 +11,26 @@ in float ParticleSize;
 in vec3 ParticlePos;
 in vec3 ParticleVel;
 
-out vec3 fNormal;
-out vec3 fViewDir;
-out vec3 fLightDir;
-out float fParticleIndex;
-out float fParticleSize;
+out float gScale;
+out vec4 gVelocity;
+out vec3 gNormal;
+out vec3 gViewDir;
+out vec3 gLightDir;
+out float gParticleIndex;
+out float gParticleSize;
 
 void main(void)
 {	
-	gl_Position = projMat * mvMat * vec4(vec3(ParticlePos.x, ParticlePos.z, ParticlePos.y)*vScale, 1.0);
+	gl_Position = vec4(vec3(ParticlePos.x, ParticlePos.z, ParticlePos.y)*vScale, 1.0);
 	
-	fNormal = normalize(normMat*vec4(1.0,1.0,1.0,1.0) + vec4(vec3(ParticleVel.x, ParticleVel.z, ParticleVel.y), 1.0)).xyz;
-	vec4 pos = mvMat * vec4(ParticlePos, 1.0);
-	fViewDir = -(pos.xyz / pos.w);
-	fLightDir = vec3((mvMat * vec4(0.0, 0.0, 0.0, 1.0))- pos);
+	gScale = vScale;
+	gVelocity = vec4(ParticleVel, 0.0);
 	
-	fParticleIndex = ParticleIndex;
-	fParticleSize = ParticleSize;
+	gNormal = normalize(normMat*vec4(1.0,1.0,1.0,1.0) + vec4(vec3(ParticleVel.x, ParticleVel.z, ParticleVel.y), 1.0)).xyz;
+	vec4 pos = mvMat * vec4(vec3(ParticlePos.x, ParticlePos.z, ParticlePos.y)*vScale, 1.0);
+	gViewDir = -(pos.xyz / pos.w);
+	gLightDir = vec3((mvMat * vec4(0.0, 0.0, 0.0, 1.0))- pos);
+	
+	gParticleIndex = ParticleIndex;
+	gParticleSize = ParticleSize;
 }

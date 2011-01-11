@@ -73,6 +73,8 @@ namespace Engine
 		Property<CL_Vec3f> pos;
 		Property<CL_Mat3f> rot;
 
+		Property<bool> mirror;
+
 		Property<float> pitch;
 		Property<float> pitchRate;
 		CL_Slot slotPitchChanged;

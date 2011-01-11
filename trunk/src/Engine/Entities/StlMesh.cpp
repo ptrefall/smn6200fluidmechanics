@@ -26,6 +26,7 @@ StlMesh::StlMesh(unsigned int id, const CL_String &type, const CL_String &name, 
 	yawRate = this->AddProperty<float>("YawRate", 1.0f);
 
 	mesh = this->AddProperty<CL_String>("Mesh", CL_String());
+	mirror = this->AddProperty<bool>("Mirror", false);
 	
 	slotPitchChanged = pitch.ValueChanged().connect(this, &StlMesh::OnPitchChanged);
 	slotYawChanged = yaw.ValueChanged().connect(this, &StlMesh::OnYawChanged);
@@ -155,6 +156,12 @@ void StlMesh::Render()
 	if(!loaded)
 		return;
 
+	if(alpha.Get() == 0.0f)
+		return;
+
+	if(scale.Get() == 0.0f)
+		return;
+
 	shader.enableShader();
 	{
 		bindTexture();
@@ -230,6 +237,11 @@ void StlMesh::bindUniforms()
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
 	glUniform1f(loc, alpha.Get());
+
+	loc = glGetUniformLocation(shader.getShaderProg(), "vMirror");
+	if(loc < 0)
+		throw CL_Exception("LOC was -1");
+	glUniform1f(loc, mirror.Get() ? -1.0f : 1.0f);
 }
 
 void StlMesh::bindTexture()
