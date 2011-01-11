@@ -4,8 +4,8 @@
   </Scene>
   <GUI>
     <Fullscreen>0</Fullscreen>
-    <Width>1000</Width>
-    <Height>800</Height>
+    <Width>1680</Width>
+    <Height>1050</Height>
     <Depth>16</Depth>
     <VSync>0</VSync>
     <Debug>0</Debug>

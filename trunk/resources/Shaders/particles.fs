@@ -5,6 +5,7 @@
 uniform samplerCube fCube;
 uniform float fAlpha;
 
+in float fDiscard;
 in vec3 fNormal;
 in vec3 fViewDir;
 in vec3 fLightDir;
@@ -16,7 +17,10 @@ out vec4 out_Color0;
 //out vec4 out_Color1;
 
 void main(void)
-{	
+{
+	if(fDiscard == 1.0)
+		discard;
+			
 	vec3 L = normalize(fLightDir);
 	vec3 N = normalize(fNormal);
 	vec3 V = normalize(fViewDir);

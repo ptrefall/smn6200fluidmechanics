@@ -328,7 +328,27 @@
 					>
 				</File>
 				<File
+					RelativePath="..\resources\Shaders\particles100.gs"
+					>
+				</File>
+				<File
 					RelativePath="..\resources\Shaders\particles100.vs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\particles100p.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\particles100p.vs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\particles_p.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\particles_p.vs"
 					>
 				</File>
 				<File
@@ -345,6 +365,26 @@
 				</File>
 				<File
 					RelativePath="..\resources\Shaders\stl.vs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\velXZ.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\velXZ.gs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\velXZ.vs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\velXZp.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\velXZp.vs"
 					>
 				</File>
 			</Filter>

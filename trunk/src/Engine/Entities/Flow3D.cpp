@@ -29,6 +29,7 @@ Flow3D::Flow3D(unsigned int id, const CL_String &type, const CL_String &name, Co
 
 	mesh = this->AddProperty<CL_String>("Mesh", CL_String());
 	point_size = this->AddProperty<float>("PointSize", 1.0f);
+	showInHalf = this->AddProperty<bool>("ShowInHalf", false);
 	
 	slotPitchChanged = pitch.ValueChanged().connect(this, &Flow3D::OnPitchChanged);
 	slotYawChanged = yaw.ValueChanged().connect(this, &Flow3D::OnYawChanged);
@@ -139,6 +140,9 @@ void Flow3D::Render()
 	glEnable(GL_POINT_SMOOTH);
 	glPointSize(point_size.Get());
 
+	glEnable(GL_LINE_SMOOTH);
+	glLineWidth(point_size.Get());
+
 	shader.enableShader();
 	{
 		bindTexture();
@@ -222,6 +226,10 @@ void Flow3D::bindUniforms()
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
 	glUniform1f(loc, scale.Get());
+
+	loc = glGetUniformLocation(shader.getShaderProg(), "vShowInHalf");
+	if(loc >= 0)
+		glUniform1f(loc, showInHalf.Get() ? 1.0f : 0.0f );
 }
 
 void Flow3D::bindTexture()
@@ -315,12 +323,19 @@ bool Flow3D::loadAscii(const CL_String &path)
 	//So make sure we parse it right!
 	std::getline(fin, lineread);
 	CL_String line_read(lineread.c_str());
+	bool isAtPrint = false;
 	if(CL_StringHelp::split_text(line_read, " ")[0] == "hydr3d:")
 	{
 		std::getline(fin, lineread);
+		line_read = lineread.c_str();
+		if(CL_StringHelp::split_text(line_read, " ")[0] == "printing")
+			isAtPrint = true;
 	}
-	std::getline(fin, lineread);
-	std::getline(fin, lineread); //scalar-field header
+	if(!isAtPrint)
+	{
+		std::getline(fin, lineread);
+		std::getline(fin, lineread); //scalar-field header
+	}
 
 	bool frameHeaderExtracted = false;
 

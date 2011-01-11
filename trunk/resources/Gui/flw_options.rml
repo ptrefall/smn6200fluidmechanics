@@ -56,10 +56,14 @@
             <p>
               Point Size:
               <select name="pspread_select" id="pspread_select">
+                <option name="tiny" value="tiny">Tiny</option>
                 <option name="small" value="small">Small</option>
                 <option name="medium" value="medium">Medium</option>
                 <option name="large" value="large">Large</option>
               </select>
+            </p>
+            <p>
+              Show Half: <input type="checkbox" name="half_check" value="half"/>
             </p>
             <p>
               Add Component:

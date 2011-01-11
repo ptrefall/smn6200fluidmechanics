@@ -58,6 +58,7 @@ namespace Engine
 		std::vector<Flow3dParamGroupFormat> flw_formats;
 
 		Property<float> point_size;
+		Property<bool> showInHalf;
 		//
 
 		//Animation controllers
