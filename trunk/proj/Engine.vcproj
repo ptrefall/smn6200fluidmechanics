@@ -442,6 +442,14 @@
 				Name="Entities"
 				>
 				<File
+					RelativePath="..\src\Engine\Entities\Flow3D.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Engine\Entities\Flow3D.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Engine\Entities\Skybox.cpp"
 					>
 				</File>

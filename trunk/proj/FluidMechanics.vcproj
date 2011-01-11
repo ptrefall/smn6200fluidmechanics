@@ -247,6 +247,10 @@
 					RelativePath="..\resources\XML\config.xml"
 					>
 				</File>
+				<File
+					RelativePath="..\resources\XML\flow3d_params.xml"
+					>
+				</File>
 				<Filter
 					Name="Entities"
 					>
@@ -256,6 +260,10 @@
 					</File>
 					<File
 						RelativePath="..\resources\XML\Entities\Empty.xml"
+						>
+					</File>
+					<File
+						RelativePath="..\resources\XML\Entities\Flow3D.xml"
 						>
 					</File>
 					<File

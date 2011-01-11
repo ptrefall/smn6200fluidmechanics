@@ -1,0 +1,55 @@
+<Flow3D_Params>
+  <ParamGroups>
+    
+    <ParamGroup>
+      <Type>ParticlePos</Type>
+      <Params>
+        <Param>xp</Param>
+        <Param>yp</Param>
+        <Param>zp</Param>
+      </Params>
+    </ParamGroup>
+    
+    <ParamGroup>
+      <Type>ParticleVel</Type>
+      <Params>
+        <Param>up</Param>
+        <Param>vp</Param>
+        <Param>wp</Param>
+      </Params>
+    </ParamGroup>
+    
+    <ParamGroup>
+      <Type>ParticleSize</Type>
+      <Params>
+        <Param>psiz</Param>
+      </Params>
+    </ParamGroup>
+    
+    <ParamGroup>
+      <Type>ParticleIndex</Type>
+      <Params>
+        <Param>index</Param>
+      </Params>
+    </ParamGroup>
+    
+    <ParamGroup>
+      <Type>CellularPos</Type>
+      <Params>
+        <Param>x</Param>
+        <Param>y</Param>
+        <Param>z</Param>
+      </Params>
+    </ParamGroup>
+    
+    <ParamGroup>
+      <Type>CellularVel</Type>
+      <Params>
+        <Param>u</Param>
+        <Param>v</Param>
+        <Param>w</Param>
+      </Params>
+    </ParamGroup>
+  
+  </ParamGroups>
+</Flow3D_Params>
