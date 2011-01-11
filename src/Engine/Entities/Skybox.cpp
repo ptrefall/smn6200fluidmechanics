@@ -88,6 +88,12 @@ void Skybox::Update(float dt)
 
 void Skybox::Render()
 {
+	if(alpha.Get() == 0.0f)
+		return;
+
+	if(scale.Get() == 0.0f)
+		return;
+
 	glDisable( GL_DEPTH_TEST );
     glDepthMask(GL_FALSE);
     glDisable(GL_LIGHTING);

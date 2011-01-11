@@ -30,7 +30,7 @@
       body.window
       {	
 	      min-width: 280px;
-	      min-height: 230px;
+	      min-height: 330px;
       }
 		</style>
 	</head>
@@ -52,6 +52,9 @@
                 <option name="transparent" value="transparent">Transparent</option>
                 <option name="hide" value="hide">Hide</option>
               </select>
+            </p>
+            <p>
+              Mesh Mirror: <input type="checkbox" name="mirror_check" value="mirror"/>
             </p>
             <p>
               Mesh Scale:

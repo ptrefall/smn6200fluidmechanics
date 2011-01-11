@@ -316,7 +316,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\resources\Shaders\particles.gs"
+					>
+				</File>
+				<File
 					RelativePath="..\resources\Shaders\particles.vs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\particles100.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\particles100.vs"
 					>
 				</File>
 				<File

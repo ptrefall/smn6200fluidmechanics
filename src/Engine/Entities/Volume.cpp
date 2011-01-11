@@ -66,6 +66,12 @@ void Volume::Update(float dt)
 
 void Volume::Render()
 {
+	if(alpha.Get() == 0.0f)
+		return;
+
+	if(scale.Get() == 0.0f)
+		return;
+
 	shader.enableShader();
 	{
 		bindUniforms();

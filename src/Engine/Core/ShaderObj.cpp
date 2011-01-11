@@ -8,7 +8,7 @@
 using namespace Engine;
 
 ShaderObj::ShaderObj()
-: isSet(false), initialized(false)
+: isSet(false), initialized(false), geometryShaderSource(NULL)
 {
 }
 
@@ -21,11 +21,12 @@ bool ShaderObj::setShader(const CL_String &fileName)
 	if(isSet)
 		return false;
 
-	int vSize, fSize;
+	int vSize, fSize, gSize;
 
 	// Allocate memory to hold the source of our shaders.
 	vSize = shaderSize(fileName, V_SHADER);
 	fSize = shaderSize(fileName, F_SHADER);
+	gSize = shaderSize(fileName, G_SHADER);
 
 	if((vSize == -1) || (fSize == -1))
 		throw CL_Exception(cl_format("Cannot determine size of the shader %1", fileName));
@@ -40,6 +41,13 @@ bool ShaderObj::setShader(const CL_String &fileName)
 	if(!readShader(fileName, F_SHADER, fragmentShaderSource, fSize))
 		throw CL_Exception(cl_format("Cannot read the file %1.fs", fileName));
 
+	if(gSize > -1)
+	{
+		geometryShaderSource = (GLchar *) malloc(gSize);
+		if(!readShader(fileName, G_SHADER, geometryShaderSource, gSize))
+			throw CL_Exception(cl_format("Cannot read the file %1.gs", fileName));
+	}
+
 	isSet = true;
 	return true;
 }
@@ -52,7 +60,7 @@ bool ShaderObj::initShader()
 	if(!isShaderSet())
 		setShader("res/shaders/minimal");
 
-	GLint vertCompiled, fragCompiled;    // status values
+	GLint vertCompiled, fragCompiled, geomCompiled;    // status values
 	GLint linked;
 	int infologLength = 0;
 	int charsWritten  = 0;
@@ -64,9 +72,17 @@ bool ShaderObj::initShader()
 
 	const char *vertS = vertexShaderSource;
 	const char *fragS = fragmentShaderSource;
+	const char *geomS = geometryShaderSource;
+
 	// Load source code strings into shaders
 	glShaderSource(vs, 1, &vertS, NULL);
 	glShaderSource(fs, 1, &fragS, NULL);
+
+	if(geometryShaderSource)
+	{
+		gs = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(gs, 1, &geomS, NULL);
+	}
 
 	// Compile the vertex shader, and print out
 	// the compiler log file.
@@ -105,6 +121,30 @@ bool ShaderObj::initShader()
 		free(infoLog);
 	}
 
+	// Compile the geometry shader, and print out
+	// the compiler log file.
+	if(geometryShaderSource)
+	{
+		glCompileShader(gs);
+		glGetShaderiv(gs, GL_COMPILE_STATUS, &geomCompiled);
+		glGetShaderiv(gs, GL_INFO_LOG_LENGTH, &infologLength);
+		if (infologLength > 0)
+		{
+			infoLog = (GLchar *)malloc(infologLength);
+			if (infoLog == NULL)
+				throw CL_Exception(cl_format("Could not allocate InfoLog buffer"));
+
+			glGetShaderInfoLog(gs, infologLength, &charsWritten, infoLog);
+			if(charsWritten > 0)
+				throw CL_Exception(cl_format("GeometryShader InfoLog: %1", infoLog));
+
+			free(infoLog);
+		}
+
+		if(!geomCompiled)
+			return false;
+	}
+
 	if (!vertCompiled || !fragCompiled)
 		return false;
 
@@ -112,6 +152,17 @@ bool ShaderObj::initShader()
 	prog = glCreateProgram();
 	glAttachShader(prog, vs);
 	glAttachShader(prog, fs);
+	if(geometryShaderSource)
+	{
+		glAttachShader(prog, gs);
+
+		glProgramParameteriEXT(prog,GL_GEOMETRY_INPUT_TYPE,GL_POINTS);
+		glProgramParameteriEXT(prog,GL_GEOMETRY_OUTPUT_TYPE,GL_LINES);
+
+		int temp;
+		glGetIntegerv(GL_MAX_GEOMETRY_OUTPUT_VERTICES,&temp);
+		glProgramParameteriEXT(prog,GL_GEOMETRY_VERTICES_OUT,temp);
+	}
 
 	// Link the program object and print out the info log
 	glLinkProgram(prog);
@@ -170,6 +221,9 @@ int ShaderObj::shaderSize(const CL_String &fileName, ShaderType shaderType)
     case F_SHADER:
 		strcat(name, ".fs");
 		break;
+	case G_SHADER:
+		strcat(name, ".gs");
+		break;
     default:
 		throw CL_Exception(cl_format("Unknown shader file type"));
   }
@@ -203,6 +257,9 @@ int ShaderObj::readShader(const CL_String &fileName, ShaderType shaderType, char
       break;
     case F_SHADER:
       strcat(name, ".fs");
+      break;
+	case G_SHADER:
+      strcat(name, ".gs");
       break;
     default:
       throw CL_Exception(cl_format("Unknown shader file type"));
