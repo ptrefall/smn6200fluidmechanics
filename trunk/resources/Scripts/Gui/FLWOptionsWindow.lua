@@ -1,6 +1,6 @@
 
-if(STLOptionsWindow == nil) then
-	STLOptionsWindow = {}
+if(FLWOptionsWindow == nil) then
+	FLWOptionsWindow = {}
 end
 
 -- For gui events, the content is always the following:
@@ -8,10 +8,7 @@ end
 -- event.arg0 -- holds the gui document in which the event fired
 -- event.arg1 -- holds the gui element context in which the event fired
 
-function STLOptionsWindow:OnAlphaClicked(event)
-end
-
-function STLOptionsWindow:OnSubmitClicked(event)
+function FLWOptionsWindow:OnSubmitClicked(event)
 	local submit = event.Parameters["submit"]
 	if(submit == "ok") then
 		local entity = GetSelectedEntity()
@@ -30,14 +27,14 @@ function STLOptionsWindow:OnSubmitClicked(event)
 			end
 		end
 		
-		local mesh_scale = event.Parameters["scale_select"]
-		if(mesh_scale ~= nil) then
-			if(mesh_scale == "small") then
-				entity:SetScale(0.5)
-			elseif(mesh_scale == "medium") then
-				entity:SetScale(1.0)
-			elseif(mesh_scale == "large") then
-				entity:SetScale(1.5)
+		local point_spread = event.Parameters["pspread_select"]
+		if(point_spread ~= nil) then
+			if(point_spread == "small") then
+				entity:SetPointSize(2.0)
+			elseif(point_spread == "medium") then
+				entity:SetPointSize(5.0)
+			elseif(point_spread == "large") then
+				entity:SetPointSize(9.0)
 			end
 		end
 		

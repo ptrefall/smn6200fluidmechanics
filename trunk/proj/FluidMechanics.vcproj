@@ -215,6 +215,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\resources\Scripts\Gui\FLWOptionsWindow.lua"
+						>
+					</File>
+					<File
 						RelativePath="..\resources\Scripts\Gui\LoadProjWindow.lua"
 						>
 					</File>
@@ -349,6 +353,10 @@
 				</File>
 				<File
 					RelativePath="..\resources\Gui\file_menu.rml"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Gui\flw_options.rml"
 					>
 				</File>
 				<File
