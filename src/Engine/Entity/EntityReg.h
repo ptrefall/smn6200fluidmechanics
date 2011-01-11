@@ -8,6 +8,7 @@
 #include <Entities/Volume.h>
 #include <Entities/StlMesh.h>
 #include <Entities/Skybox.h>
+#include <Entities/Flow3D.h>
 
 namespace Engine
 {
@@ -20,6 +21,7 @@ namespace Engine
 			factory->RegisterSpecial(Volume::GetStaticSpecialType(), &Volume::Create);
 			factory->RegisterSpecial(StlMesh::GetStaticSpecialType(), &StlMesh::Create);
 			factory->RegisterSpecial(Skybox::GetStaticSpecialType(), &Skybox::Create);
+			factory->RegisterSpecial(Flow3D::GetStaticSpecialType(), &Flow3D::Create);
 
 			//Register XML defined entities
 			std::vector<CL_String> entities = coreMgr->getResMgr()->getFilesInDir("/XML/Entities/");
