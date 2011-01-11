@@ -1,6 +1,6 @@
 <rml>
 	<head>
-		<title>STL Options</title>
+		<title>Flow3D Options</title>
 		<link type="text/template" href="window.rml" />
 		<style>
 			body
@@ -30,7 +30,7 @@
       body.window
       {	
 	      min-width: 280px;
-	      min-height: 230px;
+	      min-height: 330px;
       }
 		</style>
 	</head>
@@ -38,24 +38,24 @@
     <div id="title_bar">
       <handle move_target="#document">
         <div id="icon"></div>
-        <span id="title">STL Mesh Options</span>
+        <span id="title">Flow3D Mesh Options</span>
       </handle>
     </div>
     <div id="window">
       <div id="content">
-        <form onsubmit="STLOptionsWindow:OnSubmitClicked; close">
+        <form onsubmit="FLWOptionsWindow:OnSubmitClicked; close">
           <div>
             <p>
               Alpha Value:
-              <select name="alphaselect" onclick="STLOptionsWindow:OnAlphaClicked">
+              <select name="alphaselect" id="alphaselect">
                 <option name="opaque" value="opaque">Opaque</option>
                 <option name="transparent" value="transparent">Transparent</option>
                 <option name="hide" value="hide">Hide</option>
               </select>
             </p>
             <p>
-              Mesh Scale:
-              <select name="scale_select">
+              Point Size:
+              <select name="pspread_select" id="pspread_select">
                 <option name="small" value="small">Small</option>
                 <option name="medium" value="medium">Medium</option>
                 <option name="large" value="large">Large</option>

@@ -28,6 +28,7 @@ Flow3D::Flow3D(unsigned int id, const CL_String &type, const CL_String &name, Co
 	yawRate = this->AddProperty<float>("YawRate", 1.0f);
 
 	mesh = this->AddProperty<CL_String>("Mesh", CL_String());
+	point_size = this->AddProperty<float>("PointSize", 1.0f);
 	
 	slotPitchChanged = pitch.ValueChanged().connect(this, &Flow3D::OnPitchChanged);
 	slotYawChanged = yaw.ValueChanged().connect(this, &Flow3D::OnYawChanged);
@@ -127,7 +128,7 @@ void Flow3D::Render()
 		return;
 
 	glEnable(GL_POINT_SMOOTH);
-	glPointSize(10.0f);
+	glPointSize(point_size.Get());
 
 	shader.enableShader();
 	{

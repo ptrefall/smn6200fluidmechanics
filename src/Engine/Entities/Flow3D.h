@@ -56,6 +56,8 @@ namespace Engine
 		std::vector<CL_String> data_types;
 		std::vector<Flow3dData> data;
 		std::vector<Flow3dParamGroupFormat> flw_formats;
+
+		Property<float> point_size;
 		//
 
 		//Animation controllers

@@ -24,6 +24,7 @@ function ContentWindow:OnFileOpenFLWClicked(event)
 			local flw = CreateEntity("Flow3D", flw_name)
 			if(flw ~= nil) then
 				flw:SetScale(50.0)
+				flw:SetPointSize(5.0)
 				flw:SetShaderName(flw_name)
 				flw:SetMesh(flw_name)
 				AddEntity(flw)
