@@ -21,6 +21,11 @@ namespace Engine
 		void selectEntity(IEntity *entity);
 		IEntity *getSelectedEntity();
 
+		void PlayProjectAnimation();
+		void StopProjectAnimation();
+		void RewindProjectAnimation();
+		void ForwardProjectAnimation();
+
 		void save();
 		Project *getProject() const { return project; }
 

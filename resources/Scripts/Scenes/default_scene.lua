@@ -6,8 +6,10 @@ function Scene:Init()
 	
 	local skybox = CreateEntity("Skybox")
 	
-	local flw = CreateEntity("Flow3D")
-	flw:SetMesh("particles");
+	--local flw = CreateEntity("Flow3D")
+	--flw:SetScale(50.0)
+	--flw:SetShaderName("particles")
+	--flw:SetMesh("particles")
 	
 	--local bucket = CreateEntity("StlMesh", "HalfBucketXYZ")
 	--bucket:SetMesh(bucket.name)

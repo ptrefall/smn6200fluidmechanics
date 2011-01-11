@@ -16,7 +16,7 @@
 using namespace Engine;
 
 Flow3D::Flow3D(unsigned int id, const CL_String &type, const CL_String &name, CoreMgr *coreMgr, ComponentFactory &factory)
-: IEntity(id, type, name, coreMgr, factory), solid(true), size(4.0f), shouldUpdate(false), loaded(false)
+: IEntity(id, type, name, coreMgr, factory), solid(true), size(4.0f), shouldUpdate(false), loaded(false), current_frame(0), play_frames(false)
 {
 	pos = this->AddProperty<CL_Vec3f>("Position", CL_Vec3f(0,0,0));
 	rot = this->AddProperty<CL_Mat3f>("RotationMatrix", CL_Mat3f::identity());
@@ -67,9 +67,10 @@ Flow3D::Flow3D(unsigned int id, const CL_String &type, const CL_String &name, Co
 
 Flow3D::~Flow3D()
 {
-	glDeleteBuffers(1, &ibo);
-	glDeleteBuffers(1, &vbo);
-	glDeleteVertexArrays(1, &vao);
+	unsigned int num_frames = frame_ibo.size();
+	glDeleteBuffers(num_frames, &frame_ibo[0]);
+	glDeleteBuffers(num_frames, &frame_vbo[0]);
+	glDeleteVertexArrays(num_frames, &frame_vao[0]);
 }
 
 bool Flow3D::load(const CL_String &filename)
@@ -84,6 +85,7 @@ bool Flow3D::load(const CL_String &filename)
 		if(files[i] == binary_file)
 		{
 			loadBinary(cl_format("%1Sim/%2.bin", coreMgr->getResMgr()->getRootPath(), filename));
+			calcBufferData();
 			return true;
 		}
 	}
@@ -94,61 +96,12 @@ bool Flow3D::load(const CL_String &filename)
 		if(files[i] == ascii_file)
 		{
 			loadAscii(cl_format("%1Sim/%2.txt", coreMgr->getResMgr()->getRootPath(), filename));
+			calcBufferData();
 			return true;
 		}
 	}
 
-	return true;
-}
-
-void Flow3D::calcBufferData()
-{
-	unsigned int index_count = 0;
-
-	/*for(unsigned long int i = 0; i < stl_header.num_tris; i++)
-	{
-		indices.push_back(index_count++); indices.push_back(index_count++); indices.push_back(index_count++);
-
-		StlTri &tri = stl_tris[i];
-		vertices.push_back(tri.vert1[0]*50.0f); vertices.push_back(tri.vert1[2]*50.0f); vertices.push_back(tri.vert1[1]*50.0f);
-		vertices.push_back(tri.vert2[0]*50.0f); vertices.push_back(tri.vert2[2]*50.0f); vertices.push_back(tri.vert2[1]*50.0f);
-		vertices.push_back(tri.vert3[0]*50.0f); vertices.push_back(tri.vert3[2]*50.0f); vertices.push_back(tri.vert3[1]*50.0f);
-
-		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[2]); normals.push_back(tri.norm[1]);
-		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[2]); normals.push_back(tri.norm[1]);
-		normals.push_back(tri.norm[0]); normals.push_back(tri.norm[2]); normals.push_back(tri.norm[1]);
-	}*/
-
-
-	unsigned int vertSize = sizeof(float)*vertices.size();
-	unsigned int indSize = sizeof(unsigned int)*indices.size();
-	unsigned int normSize = sizeof(float)*normals.size();
-
-	unsigned int vertOffset = 0;
-	unsigned int indOffset = 0;
-	unsigned int normOffset = vertOffset + vertSize;
-	
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize, &indices[0], GL_STATIC_DRAW);
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertSize+normSize, NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, vertOffset, vertSize, &vertices[0]);
-	glBufferSubData(GL_ARRAY_BUFFER, normOffset, normSize, &normals[0]);
-
-	shader.setShader("resources/Shaders/stl");
-	shader.initShader();
-	Engine::shaderAttrib(shader.getShaderProg(), "vVertex", 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertOffset));
-	Engine::shaderAttrib(shader.getShaderProg(), "vNormal", 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(normOffset));
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	return false;
 }
 
 void Flow3D::Update(float dt)
@@ -161,6 +114,11 @@ void Flow3D::Update(float dt)
 		updateMatrix(dt);
 		shouldUpdate = false;
 	}
+
+	if(play_frames)
+	{
+		change_frame(1);
+	}
 }
 
 void Flow3D::Render()
@@ -168,15 +126,21 @@ void Flow3D::Render()
 	if(!loaded)
 		return;
 
+	glEnable(GL_POINT_SMOOTH);
+	glPointSize(10.0f);
+
 	shader.enableShader();
 	{
 		bindTexture();
 		bindUniforms();
-		glBindVertexArray(vao);
-		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		glBindVertexArray(frame_vao[current_frame]);
+		//glDrawElements(GL_POINTS, 10, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		glDrawArrays(GL_POINTS, 0, data[0].frame_data[current_frame].size());
 		glBindVertexArray(0);
 		unbindTexture();
 	} shader.disableShader();
+
+	glDisable(GL_POINT_SMOOTH);
 }
 
 void Flow3D::bindUniforms()
@@ -243,6 +207,11 @@ void Flow3D::bindUniforms()
 	if(loc < 0)
 		throw CL_Exception("LOC was -1");
 	glUniform1f(loc, alpha.Get());
+
+	loc = glGetUniformLocation(shader.getShaderProg(), "vScale");
+	if(loc < 0)
+		throw CL_Exception("LOC was -1");
+	glUniform1f(loc, scale.Get());
 }
 
 void Flow3D::bindTexture()
@@ -378,6 +347,11 @@ bool Flow3D::loadAscii(const CL_String &path)
 		}
 		
 		//Particle data for one frame
+		
+		int index_count = 0;
+		std::vector<unsigned int> indices;
+		frame_indices.push_back(indices);
+
 		int *frame_index = new int[data.size()];
 		for(unsigned int i = 0; i < data.size(); i++)
 		{
@@ -398,6 +372,7 @@ bool Flow3D::loadAscii(const CL_String &path)
 			{
 				for(unsigned int j = 0; j < data_types.size(); j++)
 				{
+					bool data_set = false;
 					CL_String param_type = data_types[j];
 					for(unsigned int k = 0; k < data[i].format.params.size(); k++)
 					{
@@ -405,18 +380,96 @@ bool Flow3D::loadAscii(const CL_String &path)
 						{
 							float particle_var = CL_StringHelp::text_to_float(particle_info[j]);
 							data[i].frame_data[frame_index[i]].push_back(particle_var);
+							data_set = true;
 							break;
 						}
 					}
+
+					if(data_set)
+						frame_indices[frame_index[0]].push_back(index_count++);
 				}
 			}
 		}
 		delete[] frame_index;
 	}
-	return true;
+ 	return true;
 }
 
 bool Flow3D::saveBinary()
 {
 	return true;
 }
+
+void Flow3D::calcBufferData()
+{
+	unsigned int index_count = 0;
+	unsigned int num_frames = frame_indices.size();
+	frame_vao.resize(num_frames);
+	frame_ibo.resize(num_frames);
+	frame_vbo.resize(num_frames);
+	glGenVertexArrays(num_frames, &frame_vao[0]);
+
+	for(unsigned int frame_index = 0; frame_index < num_frames; frame_index++)
+	{
+		glBindVertexArray(frame_vao[frame_index]);
+
+		/*unsigned int indSize = sizeof(unsigned int)*frame_indices[frame_index].size();
+
+		glGenBuffers(1, &frame_ibo[frame_index]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, frame_ibo[frame_index]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize, &frame_indices[frame_index], GL_STATIC_DRAW);*/
+
+		glGenBuffers(1, &frame_vbo[frame_index]);
+		glBindBuffer(GL_ARRAY_BUFFER, frame_vbo[frame_index]);
+
+		unsigned int buffer_size = 0;
+		for(unsigned int data_index = 0; data_index < data.size(); data_index++)
+		{
+			buffer_size += data[data_index].frame_data[frame_index].size();
+		}
+		buffer_size *= sizeof(float);
+
+		glBufferData(GL_ARRAY_BUFFER, buffer_size, NULL, GL_STATIC_DRAW);
+		shader.setShader(cl_format("resources/Shaders/%1", shaderName.Get()));
+		shader.initShader();
+
+		unsigned int buffer_offset = 0;
+		for(unsigned int data_index = 0; data_index < data.size(); data_index++)
+		{
+			unsigned int sub_buffer_size = sizeof(float) * data[data_index].frame_data[frame_index].size();
+			glBufferSubData(GL_ARRAY_BUFFER, buffer_offset, sub_buffer_size, &data[data_index].frame_data[frame_index][0]);
+			
+			//Setup shader attribute for sub_buffer
+			CL_String attribName = data[data_index].format.type;
+			unsigned int num_params = data[data_index].format.params.size();
+			Engine::shaderAttrib(shader.getShaderProg(), attribName.c_str(), num_params, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(buffer_offset));
+
+			//Offset buffer for next iteration of data
+			buffer_offset = sub_buffer_size;
+		}		
+	}
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Flow3D::play()
+{
+	play_frames = true;
+}
+
+void Flow3D::stop()
+{
+	play_frames = false;
+}
+
+void Flow3D::change_frame(int i)
+{
+	int num_frames = (int)frame_indices.size();
+	current_frame += i;
+	if(current_frame > num_frames-1)
+		current_frame = 0;
+	else if(current_frame < 0)
+		current_frame = num_frames-1;
+}
+

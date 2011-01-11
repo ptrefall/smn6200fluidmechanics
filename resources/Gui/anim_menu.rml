@@ -1,6 +1,6 @@
 <rml>
 	<head>
-		<title>Content Menu</title>
+		<title>Animation Menu</title>
 		<link type="text/template" href="window.rml" />
 		<style>
 			body
@@ -34,17 +34,23 @@
     <div id="title_bar">
       <handle move_target="#document">
         <div id="icon"></div>
-        <span id="title">Content</span>
+        <span id="title">Animation</span>
       </handle>
     </div>
     <div id="window">
       <div id="content">
         <div style="margin: auto auto auto auto; text-align: center;">
-          <button style="width: 68px; height: 74px;" onclick="ContentWindow:OnOpenSTLClicked">
-            <img src="proj_open_stl.tga" />
+          <button style="width: 68px; height: 74px;" onclick="AnimationWindow:OnPlayClicked">
+            <img src="anim_play.tga" />
           </button>
-          <button style="width: 68px; height: 74px;" onclick="ContentWindow:OnOpenFLWClicked">
-            <img src="proj_open_flw.tga" />
+          <button style="width: 68px; height: 74px;" onclick="AnimationWindow:OnStopClicked">
+            <img src="anim_stop.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="AnimationWindow:OnRewindClicked">
+            <img src="anim_back2.tga" />
+          </button>
+          <button style="width: 68px; height: 74px;" onclick="AnimationWindow:OnForwardClicked">
+            <img src="anim_fwd2.tga" />
           </button>
         </div>
       </div>
