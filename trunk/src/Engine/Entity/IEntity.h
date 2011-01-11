@@ -43,6 +43,8 @@ public:
 		this->coreMgr = coreMgr;
 
 		alpha = this->AddProperty<float>("Alpha", 1.0f);
+		scale = this->AddProperty<float>("Scale", 1.0f);
+		shaderName = this->AddProperty<CL_String>("ShaderName", "minimal");
 	}
 
 	virtual ~IEntity();
@@ -62,5 +64,7 @@ protected:
 	CoreMgr *coreMgr;
 
 	Property<float> alpha;
+	Property<float> scale;
+	Property<CL_String> shaderName;
 };
 }

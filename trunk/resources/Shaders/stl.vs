@@ -14,10 +14,10 @@ out vec3 fLightDir;
 
 void main(void)
 {	
-	gl_Position = projMat * mvMat * vec4(vVertex, 1.0);
+	gl_Position = projMat * mvMat * vec4(vec3(vVertex.x, vVertex.y, -1.0*vVertex.z), 1.0);
 	
-	fNormal = normalize(normMat*vec4(1.0,1.0,1.0,1.0) + vec4(vNormal, 1.0)).xyz;
-	vec4 pos = mvMat * vec4(vVertex, 1.0);
+	fNormal = normalize(normMat*vec4(1.0,1.0,1.0,1.0) + vec4(vec3(vNormal.x, vNormal.y, -1.0*vNormal.z), 1.0)).xyz;
+	vec4 pos = mvMat * vec4(vec3(vVertex.x, vVertex.y, -1.0*vVertex.z), 1.0);
 	fViewDir = -(pos.xyz / pos.w);
 	fLightDir = vec3((mvMat * vec4(0.0, 0.0, 0.0, 1.0))- pos);
 }

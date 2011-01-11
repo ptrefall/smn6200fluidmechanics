@@ -17,7 +17,21 @@ function ContentWindow:OnOpenFLWClicked(event)
 end
 
 function ContentWindow:OnFileOpenFLWClicked(event)
-	
+	local submit = event.Parameters["submit"]
+	if(submit == "open") then
+		local flw_name = event.Parameters["flw_name"]
+		if(flw_name ~= nil) then
+			local flw = CreateEntity("Flow3D", flw_name)
+			if(flw ~= nil) then
+				flw:SetScale(50.0)
+				flw:SetShaderName(flw_name)
+				flw:SetMesh(flw_name)
+				AddEntity(flw)
+			end
+		else
+			Print("Failed to open flow3D mesh file!")
+		end
+	end
 end
 
 function ContentWindow:OnFileOpenSTLClicked(event)

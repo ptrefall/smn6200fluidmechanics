@@ -21,6 +21,11 @@ namespace Engine
 
 		virtual void Update(float dt);
 		virtual void Render();
+		
+		//Animating over the flow3D frames
+		void play();
+		void stop();
+		void change_frame(int i);
 
 	private:
 		void initIndices();
@@ -51,11 +56,16 @@ namespace Engine
 		std::vector<CL_String> data_types;
 		std::vector<Flow3dData> data;
 		std::vector<Flow3dParamGroupFormat> flw_formats;
+		//
 
-		unsigned int vao, ibo, vbo;
-		std::vector<unsigned int> indices;
-		std::vector<float> vertices;
-		std::vector<float> normals;
+		//Animation controllers
+		int current_frame;
+		bool play_frames;
+
+		std::vector<unsigned int> frame_vao, frame_ibo, frame_vbo;
+		std::vector<std::vector<unsigned int>> frame_indices;
+		
+
 		ShaderObj shader;
 		bool solid;
 		float size;

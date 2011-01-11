@@ -21,6 +21,11 @@ private:
 	void SelectEntity(LuaPlus::LuaObject lEntity);
 	LuaPlus::LuaObject GetSelectedEntity();
 
+	void PlayProjectAnimation();
+	void StopProjectAnimation();
+	void RewindProjectAnimation();
+	void ForwardProjectAnimation();
+
 	void SaveProject();
 
 	CoreMgr *coreMgr;

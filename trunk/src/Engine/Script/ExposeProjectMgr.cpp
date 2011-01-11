@@ -29,6 +29,10 @@ void ExposeProjectMgr::init()
 	globals.RegisterDirect("AddEntity", *this, &ExposeProjectMgr::AddEntity);
 	globals.RegisterDirect("SelectEntity", *this, &ExposeProjectMgr::SelectEntity);
 	globals.RegisterDirect("GetSelectedEntity", *this, &ExposeProjectMgr::GetSelectedEntity);
+	globals.RegisterDirect("PlayProjectAnimation", *this, &ExposeProjectMgr::PlayProjectAnimation);
+	globals.RegisterDirect("StopProjectAnimation", *this, &ExposeProjectMgr::StopProjectAnimation);
+	globals.RegisterDirect("RewindProjectAnimation", *this, &ExposeProjectMgr::RewindProjectAnimation);
+	globals.RegisterDirect("ForwardProjectAnimation", *this, &ExposeProjectMgr::ForwardProjectAnimation);
 	globals.RegisterDirect("SaveProject", *this, &ExposeProjectMgr::SaveProject);
 }
 
@@ -96,6 +100,26 @@ LuaPlus::LuaObject ExposeProjectMgr::GetSelectedEntity()
 	IEntity *entity = coreMgr->getProjectMgr()->getSelectedEntity();
 	LuaObject lEntity = coreMgr->getScriptMgr()->getExposedEntityMgr()->getLEntity(entity->getId());
 	return lEntity;
+}
+
+void ExposeProjectMgr::PlayProjectAnimation()
+{
+	coreMgr->getProjectMgr()->PlayProjectAnimation();
+}
+
+void ExposeProjectMgr::StopProjectAnimation()
+{
+	coreMgr->getProjectMgr()->StopProjectAnimation();
+}
+
+void ExposeProjectMgr::RewindProjectAnimation()
+{
+	coreMgr->getProjectMgr()->RewindProjectAnimation();
+}
+
+void ExposeProjectMgr::ForwardProjectAnimation()
+{
+	coreMgr->getProjectMgr()->ForwardProjectAnimation();
 }
 
 void ExposeProjectMgr::SaveProject()

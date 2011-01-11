@@ -16,6 +16,11 @@ namespace Engine
 		void selectEntity(IEntity *entity);
 		IEntity *getSelectedEntity() const { return selectedEntity; }
 
+		void PlayProjectAnimation();
+		void StopProjectAnimation();
+		void RewindProjectAnimation();
+		void ForwardProjectAnimation();
+
 		void save();
 
 	private:
@@ -24,7 +29,13 @@ namespace Engine
 
 		IEntity *selectedEntity;
 
-		std::vector<IEntity*> entities;
-		std::vector<IEntity*> unsaved_entities;
+		std::vector<IEntity*> stl_meshes;
+		std::vector<IEntity*> unsaved_stl_meshes;
+
+		std::vector<IEntity*> flw_sims;
+		std::vector<IEntity*> unsaved_flw_sims;
+
+		std::vector<IEntity*> misc_entities;
+		std::vector<IEntity*> unsaved_misc_entities;
 	};
 }

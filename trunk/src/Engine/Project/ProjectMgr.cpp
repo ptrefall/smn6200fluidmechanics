@@ -111,6 +111,38 @@ IEntity *ProjectMgr::getSelectedEntity()
 	return project->getSelectedEntity();
 }
 
+void ProjectMgr::PlayProjectAnimation()
+{
+	if(project == NULL)
+		return;
+
+	project->PlayProjectAnimation();
+}
+
+void ProjectMgr::StopProjectAnimation()
+{
+	if(project == NULL)
+		return;
+
+	project->StopProjectAnimation();
+}
+
+void ProjectMgr::RewindProjectAnimation()
+{
+	if(project == NULL)
+		return;
+
+	project->RewindProjectAnimation();
+}
+
+void ProjectMgr::ForwardProjectAnimation()
+{
+	if(project == NULL)
+		return;
+
+	project->ForwardProjectAnimation();
+}
+
 void ProjectMgr::save()
 {
 	if(project == NULL)

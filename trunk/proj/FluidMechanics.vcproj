@@ -207,6 +207,10 @@
 					Name="Gui"
 					>
 					<File
+						RelativePath="..\resources\Scripts\Gui\AnimationWindow.lua"
+						>
+					</File>
+					<File
 						RelativePath="..\resources\Scripts\Gui\ContentWindow.lua"
 						>
 					</File>
@@ -304,6 +308,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\resources\Shaders\particles.fs"
+					>
+				</File>
+				<File
+					RelativePath="..\resources\Shaders\particles.vs"
+					>
+				</File>
+				<File
 					RelativePath="..\resources\Shaders\skybox.fs"
 					>
 				</File>
@@ -323,6 +335,10 @@
 			<Filter
 				Name="Gui"
 				>
+				<File
+					RelativePath="..\resources\Gui\anim_menu.rml"
+					>
+				</File>
 				<File
 					RelativePath="..\resources\Gui\content_menu.rml"
 					>

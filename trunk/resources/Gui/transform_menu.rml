@@ -34,7 +34,7 @@
     <div id="title_bar">
       <handle move_target="#document">
         <div id="icon"></div>
-        <span id="title">Transform Menu</span>
+        <span id="title">Transform</span>
       </handle>
     </div>
     <div id="window">

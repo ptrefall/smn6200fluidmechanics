@@ -19,6 +19,7 @@ function NewProjWindow:OnCreateClicked(event)
 				CreateGuiDocument(event.arg1.name, "file_menu")
 				CreateGuiDocument(event.arg1.name, "content_menu")
 				CreateGuiDocument(event.arg1.name, "transform_menu")
+				CreateGuiDocument(event.arg1.name, "anim_menu")
 			end
 		else
 			Print("Failed to create project file!")
