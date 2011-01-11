@@ -5,22 +5,17 @@
 uniform samplerCube fCube;
 uniform float fAlpha;
 
-in float fDiscard;
 in vec3 fNormal;
 in vec3 fViewDir;
 in vec3 fLightDir;
 in float fParticleIndex;
 in float fParticleSize;
-smooth in vec4 fColor;
 
 out vec4 out_Color0;
 //out vec4 out_Color1;
 
 void main(void)
 {	
-	if(fDiscard == 1.0)
-		discard;
-		
 	vec3 L = normalize(fLightDir);
 	vec3 N = normalize(fNormal);
 	vec3 V = normalize(fViewDir);
@@ -40,7 +35,7 @@ void main(void)
 	
 	float gloss = 0.6;
 	
-	out_Color0 = fColor + ((ambient + diffuse + (gloss * specular)) + (texel*0.7)) * 0.0000001 + fParticleIndex*0.00001 + fParticleSize*0.00001;
+	out_Color0 = vec4(0.0, 1.0, 0.0, 1.0) + ((ambient + diffuse + (gloss * specular)) + (texel*0.7)) * 0.0000001 + fParticleIndex*0.00001 + fParticleSize*0.00001;
 	out_Color0.a = fAlpha;
 	//out_Color1 = pickingId;
 }

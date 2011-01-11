@@ -46,7 +46,7 @@ void main()
 				fDiscard = 1.0;
 			}
 		}
-		
+	
 		gl_Position = projMat * mvMat * gl_in[i].gl_Position;
 		fNormal = gNormal[i];
 		fViewDir = gViewDir[i];

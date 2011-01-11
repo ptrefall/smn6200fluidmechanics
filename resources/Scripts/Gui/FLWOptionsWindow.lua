@@ -27,9 +27,18 @@ function FLWOptionsWindow:OnSubmitClicked(event)
 			end
 		end
 		
+		local half = event.Parameters["half_check"]
+		if(half ~= nil and half ~= "") then
+			entity:SetShowInHalf(true)
+		else
+			entity:SetShowInHalf(false)
+		end
+		
 		local point_spread = event.Parameters["pspread_select"]
 		if(point_spread ~= nil) then
-			if(point_spread == "small") then
+			if(point_spread == "tiny") then
+				entity:SetPointSize(0.5)
+			elseif(point_spread == "small") then
 				entity:SetPointSize(2.0)
 			elseif(point_spread == "medium") then
 				entity:SetPointSize(5.0)
